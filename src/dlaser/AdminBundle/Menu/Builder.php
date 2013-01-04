@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 
 class Builder extends ContainerAware
 {
-	public function mainMenu(FactoryInterface $factory, array $options)
+	public function adminMenu(FactoryInterface $factory, array $options)
 	{
 		$menu = $factory->createItem('root');
 

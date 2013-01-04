@@ -1,28 +1,30 @@
-{% extends "AdminBundle::adminLayout.html.twig" %}
-
-{% block header %}
-    {% include 'AdminBundle:includes:reserva.html.twig' %}
-{% endblock %}
-
-{% block titulo %}Detalles de la reserva{% endblock %}
+{% extends "AdminBundle::admin_layout.html.twig" %}
 
 {% block menu %}
-    {% if is_granted('ROLE_AUX') %}
-    	<li><a href="{{ path('cupo_new') }}">Crear</a></li>
-    	<li><a href="{{ path('cupo_search') }}" class="sub_sel">Consultar</a></li>
-    {% elseif is_granted('ROLE_ADMIN') %}
-    	<li><a href="{{ path('agenda_list') }}">Listado</a></li>
-    	<li><a href="{{ path('cupo_list') }}" class="sub_sel">Reserva</a></li>
-    {% endif %}
+	{{ knp_menu_render('AdminBundle:Builder:adminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Nueva reserva{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="success">
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="info">
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="error">
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
 {% endblock %}
 
 {% block cuerpo %}
-
-{% if app.session.flash('info') %}
-    <div class="success">
-        <span>{{ app.session.flash('info') }}</span>
-    </div>
-{% endif %}
 
     <table>
         <tbody>

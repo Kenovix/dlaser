@@ -2,15 +2,19 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
+        
         <title>Dermolaser::{% block title %}{% endblock %}</title>
-        {% block stylesheets %}
+        
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+
+		{% block stylesheets %}
         	<link href="{{ asset('bundles/dlaser/css/reset.css') }}" rel="stylesheet" type="text/css" />
           	<link href="{{ asset('bundles/dlaser/css/960.css') }}" rel="stylesheet" type="text/css" />
           	<link href="{{ asset('bundles/dlaser/css/text.css') }}" rel="stylesheet" type="text/css" />
           	<link href="{{ asset('bundles/dlaser/css/global.css') }}" rel="stylesheet" type="text/css" />
           	<link href="{{ asset('bundles/dlaser/css/css3-buttons.css') }}" rel="stylesheet" type="text/css" media="screen" />
         {% endblock %}
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+        
         <script src="{{ asset('bundles/dlaser/js/jquery.min.js') }}"></script>
         <script src="{{ asset('bundles/dlaser/js/jquery.tools.min.js') }}"></script>
     </head>

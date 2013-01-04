@@ -31,6 +31,11 @@ class CupoController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();        
         $id=$user->getId();
         
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        
+        $breadcrumbs->addItem("pruebita");
+        $breadcrumbs->addItem("prueba");
+        
         $form   = $this->createForm(new CupoType(array('user' => $id)), $entity);
         
         $afiliacion = new Afiliacion();
