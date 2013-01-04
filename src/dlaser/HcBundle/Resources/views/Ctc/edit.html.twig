@@ -1,0 +1,33 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block header %}
+    {% include 'HcBundle:includes:HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Editar información del CTC  {% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block cuerpo %}
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+<form action="{{ path('ctc_update', { 'id': entity.id}) }}" method="post" {{ form_enctype(edit_form) }}>
+    <fieldset>
+    	<legend>Datos del ctc</legend>
+    	{{ form_widget(edit_form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Modificar</span>
+    </button>
+    <a href="{{ path('ctc_imprimir', {'id': entity.id}) }}" class="button left"><span class="label">Imprimir</span></a>
+    <a href="{{ path('ctc_list', {'id': factura.id}) }}" class="button left"><span class="label">Volver al listado </span></a>
+    
+</form>
+{% endblock %}
+

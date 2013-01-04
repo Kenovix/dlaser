@@ -1,0 +1,60 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/usuarios.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Listado de usuarios{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('empresa_list') }}">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}" class="sub_sel">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Cedula</th>
+                <th>Perfil</th>
+                <th>Telefono</th>
+                <th>Direccion</th>
+                <th>TProfecional</th>
+                <th>Especialidad</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ entity.nombre }}</td>
+                <td>{{ entity.apellido }}</td>
+                <td><a href="{{ path('usuario_show', {'id':entity.id}) }}">{{ entity.cc }}</a></td>
+                <td>{{ entity.perfil }}</td>
+                <td>{{ entity.telefono }}</td>
+                <td>{{ entity.direccion }}</td>
+                <td>{{ entity.tp }}</td>
+                <td>{{ entity.especialidad }}</td>
+            </tr>
+         {% else %}
+         	<tr>
+         		<td colspan="9">No tenemos usuario creados.</td>
+         	</tr>
+        {% endfor %}
+        </tbody>
+    </table>    
+        
+    {% if entities %}
+		{{ simple_paginator_render('usuario_list') }}
+    {% endif %}
+    
+    <a href="{{ path('usuario_new') }}" class="button left"><span class="label">Nuevo usuario</span></a>
+    
+{% endblock %}

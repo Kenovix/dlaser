@@ -1,0 +1,1115 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	
+	<link href="{{ asset('bundles/cahis/css/jquery-ui-1.8.23.custom.css') }}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block header %}
+    {% include 'HcBundle:includes:HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Historia Clinica de {{ paciente.priNombre | capitalize }} {{ paciente.priApellido | capitalize }}{% endblock %}
+
+{% block menu %}    
+    {% if is_granted('ROLE_MEDICO') %}
+	    <li><a href="{{ path('medicamento_list') }}">Medicamento</a></li>
+	    <li><a href="{{ path('examen_list') }}">Examen</a></li> 
+	    <li><a href="{{ path('dx_userDx') }}" >Diagnostico</a></li>
+	    <li><a href="{{ path('hc_search') }}"  class="sub_sel">Historia clinica</a></li>
+	    <li><a href="{{ path('ctc_list',{'id':factura.id}) }}" target="_blank">Listado NO POS</a></li>
+	{% elseif is_granted('ROLE_AUX')%}
+		<li><a href="{{ path('hc_search') }}"  class="sub_sel">Historia clinica</a></li>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+        {% if factura.estado == 'I' %}
+	    	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank"><span class="label">Imprimir</span></a>    
+	    {% endif %}
+    </div>
+{% endif %}
+
+<form action="{{ path('hc_update', { 'id': entity.id }) }}" id="h_c_edit" method="post" {{ form_enctype(edit_form) }}>
+	<fieldset>
+    	<legend>Datos de la historia clinica </legend>
+    	
+    	<div style="display: none;">
+			{{ form_label(edit_form.fecha) }}
+			{{ form_errors(edit_form.fecha) }}
+			{{ form_widget(edit_form.fecha) }}
+		</div>
+		
+		<div id="signos">
+    		{{ form_label(edit_form.sistole) }}
+			{{ form_errors(edit_form.sistole) }}
+			{{ form_widget(edit_form.sistole) }}
+			
+			{{ form_label(edit_form.diastole) }}
+			{{ form_errors(edit_form.diastole) }}
+			{{ form_widget(edit_form.diastole) }}
+			
+			{{ form_label(edit_form.f_c) }}
+			{{ form_errors(edit_form.f_c) }}
+			{{ form_widget(edit_form.f_c) }}
+			
+			{{ form_label(edit_form.f_r) }}
+			{{ form_errors(edit_form.f_r) }}
+			{{ form_widget(edit_form.f_r) }}
+			
+			{{ form_label(edit_form.peso) }}
+			{{ form_errors(edit_form.peso) }}
+			{{ form_widget(edit_form.peso) }}
+			
+			{{ form_label(edit_form.estatura) }}
+			{{ form_errors(edit_form.estatura) }}
+			{{ form_widget(edit_form.estatura) }}
+    	</div>
+    	
+    	<a id="ver-signos" title="Ver cronologíco de signos">Ver signos</a>
+    	
+    	<div id="cron-signos" title="Signos vitales">    	
+			<table>
+		        <thead>
+		            <tr>
+		                <th>Fecha</th>
+		                <th>P/A</th>
+		                <th>F/C</th>
+		                <th>F/R</th>
+		                <th>Peso</th>
+		                <th>Estatura</th>                                               
+		            </tr>
+		        </thead>
+		        <tbody>
+		        {% for entity in signos %}
+		            <tr>
+		                <td>{{ entity.fecha|date('d/m/Y') }}</td>
+		                <td>{{ entity.sistole }}/{{ entity.diastole }}</td>
+		                <td>{{ entity.fC }}</td>
+		                <td>{{ entity.fR }}</td>
+		                <td>{{ entity.peso }}</td>
+		                <td>{{ entity.estatura }}</td>
+		            </tr>
+		        {% endfor %}        
+		        </tbody>
+		    </table>  		
+		</div>
+    	
+    	<div id="antecedentes">
+    		{{ form_label(edit_form.hta) }}
+			{{ form_errors(edit_form.hta) }}
+			{{ form_widget(edit_form.hta) }}
+			
+			{{ form_label(edit_form.diabetes) }}
+			{{ form_errors(edit_form.diabetes) }}
+			{{ form_widget(edit_form.diabetes) }}
+			
+			{{ form_label(edit_form.dislipidemia) }}
+			{{ form_errors(edit_form.dislipidemia) }}
+			{{ form_widget(edit_form.dislipidemia) }}
+			
+			{{ form_label(edit_form.tabaquismo) }}
+			{{ form_errors(edit_form.tabaquismo) }}
+			{{ form_widget(edit_form.tabaquismo) }}
+			
+			{{ form_label(edit_form.obesidad) }}
+			{{ form_errors(edit_form.obesidad) }}
+			{{ form_widget(edit_form.obesidad) }}
+			
+			{{ form_label(edit_form.ante_familiar) }}
+			{{ form_errors(edit_form.ante_familiar) }}
+			{{ form_widget(edit_form.ante_familiar) }}
+			
+			{{ form_label(edit_form.sedentarismo) }}
+			{{ form_errors(edit_form.sedentarismo) }}
+			{{ form_widget(edit_form.sedentarismo) }}
+    	</div>
+    	
+    	<div>
+    		{{ form_label(edit_form.enfermedad) }}
+			{{ form_errors(edit_form.enfermedad) }}
+			{{ form_widget(edit_form.enfermedad) }}
+    	</div>
+    	
+    	<div>
+    		{{ form_label(edit_form.rev_cardiovascular) }}
+			{{ form_errors(edit_form.rev_cardiovascular) }}
+			{{ form_widget(edit_form.rev_cardiovascular) }}
+    	</div>
+    	
+    	<div>
+    		{{ form_label(edit_form.exa_fisico) }}
+			{{ form_errors(edit_form.exa_fisico) }}
+			{{ form_widget(edit_form.exa_fisico) }}
+    	</div>
+    	
+    	<div>
+    		<fieldset>
+    			<legend>Historial examenes presentados</legend>
+    		
+	    		<select id="examenes" name="examenes">
+	      			<option value="">Seleccione un examen</option>
+	       				{% for examen in examenes %} 
+	         				<option value="{{ examen.id }}">{{ examen.codigo }} - {{ examen.nombre }}</option>
+	       				{% endfor %}       
+	      		</select>
+	      		
+	      		<div id="historial"></div>
+	      		
+			</fieldset>
+    	</div>
+    	
+    	<div>
+    		<fieldset>
+    			<legend>Examenes presentados</legend>
+    		
+	    		<table>
+					<thead>
+				    	<tr>
+			                <th>Fecha realizado</th>
+			                <th>Nombre</th>
+			                <th>Resultado</td>
+			                <th>Opción</th>             
+				        </tr>
+				    </thead>
+				    <tbody>
+				    	{% for examen in exaPresentados %}            
+					    	<tr id="{{ examen.id }}">
+					            <td>{{ examen.fecha_r }}</td>
+					            <td>{{ examen.nombre}}</td>
+					            <td>{{ examen.resultado}}</td>
+					            <td>                
+					            	<a id="in-resul" title="{{ examen.id }}">Modificar</a>
+					    		</td>
+					        </tr>
+					    {% endfor %}
+					    
+					    {% for examen in exaPrePrimerVez %}            
+					    	<tr id="{{ examen.id }}">
+					            <td>{{ examen.fecha_r }}</td>
+					            <td>{{ examen.nombre}}</td>
+					            <td>{{ examen.resultado}}</td>
+					            <td>                
+					            	<a id="in-resul" title="{{ examen.id }}">Modificar</a>
+					    		</td>
+					        </tr>
+					    {% endfor %}
+					    
+				    </tbody>
+				</table>
+				
+				<a id="btnNewExamen" href="{{ path('hcExamen_new', {'factura': factura.id}) }}" target="popup" title="Nuevo examen" onClick="popup(this.href,750,600); return false;"><span>Nuevo Examen</span></a>
+				
+			</fieldset>
+    	</div>
+    	
+    	<div id="examen-edit" title="Resultado">			
+			<fieldset>
+				<legend>Resultado del examen</legend>
+	        	{{ form_widget(ex_form) }}
+			</fieldset>			
+		</div>
+		
+		<div>
+    		{{ form_label(edit_form.exa_presentado) }}
+			{{ form_errors(edit_form.exa_presentado) }}
+			{{ form_widget(edit_form.exa_presentado) }}
+    	</div>
+    	
+    	<div>
+    		<fieldset>
+    			<legend>Examenes solicitados</legend>
+    			
+    			<div id="ajaxMsgExamen"></div>
+    			
+    			<select id="examen" name="examen">
+	      			<option value="">Seleccione un examen</option>
+	       				{% for examenU in examenes %} 
+	         				<option value="{{ examenU.id }}">{{ examenU.codigo }} - {{ examenU.nombre }}</option>
+	       				{% endfor %}       
+	      		</select>
+	      		
+	      		<a id="add-ex" title="Agregar un examen">Agregar</a>
+	      		
+	      		<!-- <select id="comboExamen" name="comboExamen">
+	      			<option value="">Seleccione un combo</option>
+	       				<option value="1">Completo</option>
+	       				<option value="2">Simple</option>
+	       				<option value="3">Perfil lipidico</option>     
+	      		</select> -->
+				      
+				<table id="examenSolicitado">
+					<thead>
+				    	<tr>
+				            <th>Nombre</th>
+				            <th>Fecha</th>
+				            <th>Resultado</th>
+				            <th>Opción</th>                
+				        </tr>
+				    </thead>
+				    <tbody>
+				    	{% for exa_sol in exa_solicitado %}            
+					    	<tr id="ex{{ exa_sol.id }}">
+					            <td>{{ exa_sol.nombre }}</td>
+					            <td>{{ exa_sol.fecha }}</td>
+					            <td>{{ exa_sol.resultado}}</td>
+					    		<td>
+					    			<a class="button" onClick="delEx('{{ exa_sol.id }}'); return false;" href="#" title='Eliminar'>
+					    				<span class="icon icon186"></span>
+					    			</a>
+					    		</td>
+					        </tr>
+					    {% endfor %}				    
+				    </tbody>
+				</table>    		
+    		</fieldset>
+    	</div>
+    	
+    	<div id="ex-add" title="Agregar examen">    	
+			<fieldset>
+				
+				<div id="msgAddExa"></div>
+				
+				<legend>Agregar al listado</legend>
+		        	<div id="msgAddEx"></div>
+	    			
+	    			<select id="list-ex" name="list-ex">
+		      			<option value="">Seleccione un examen</option>
+		       				{% for exaGen in list_ex %} 
+		         				<option value="{{ exaGen.id }}">{{ exaGen.codigo }} - {{ exaGen.nombre }}</option>
+		       				{% endfor %}       
+		      		</select>
+			</fieldset>			
+		</div>
+    	
+    	<div>
+    		{{ form_label(edit_form.nota_exa_soli) }}
+			{{ form_errors(edit_form.nota_exa_soli) }}
+			{{ form_widget(edit_form.nota_exa_soli) }}
+    	</div> 	
+    	
+    	<div>
+    		{{ form_label(edit_form.interconsulta) }}
+			{{ form_errors(edit_form.interconsulta) }}
+			{{ form_widget(edit_form.interconsulta) }}
+    	</div>
+    	
+    	<div>
+    		{{ form_label(edit_form.motivo_inter) }}
+			{{ form_errors(edit_form.motivo_inter) }}
+			{{ form_widget(edit_form.motivo_inter) }}
+    	</div>
+    	
+    	<div>
+    		<fieldset>
+    			<legend>Diagnosticos actuales</legend>
+		    	     
+	   			<table>
+	    	 		<thead>
+	            		<tr>
+	                		<th>Id</th>
+	                		<th>nombre</th>
+	                		<th>codigo</th>
+	                		<th>Opcion</th>                
+	            		</tr>
+	        		</thead>
+	        		<tbody> 
+	        		{% for permiso in perHcCie %}            
+			            <tr id='cie{{ permiso.id }}'>
+			                <td>{{ permiso.nombre}}</td>
+			                <td>{{ permiso.codigo}}</td>
+			                <td>                			               
+			    			<a onClick='delCie({{ permiso.id}}); return false;' href='#' class="button left"><span class="label"><span class='icon icon186'></span></span></a>
+			    			</td>
+			            </tr>
+	        		{% endfor %} 
+	      			</tbody>
+	    		</table>
+	    	</fieldset>
+    	</div>
+    	
+    	<div>
+    		<fieldset>
+    			<legend>Diagnosticos nuevos</legend>
+    			
+    			<div id="ajaxMsgCie"></div>
+    			
+    			<select id="cie" name="cie">
+					<option value="">Seleccione un diagnostico</option>
+					{% for cie in cies %}
+					<option value="{{ cie.id }}" data-url="{{ path('hc_hcCie', {'hc':entity.id, 'cie':cie.id}) }}">
+					{{ cie.nombre }} - {{ cie.codigo }}
+					</option>
+					{% endfor %}
+				</select>
+				
+				<a id="add-dx" title="Agregar un diagnostico">Agregar</a>
+				      
+				<table id="CieSolicitado">
+					<thead>
+	            		<tr>
+	                		<th>nombre</th>
+	                		<th>codigo</th>
+	                		<th>Opcion</th>                
+	            		</tr>
+	        		</thead>
+				    <tbody>   
+				    
+				    </tbody>
+				</table>    			
+    		</fieldset>
+    	</div>
+    	
+    	<div id="dx-add" title="Agregar diagnostico">    	
+			<fieldset>			
+				<legend>Agregar al listado</legend>
+				
+					<div id="msgAddDx"></div>
+	    			
+	    			<select id="list-dx" name="list-dx">
+		      			<option value="">Seleccione un examen</option>
+		       				{% for dxGen in list_dx %} 
+		         				<option value="{{ dxGen.id }}">{{ dxGen.codigo }} - {{ dxGen.nombre }}</option>
+		       				{% endfor %}       
+		      		</select>
+			</fieldset>			
+		</div>
+		
+		<div>
+    		{{ form_label(edit_form.dx_presunto) }}
+			{{ form_errors(edit_form.dx_presunto) }}
+			{{ form_widget(edit_form.dx_presunto) }}
+    	</div>
+    	
+    	<div>
+    		<fieldset>
+    			<legend>Medicamentos prescriptos</legend>
+    							      
+				<table>
+					<thead>
+				    	<tr>
+			                <th>Principio activo</th>
+			                <th>Concentración</th>
+			                <th>Dosis día</th>
+			                <th>Tiempo</th>
+			                <th>Pos</th>
+			                <th>Estado</th>
+			                <th>Opción</th>                
+				        </tr>
+				    </thead>
+				    <tbody>   
+					{% for permiso in perHcMe %}            
+			            <tr id='med{{ permiso.id }}'>
+			                <td>{{ permiso.principioActivo}}</td>
+			                <td>{{ permiso.concentracion}}</td>
+			                <td>{{ permiso.dosisDia}}</td>
+			                <td>{{ permiso.tiempo}}</td>
+			                <td>{{ permiso.pos}}</td>
+			                <td>{{ permiso.estado}}</td>
+			                <td>
+			                {% if permiso.estado == 'P' %}
+			                 <a href="{{ path('hc_updateHcMedi', {'id': permiso.id}) }}"  class="button left"><span class="label">Registrar</span></a>
+			                {% else %}
+			                 <a href="{{ path('hc_updateHcMedi', {'id': permiso.id}) }}"  class="button left"><span class="label">Pendiente</span></a>
+			                {% endif %}                                 			               
+			    			<a onClick='delMed("{{ permiso.id }}"); return false;' href='#' class="button left"><span class="label"><span class='icon icon186'></span></span></a>
+			    			{% if  permiso.pos == 0%}
+			                 <a href="{{ path('ctc_new',{'id':permiso.id}) }}"  target="blank" class="button left"><span class="label">CTC</span></a>                
+			                {% endif %}  
+			    			</td>
+			            </tr>
+					{% endfor %}
+				    </tbody>
+				</table>    			
+    		</fieldset>
+      	</div>
+      	
+      	<div>
+    		<fieldset>
+    			<legend>Nueva prescripción</legend>
+    			
+    			<div id="ajaxMsgMe"></div>
+    			    			
+    			{% set label = '' %}
+    			{% set flag = 0 %}    			
+    			<select id="medica" name="medica">    				    					
+    				<option value="">Seleccione un medicamento</option>
+    				
+    				{% for medicamento in medicamentos %}
+						{% if (label != medicamento.principioActivo) %}
+							{% set label = medicamento.principioActivo %}
+														
+							{% if(flag != 0) %}</optgroup>{% endif %}
+							
+							<optgroup label="{{ label }}">
+							
+							{% set flag = 1 %}							
+						{% endif %}
+						
+							<option value="{{ medicamento.id }}">{{ medicamento.principioActivo }} {{ medicamento.presentacion }} {{ medicamento.concentracion }} {{ medicamento.dosisDia }} cada {{ medicamento.tiempo }} horas por {{ medicamento.diasTratamiento }} dias {% if(medicamento.pos == 0) %} - (NO POS){% endif %}</option>
+					{% endfor %}					
+					</optgroup>  
+				</select>
+				
+				<a id="add-mx" title="Agregar un medicamento">Agregar</a>
+				      
+				<table id="MeSolicitado">
+					<thead>
+				    	<tr>				        	
+			                <th>Principio activo</th>
+			                <th>Concentración</th>
+			                <th>Dosis día</th>
+			                <th>Tiempo</th>
+			                <th>Pos</th>
+			                <th>Estado</th>
+			                <th>Opción</th>                
+				        </tr>
+				    </thead>
+				    <tbody>   
+					
+				    </tbody>
+				</table>    			
+    		</fieldset>
+      	</div>
+      	
+      	<div id="mx-add" title="Crear medicamento">			
+			<fieldset>		
+				<legend>Datos del medicamento</legend>
+				
+				<div id="msgAddMx"></div>
+				
+	        	{{ form_widget(med_form) }}
+	        	
+			</fieldset>			
+		</div>
+      	    	
+    	{{ form_rest(edit_form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Modificar</span>
+    </button>
+    	
+    {% if factura.estado == 'I' %}
+    	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>    
+    {% endif %}
+
+	<a href="{{ path('ctc_OList',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
+	
+</form>
+{% endblock %}
+
+{% block javascripts %}
+
+<script src="{{ asset('bundles/cahis/js/jquery-ui-1.8.23.custom.min.js') }}"></script>
+
+<script type="text/javascript">
+
+	function popup(url,ancho,alto) {
+		var posicion_x; 
+		var posicion_y; 
+	
+		posicion_x=(screen.width/2)-(ancho/2); 
+		posicion_y=(screen.height/2)-(alto/2); 
+	
+		window.open(url, "", "width="+ancho+",height="+alto+",menubar=0,toolbar=0,directories=0,scrollbars=yes,resizable=no,left="+posicion_x+",top="+posicion_y+"");
+	}
+
+	$.fx.speeds._default = 1000;
+    $(function() {
+        $( "#cron-signos" ).dialog({
+            autoOpen: false,
+            height: 230,
+			width: 450,
+            show: "blind",
+            hide: "explode"
+        });
+ 
+        $( "#ver-signos" ).button().click(function() {
+            $( "#cron-signos" ).dialog( "open" );
+            return false;
+        });
+    });
+
+	$(function() {
+
+		var examen = "";
+		
+		$( "#dialog:ui-dialog" ).dialog( "destroy" );
+
+		$( "#examen-edit" ).dialog({
+			autoOpen: false,
+			height: 350,
+			width: 500,
+			modal: true,
+			buttons: {
+				"Agregar": function() {
+
+					var url = "{{ path('hc_examen_upd_ajax') }}";
+
+					var dia = $("#newHcExamen_fecha_r_day").val();
+					var mes = $("#newHcExamen_fecha_r_month").val();
+					var anio = $("#newHcExamen_fecha_r_year").val();
+					
+					var resultado = $("#newHcExamen_resultado").val();
+
+					$.post(url,{
+		                examen: examen,
+		                dia: dia,
+		                mes: mes,
+		                anio: anio,
+		                resultado: resultado
+		            },function(data){
+		                if(data.responseCode==200 ){
+			                
+		                	$("#"+examen+" td:nth-child(1)").empty().append(data.fecha);
+		                	$("#"+examen+" td:nth-child(3)").empty().append(data.resultado);
+
+	                		$('#ajaxMsg').html(data.msg);
+		                    $('#ajaxMsg').css("color","green");
+
+		                 }
+		                 else if(data.responseCode==400){
+		                	$("#programacion").empty();
+		                  	$('#ajaxMsg').html(data.msg);
+		                    $('#ajaxMsg').css("color","red");
+		                 }
+		                 else{
+		             	    alert("Ha ocurrido un error en el sistema.");
+		                 }	
+
+						$( this ).dialog( "close" );
+					});
+				},
+				Cancelar: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				//allFields.val( "" ).removeClass( "ui-state-error" );
+			}
+		});
+	
+		$('a[id^="in-resul"]')
+			.button()
+			.click(function() {
+				examen = $( this ).attr("title");
+
+				var fecha = $("#"+examen+" td:nth-child(1)").text();
+            	var r = $("#"+examen+" td:nth-child(3)").text();
+
+            	fecha = fecha.split("-");
+
+				var dia = $("#newHcExamen_fecha_r_day").val(parseInt(fecha[2], 10));
+				var mes = $("#newHcExamen_fecha_r_month").val(parseInt(fecha[1], 10));
+				var anio = $("#newHcExamen_fecha_r_year").val(fecha[0]);
+				
+				var resultado = $("#newHcExamen_resultado").val(r);
+
+				$( "#examen-edit" ).dialog( "open" );
+		});
+
+		//Agregar examenes del listado general
+		
+		$( "#ex-add" ).dialog({
+			autoOpen: false,
+			height: 350,
+			width: 500,
+			modal: true,
+			buttons: {
+				"Agregar": function() {
+
+					var url = "{{ path('userExamen_new_ajax') }}";
+					
+					var examen = $("#list-ex").val();
+
+					$.post(url,{
+		                examen: examen
+		            },function(data){
+		                if(data.responseCode==200){
+			                
+		                	var select = $('#examen');
+	                		if(select.prop) {
+	                		  var options = select.prop('options');
+	                		}
+	                		else {
+	                		  var options = select.attr('options');
+	                		}
+
+	                		options[options.length] = new Option(data.codigo+' - '+data.nombre, data.id);
+
+	                		$("#msgAddExa").empty();
+	                		$('#msgAddExa').html(data.msg);
+		                    $('#msgAddExa').css("color","green");
+
+		                 }
+		                 else if(data.responseCode==400){
+		                	$("#msgAddExa").empty();
+		                  	$('#msgAddExa').html(data.msg);
+		                    $('#msgAddExa').css("color","red");
+		                 }
+		                 else{
+		             	    alert("Ha ocurrido un error en el sistema.");
+		                 }	
+
+						$( this ).dialog( "close" );
+					});
+				},
+				Cancelar: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				//allFields.val( "" ).removeClass( "ui-state-error" );
+			}
+		});
+
+		$("#add-ex")
+			.button()
+			.click(function() {
+				$( "#ex-add" ).dialog( "open" );
+		});
+
+
+		//Agregar diagnosticos del listado general
+		
+		$( "#dx-add" ).dialog({
+			autoOpen: false,
+			height: 350,
+			width: 500,
+			modal: true,
+			buttons: {
+				"Agregar": function() {
+
+					var url = "{{ path('userDx_new_ajax') }}";
+					
+					var dx = $("#list-dx").val();
+
+					$.post(url,{
+		                dx: dx
+		            },function(data){
+		                if(data.responseCode==200){
+			                
+		                	var select = $('#cie');
+	                		if(select.prop) {
+	                		  var options = select.prop('options');
+	                		}
+	                		else {
+	                		  var options = select.attr('options');
+	                		}
+
+	                		options[options.length] = new Option(data.codigo+' - '+data.nombre, data.id);
+
+	                		$("#msgAddDx").empty();
+	                		$('#msgAddDx').html(data.msg);
+		                    $('#msgAddDx').css("color","green");
+
+		                 }
+		                 else if(data.responseCode==400){
+		                	$("#msgAddDx").empty();
+		                  	$('#msgAddDx').html(data.msg);
+		                    $('#msgAddDx').css("color","red");
+		                 }
+		                 else{
+		             	    alert("Ha ocurrido un error en el sistema.");
+		                 }	
+
+						$( this ).dialog( "close" );
+					});
+				},
+				Cancelar: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				//allFields.val( "" ).removeClass( "ui-state-error" );
+			}
+		});
+
+		$("#add-dx")
+			.button()
+			.click(function() {
+				$( "#dx-add" ).dialog( "open" );
+		});
+
+
+		//Agregar nuevo medicamentos		
+		$( "#mx-add" ).dialog({
+			autoOpen: false,
+			height: 550,
+			width: 500,
+			modal: true,
+			buttons: {
+				"Agregar": function() {
+
+					var url = "{{ path('userMx_new_ajax') }}";
+					
+					var principio = $("#newMedicamento_principio_activo").val();
+					var concentracion = $("#newMedicamento_concentracion").val();
+					var presentacion = $("#newMedicamento_presentacion").val();
+					var dosis = $("#newMedicamento_dosis_dia").val();
+					var tiempo = $("#newMedicamento_tiempo").val();
+					var dias = $("#newMedicamento_dias_tratamiento").val();
+					var invima = $("#newMedicamento_invima").val();
+					var justificacion = $("#newMedicamento_justificacion").val();
+					var efecto = $("#newMedicamento_efectos").val();
+
+					if($("#newMedicamento_pos").is(':checked')) {  
+						var pos = 1;
+			        } else {  
+			        	var pos = 0;  
+			        }
+
+
+			        if(!dosis || dosis == 0){
+				        alert("La dosis no puede estar vacia ni tener valor cero");
+				        return false;
+				    }
+
+					$.post(url,{
+		                principio: principio,
+		                concentracion: concentracion,
+		                presentacion: presentacion,
+		                dosis: dosis,
+		                tiempo: tiempo,
+		                dias: dias,
+		                pos: pos,
+		                invima: invima,
+		                justificacion: justificacion,
+		                efecto: efecto		                
+		            },function(data){
+		                if(data.responseCode==200){
+			                
+		                	var select = $('#medica');
+	                		if(select.prop) {
+	                		  var options = select.prop('options');
+	                		}
+	                		else {
+	                		  var options = select.attr('options');
+	                		}
+
+	                		options[options.length] = new Option(data.principio+' '+data.presentacion+' '+data.concentracion+' '+data.dosis+' cada '+data.tiempo+' horas por '+data.dias+' dias', data.id);
+
+	                		$("#msgAddMx").empty();
+	                		$('#msgAddMx').html(data.msg);
+		                    $('#msgAddMx').css("color","green");
+
+		                    $( this ).dialog( "close" );
+
+		                 }
+		                 else if(data.responseCode==400){
+		                	$("#msgAddMx").empty();
+		                  	$('#msgAddMx').html(data.msg);
+		                    $('#msgAddMx').css("color","red");
+		                 }
+		                 else{
+		             	    alert("Ha ocurrido un error en el sistema.");
+		                 }	
+
+						$( this ).dialog( "close" );
+					});
+				},
+				Cancelar: function() {
+					$( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				$('input[id^="newMedicamento_"]').val('');
+				$("#msgAddMx").empty();
+			}
+		});
+
+		$("#add-mx")
+			.button()
+			.click(function() {
+				$( "#mx-add" ).dialog( "open" );
+		});		
+	});
+
+	//JS que agrupa los examenes y los muestra en orden cronologico.
+	$("#examenes").change(function(){
+
+	 	var url="{{ path('hc_examen_cronologico') }}";
+
+	 	var examen = $("#examenes").val();
+     	var factura = {{ factura.id }};
+
+     	$("#historial").empty();
+
+     	$.post(url,{
+            examen: examen,
+            factura: factura
+	     },function(data){
+	         if(data.responseCode==200 ){
+	
+	            var lista = "";
+
+	            lista += "<table><thead><tr><th>Fecha</th><th>Resultado</th></thead><tbody>";
+
+	            $.each(data.ex, function(i, val) {		            
+					
+					lista += "<tr><td>"+val.fecha+"</td><td>"+val.resultado+"</td></tr>";
+					
+				});
+
+	            lista += "</tbody></table>";
+	    		
+				$("#historial").append(lista);
+	         }
+	         else if(data.responseCode==400){
+	         	$('#historial').html(data.msg);
+	            $('#historial').css("color","red");
+	         }
+	         else{
+	     	    alert("Ha ocurrido un error en el sistema.");
+	         }
+	    })
+	});
+
+$("#medica").change(function(){
+		
+		var url="{{ path('hc_hcMedi') }}";
+
+		var medica = $("#medica").val();
+		var hc = {{ entity.id }};
+
+		if(medica == ""){
+			   alert("Seleccione una opción valida");
+			}
+
+			$.post(url,{
+				hc: hc,
+				medica : medica
+				},function(data){
+					if(data.responseCode==200){
+
+						$('#ajaxMsgMe').empty();
+						
+						var tr = "";
+												 
+						tr += "<tr id='me"+data.medica.id+"'>";
+						tr += "<td>"+data.medica.pactivo+"</td>";
+						tr += "<td>"+data.medica.cncntracn+"</td>";
+						tr += "<td>"+data.medica.ddia+"</td>";
+						tr += "<td>"+data.medica.tiempo+"</td>";
+						tr += "<td>"+data.medica.pos+"</td>";	
+						tr += "<td>"+data.medica.estado+"</td>";											
+						tr += "<td><a class='button' onClick='delMed("+data.medica.id+"); return false;' href='#' title='Eliminar'><span class='icon icon186'></span></a></td>";
+						tr += "</tr>";
+
+						$("#MeSolicitado tbody").append(tr);
+					}
+					else if(data.responseCode==400){
+		             	$('#ajaxMsgMe').html(data.msg);
+		                $('#ajaxMsgMe').css("color","red");
+		            }
+		            else{
+		         		alert("Ha ocurrido un error en el sistema.");
+		            }
+		        })
+		      });
+
+	$("#cie").change(function(){
+		
+		var url="{{ path('hc_hcCie') }}";
+
+		var cie = $("#cie").val();
+		var hc = {{ entity.id }};
+
+		if(cie == ""){
+			   alert("Seleccione una opción valida");
+			}
+
+			$.post(url,{
+				hc: hc,
+				cie : cie
+				},function(data){
+					if(data.responseCode==200){
+
+						$('#ajaxMsgCie').empty();
+						
+						var tr = "";
+
+						tr += "<tr id='dx"+data.cie.id+"'>";
+						tr += "<td>"+data.cie.nombre+"</td>";
+						tr += "<td>"+data.cie.codigo+"</td>";						
+						tr += "<td><a class='button' onClick='delCie("+data.cie.id+"); return false;' href='#' title='Eliminar'><span class='icon icon186'></span></a></td>";
+						tr += "</tr>";
+
+						$("#CieSolicitado tbody").append(tr);
+						}
+					else if(data.responseCode==400){
+		             	$('#ajaxMsgCie').html(data.msg);
+		                $('#ajaxMsgCie').css("color","red");
+		             }
+		             else{
+		         	    alert("Ha ocurrido un error en el sistema.");
+		             }
+		        })
+		      });
+
+	
+	$("#examen").change(function(){
+
+     	var url="{{ path('hc_hcExamen') }}";
+
+     	var examen = $("#examen").val();
+     	var hc = {{ entity.id }};
+
+     	if(examen == ""){
+			alert("Seleccione una opción valida");
+        }
+         
+         $.post(url,{
+                hc: hc,
+                examen: examen
+         },function(data){
+             if(data.responseCode==200 ){
+
+ 				$('#ajaxMsgExamen').empty();
+
+                var tr = "";
+                
+				tr += "<tr id='ex"+data.examen.id+"'>";
+				tr += "<td>"+data.examen.fecha.date+"</td>";
+				tr += "<td>"+data.examen.nombre+"</td>";
+				tr += "<td>"+data.examen.resultado+"</td>";
+				tr += "<td><a class='button' onClick='delEx("+data.examen.id+"); return false;' href='#' title='Eliminar'><span class='icon icon186'></span></a></td>";
+				tr += "</tr>";
+
+				$("#examenSolicitado tbody").append(tr);
+             }
+             else if(data.responseCode==400){
+             	$('#ajaxMsgExamen').html(data.msg);
+                $('#ajaxMsgExamen').css("color","red");
+             }
+             else{
+         	    alert("Ha ocurrido un error en el sistema.");
+             }
+        })
+	});
+
+
+	$("#comboExamen").change(function(){
+
+     	var url="{{ path('hc_hcExamen') }}";
+
+     	var combo = $("#comboExamen").val();
+     	var hc = {{ entity.id }};
+
+     	if(combo == ""){
+			alert("Seleccione una opción valida");
+        }
+         
+         $.post(url,{
+                hc: hc,
+                combo: combo
+         },function(data){
+             if(data.responseCode==200 ){
+
+                var tr = "";
+                
+				tr += "<tr id='ex"+data.examen.id+"'>";
+				tr += "<td>"+data.examen.fecha.date+"</td>";
+				tr += "<td>"+data.examen.nombre+"</td>";
+				tr += "<td>"+data.examen.resultado+"</td>";
+				tr += "<td><a class='button' onClick='delEx("+data.examen.id+"); return false;' href='#' title='Eliminar'><span class='icon icon186'></span></a></td>";
+				tr += "</tr>";
+
+				$("#examenSolicitado tbody").append(tr);
+             }
+             else if(data.responseCode==400){
+             	$('#ajaxMsgExamen').html(data.msg);
+                $('#ajaxMsgExamen').css("color","red");
+             }
+             else{
+         	    alert("Ha ocurrido un error en el sistema.");
+             }
+        })
+	});
+
+
+	
+	 function delEx(id){
+		 
+		 var url = "{{ path('hc_delHcExamen') }}";		 
+
+
+		 $.post(url,{
+             examen: id             
+	      },function(data){
+	          if(data.responseCode==200 ){
+	              
+				  $("#ex"+id).empty();
+				  $("#exa"+id).empty();				  
+
+	        	  $('#ajaxMsgExamen').html(data.msg);
+		          $('#ajaxMsgExamen').css("color","green");
+	          }
+	          else if(data.responseCode==400){
+	          	$('#ajaxMsgExamen').html(data.msg);
+	            $('#ajaxMsgExamen').css("color","red");
+	          }
+	          else{
+	      	    alert("Ha ocurrido un error en el sistema.");
+	          }
+	     })
+	 }
+
+function delCie(id){
+		 
+		 var url = "{{ path('hc_delHcCie') }}";
+		 var hc = {{ entity.id }};		 
+
+		 $.post(url,{
+             cie: id,
+             hc : hc             
+	      },function(data){
+	          if(data.responseCode==200 ){
+	              
+				  $("#dx"+id).empty();
+				  $("#cie"+id).empty();				  
+
+	        	  $('#ajaxMsgCie').html(data.msg);
+		          $('#ajaxMsgCie').css("color","green");
+	          }
+	          else if(data.responseCode==400){
+	          	$('#ajaxMsgCie').html(data.msg);
+	            $('#ajaxMsgCie').css("color","red");
+	          }
+	          else{
+	      	    alert("Ha ocurrido un error en el sistema.");
+	          }
+	     })
+	 }
+
+function delMed(id){
+	 
+	 var url = "{{ path('hc_delHcMedi') }}";	 		 
+
+	 $.post(url,{
+        medica: id                    
+     },function(data){
+         if(data.responseCode==200 ){
+             
+			  $("#me"+id).empty();
+			  $("#med"+id).empty();				  
+
+       	  	  $('#ajaxMsgMe').html(data.msg);
+	          $('#ajaxMsgMe').css("color","green");
+         }
+         else if(data.responseCode==400){
+         	$('#ajaxMsgMe').html(data.msg);
+           $('#ajaxMsgMe').css("color","red");
+         }
+         else{
+     	    alert("Ha ocurrido un error en el sistema.");
+         }
+    })
+}
+</script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/parametrizar.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Listado de cargos{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('empresa_list') }}">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}" class="sub_sel">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Indicación</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ path('cargo_show', {'id':entity.id}) }}">{{ entity.cups }}</a></td>
+                <td>{{ entity.nombre }}</td>
+                <td>{{ entity.indicacion }}</td>
+                <td>{{ entity.valor }}</td>
+            </tr>
+         {% else %}
+         	<tr>
+         		<td colspan="4">No tenemos cargos creados.</td>
+         	</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('cargo_new') }}" class="button left"><span class="label">Nuevo cargo</span></a>
+{% endblock %}

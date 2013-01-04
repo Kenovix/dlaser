@@ -1,0 +1,84 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block header %}
+    {% include 'HcBundle:includes:HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Nuevo formato NO POS{% endblock %}
+
+{% block menu %}
+   {% if is_granted('ROLE_MEDICO') %}
+	    <li><a href="{{ path('medicamento_list') }}">Medicamento</a></li>
+	    <li><a href="{{ path('examen_list') }}">Examen</a></li> 
+	    <li><a href="{{ path('dx_userDx') }}" >Diagnostico</a></li>
+	    <li><a href="{{ path('hc_search') }}"  class="sub_sel">Historia clinica</a></li>
+	    <li><a href="{{ path('ctc_list',{'id':factura.id}) }}">Editar CTCs</a></li>
+	{% elseif is_granted('ROLE_AUX')%}
+		<li><a href="{{ path('hc_search') }}"  class="sub_sel">Historia clinica</a></li>
+	{% endif %}      
+{% endblock %}
+
+{% block cuerpo %}
+
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+<form action="{{ path('ctc_save',{'hm': hm.id}) }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+    	<legend>Datos del CTC</legend>
+		{{ form_errors(form) }}
+		<div>
+            {{ form_label(form.fecha) }}
+            {{ form_errors(form.fecha) }}
+            {{ form_widget(form.fecha) }}
+        </div>
+		<div>
+            {{ form_label(form.cie) }}
+            {{ form_errors(form.cie) }}
+            {{ form_widget(form.cie) }}
+        </div>
+        <div>
+            {{ form_label(form.resumen_hc) }}
+            {{ form_errors(form.resumen_hc) }}
+            {{ form_widget(form.resumen_hc) }}
+        </div><br/>
+        <div>
+            {{ form_label(form.pos_utilizado) }}
+            {{ form_errors(form.pos_utilizado) }}
+            {{ form_widget(form.pos_utilizado) }}
+            <a class="button" id="btnAjax" onClick='noAplicaPos(); return false;' href="#" title="Consultar"><span class="label">No Aplica</span></a>
+          
+        </div>
+        {{ form_rest(form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Crear</span>
+    </button>
+    
+    <a href="{{ path('ctc_list', {'id':factura.id}) }}" class="button left"><span class="label">Regresar al listado</span></a>
+    
+</form>
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script type="text/javascript">
+<!--
+function noAplicaPos()
+{
+	
+		$("#newCTC_pos_utilizado").val("No Aplica");
+		$("#newCTC_pos_dosis").val('0');
+		$("#newCTC_pos_tiempo").val('0');
+		$("#newCTC_pos_posologia").val('No Aplica');		
+	
+}
+//-->
+</script>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/parametrizar.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Detalles de la actividad{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('empresa_list') }}">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}" class="sub_sel">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Cups</th>
+                <td>{{ actividad.cargo.cups }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ actividad.cargo.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Indicación</th>
+                <td>{{ actividad.cargo.indicacion }}</td>
+            </tr>
+            <tr>
+                <th>Valor</th>
+                <td>$
+                    {% if actividad.precio %}
+                        <b>{{ actividad.precio }}</b>
+                    {% else %}
+                        {{ actividad.cargo.valor }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>
+                    {% if actividad.estado == 'A' %}
+            		    Activo
+            	    {% else %}
+            		    Inactivo
+            	    {% endif %}
+            	</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    <a href="{{ path('actividad_edit', {'contrato': actividad.contrato.id, 'cargo': actividad.cargo.id}) }}" class="button left"><span class="label">Modificar actividad</span></a>
+    <a href="{{ path('contrato_show', {'id': actividad.contrato.id}) }}" class="button middle"><span class="label">Regresar al listado</span></a>
+{% endblock %}

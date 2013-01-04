@@ -1,0 +1,87 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+	{% if is_granted('ROLE_ADMIN') %}    
+		{% include 'AdminBundle:includes:parametrizar.html.twig' %}
+	{% elseif is_granted('ROLE_AUX') %}
+		{% include 'AdminBundle:includes:factura.html.twig' %}
+	{% endif %}
+{% endblock %}
+
+{% block titulo %}Nueva admisión{% endblock %}
+
+{% block menu %}
+	    <li><a href="{{ path('factura_search') }}">Facturar cita</a></li>
+	    <li><a href="{{ path('factura_arqueo') }}">Cierre de caja</a></li>
+	    <li><a href="{{ path('factura_cliente_list') }}">Facturar cliente</a></li>
+	    <li><a href="{{ path('factura_reporte_medico') }}">Listado Medico</a></li>
+	    <li><a href="{{ path('factura_admision_search') }}" class="sub_sel">Editar admisión</a></li>
+	    <li><a href="{{ path('factura_rips_search') }}">RIPS</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+<table>
+        <tbody>
+        	<tr>
+            	<th><b>Recibo No.</b></th>
+                <td>{{entity.id}}</td>
+                
+            </tr>
+            <tr>
+        		<th><b>Fecha:</b></th>
+                <td>{{entity.fecha | date('d-m-Y')}}</td>
+            </tr>
+            <tr>
+        		<th><b>Cliente:</b></th>
+                <td>{{entity.cliente.nombre}}</td>
+            </tr>    
+            <tr>
+                <th><b>Identificacion:</b></th>
+                <td>{{entity.paciente.tipoid}} - {{ entity.paciente.identificacion }}</td>
+            </tr>
+            <tr>
+            	<th><b>Paciente:</b></th>
+                <td>{{entity.paciente.prinombre|capitalize}} {{entity.paciente.segnombre|capitalize}} {{entity.paciente.priapellido|capitalize}} {{entity.paciente.segapellido|capitalize}}</td>
+            </tr>
+            <tr>
+            	<th><b>Actividad:</b></th>
+                <td>{{entity.cargo.cups}} - {{entity.cargo.nombre}}</td>
+            </tr>
+            <tr>
+            	<th><b>Autorizacion:</b></th>
+                <td>{{entity.autorizacion}}</td>
+            </tr>
+            <tr>
+            	<th><b>Valor:</b></th>
+                <td>${{entity.valor|number_format(0)}}</td>
+            </tr>
+            <tr>
+            	<th><b>Copago:</b></th>
+                <td>${{entity.copago|number_format(0)}}</td>
+            </tr>
+            <tr>
+            	<th><b>Descuento:</b></th>
+                <td>${{entity.descuento|number_format(0)}}</td>
+             </tr>
+             <tr>
+            	<th><b>Total EPS:</b></th>
+                <td>${{ ((entity.valor - entity.copago) - entity.descuento)|number_format(0) }}</td>
+            </tr>
+            <tr>
+            	<th><b>Observacion:</b></th>
+                <td>{{entity.observacion}}</td>
+             </tr>
+        </tbody>
+    </table>
+
+<a href="{{ path('factura_imprimir', { 'id': entity.id }) }}" target="blank" class="button blue"><span class="label">Imprimir</span></a>
+<a href="{{ path('factura_edit', { 'id': entity.id }) }}" class="button blue"><span class="label">Modificar</span></a>
+<a href="{{ path('factura_search')}}" class="button center"><span class="label">Nueva Factura</span></a>
+
+
+{% endblock %}

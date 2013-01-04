@@ -1,0 +1,155 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle:includes:agenda.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Agenda medica{% endblock %}
+
+{% block menu %}{% endblock %}
+
+{% block cuerpo %}
+
+    <div>
+        {{ form_label(form.sede) }}
+        {{ form_errors(form.sede) }}
+        {{ form_widget(form.sede) }}
+    </div>
+    
+    <div id="ajaxMsg"></div>
+    <div id="programacion"></div>
+{% endblock %}
+
+{% block javascripts %}
+
+<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+<script type="text/javascript">
+
+    $("#AgendaMedica_sede").change(function(){
+        
+        var sede = $("#AgendaMedica_sede").val();
+                
+    	if($.isNumeric(sede)){
+
+    	    var url = "{{ path('agenda_medica_buscar') }}";
+    	    $("#programacion").html("<img src='{{ asset('bundles/cahis/images/ajax-loader.gif') }}' />");
+        	
+    		$.post(url,{
+                sede: sede
+            },function(data){
+                if(data.responseCode==200 ){
+
+                	$("#programacion").empty();
+                	$("#ajaxMsg").empty();
+                    
+                    var tabla = '<table>';
+                    tabla += '<caption>Agenda medica</caption>';
+                    tabla += '<thead>';
+                    tabla += '<tr>';
+                    tabla += '<th>Hora</th><th>Facturado</th><th>Identificación</th><th>Paciente</th><th>Entidad</th><th>Actividad</th><th>Observación</th><th>Estado</th><th>Opciones</th>';
+                    tabla += '</tr>';
+                    tabla += '</thead>';
+                    tabla += '<tbody>';
+                    tr = '';               	             
+                
+                	$.each(data.agenda, function(i, val) {        	
+                        	
+                		var ruta = "";
+
+                		if(val.cups == '895001' && val.estado == 'P'){
+                			ruta = Routing.generate('th_new', { 'factura': val.id });
+                    	} 
+                		else if(val.cups == '895001' && val.estado == 'PI'){
+                			ruta = Routing.generate('th_edit', { 'factura': val.id });
+                    	}
+
+                		if(val.cups == '895101'){
+                			ruta = Routing.generate('electro_new', { 'factura': val.id });
+                    	}
+
+                		if(val.cups == '893805'){
+                			ruta = Routing.generate('espiro_new', { 'factura': val.id });
+                    	}
+
+                		if(val.cups == '894102' && val.estado == 'P'){
+                			ruta = Routing.generate('te_new', { 'factura': val.id });
+                		}
+                		else if(val.cups == '894102' && val.estado == 'PI'){
+                			ruta = Routing.generate('te_edit', { 'factura': val.id });
+                		}
+
+                		if(val.cups == '896100' && val.estado == 'P'){
+                			ruta = Routing.generate('mapa_new', { 'factura': val.id });
+                		}
+                		else if(val.cups == '896100' && val.estado == 'PI'){
+                			ruta = Routing.generate('mapa_edit', { 'factura': val.id });
+                		}
+
+                		if(val.cups == '920408' && val.estado == 'P'){
+                			ruta = Routing.generate('dipi_new', { 'factura': val.id });
+                		}
+                		else if(val.cups == '920408' && val.estado == 'PI'){
+                			ruta = Routing.generate('dipi_edit', { 'factura': val.id });
+                		}
+
+                		if(val.cups == '920407' && val.estado == 'P'){
+                			ruta = Routing.generate('perfusion_new', { 'factura': val.id });
+                		}
+                		else if(val.cups == '920407' && val.estado == 'PI'){
+                			ruta = Routing.generate('perfusion_edit', { 'factura': val.id });
+                		}
+
+                		if(val.cups == '881234' && val.estado == 'P'){
+                			ruta = Routing.generate('eco_new', { 'factura': val.id });
+                		}
+                		else if(val.cups == '881234' && val.estado == 'PI'){
+                			ruta = Routing.generate('eco_edit', { 'factura': val.id });
+                		}
+
+                		if(val.cups == '881236' && val.estado == 'P'){
+                			ruta = Routing.generate('ecostres_new', { 'factura': val.id });
+                		}
+                		else if(val.cups == '881236' && val.estado == 'PI'){
+                			ruta = Routing.generate('ecostres_edit', { 'factura': val.id });
+                		}
+
+                		if(val.cups == '890202'){
+                			ruta = Routing.generate('hc_edit', { 'id': val.id });
+                		}
+                		                        
+                        tr += '<tr class="'+ val.estado +'">';
+                        tr += '<td>'+val.hora+'</td>';
+                        tr += '<td>'+val.fecha+'</td>';
+                        tr += '<td>'+val.identificacion+'</td>';
+                        tr += '<td>'+val.priNombre+" "+val.segNombre+" "+val.priApellido+" "+val.segApellido+'</td>';
+                        tr += '<td>'+val.cliente+'</td>';
+                        tr += '<td>'+val.cargo+'</td>';                        
+                        tr += '<td>'+val.observacion+'</td>';
+                        tr += '<td>'+val.estado+'</td>';
+                        tr += '<td><a href="'+ ruta +'">Realizar</a></td>';
+                        tr += '<tr>';                               
+                        
+            		});
+
+                	tabla += tr;
+                    tabla += '</tbody></table>';
+
+                	$("#programacion").html(tabla);
+                 }
+                 else if(data.responseCode==400){
+                	 $("#programacion").empty();
+                  	$('#ajaxMsg').html(data.msg);
+                    $('#ajaxMsg').css("color","red");
+                 }
+                 else{
+             	    alert("Ha ocurrido un error en el sistema.");
+                 }
+          });
+        }else{
+            alert("Selecciona una opción valida");
+        }
+    });
+</script>
+{% endblock %}

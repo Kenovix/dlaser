@@ -1,0 +1,45 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/parametrizar.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Nueva empresa{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('usuario_list') }}" class="sub_sel">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+<form action="{{ path('sede_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <fieldset>
+    	<legend>Datos de la sede</legend>
+    	{{ form_widget(edit_form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Modificar</span>
+    </button>
+    <a href="{{ path('sede_show', {'id': entity.id}) }}" class="button left"><span class="label">Detalle de la sede</span></a>
+    
+</form>
+
+<form action="{{ path('sede_delete', { 'id': entity.id }) }}" method="post">
+    {{ form_widget(delete_form) }}
+    <button class="action red" type="submit" onclick="return confirm('¿Realmente desea eliminar la sede?');">
+        <span class="label">Eliminar</span>
+    </button>
+</form>
+{% endblock %}

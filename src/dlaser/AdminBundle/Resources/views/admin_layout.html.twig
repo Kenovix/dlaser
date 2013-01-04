@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block head %}
+
+	<header>
+		<div class="container_16">
+			<div id="logo" class="grid_3">LOGO</div>
+			<div id="nombre_cliente" class="grid_13">DERMOLASER</div>
+		</div>
+		
+		<nav>
+			<div class="container_16">{% block menu %}{% endblock %}</div>
+		</nav>
+		
+	</header>
+	
+{% endblock %}
+
+{% block body %}
+	<section>
+		<div class="container_16">{% block rastro %}{% endblock %}</div>
+		<div class="container_16">{% block titulo %}{% endblock %}</div>
+		<div class="container_16">{% block msg %}{% endblock %}</div>
+		<div class="container_16">{% block cuerpo %}{% endblock %}</div>
+	</section>
+{% endblock %}
+
+{% block footer %}
+	<footer>
+		<div class="container_16"><div id="pie">2012 Dermolaser - Con la tecnologia kenovix</div></div>
+	</footer>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block header %}
+    {% include 'HcBundle::includes/HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Listado de los examenes{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('medicamento_list') }}">Medicamento</a></li>
+    <li><a href="{{ path('examen_list') }}"  class="sub_sel">Examen</a></li>    
+    <li><a href="{{ path('dx_userDx') }}" >Diagnostico</a></li>
+    <li><a href="{{ path('hc_search') }}">Historia clinica</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+               
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Codigo</th>               
+            </tr>
+        </thead>
+        <tbody>
+     
+{% for examen in examenes %}           
+            <tr>
+                <td>{{ loop.index }}</td>                               
+                <td><a href="{{ path('examen_edit',{'id':examen.id}) }}">{{ examen.nombre }}</a></td>                                
+                <td>{{ examen.codigo }}</td>
+            </tr>
+        {% endfor %} 
+      </tbody>
+    </table>  
+    <a href="{{ path('examen_new') }}" class="button left"><span class="label">Nuevo examen</span></a>
+    
+    {% if examenes %}
+	{{ simple_paginator_render('examen_examen', null) }}
+    {% endif %}
+    
+{% endblock %}
+    
+        

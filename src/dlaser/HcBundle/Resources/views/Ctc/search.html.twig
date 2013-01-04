@@ -1,0 +1,42 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block header %}
+    {% include 'HcBundle:includes:HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Buscar CTC del paciente{% endblock %}
+
+{% block menu %}
+	{% if is_granted('ROLE_MEDICO') %}
+	    <li><a href="{{ path('medicamento_list') }}">Medicamento</a></li>
+	    <li><a href="{{ path('examen_list') }}">Examen</a></li> 
+	    <li><a href="{{ path('dx_list') }}" >Diagnostico</a></li>
+	    <li><a href="{{ path('hc_search') }}">Historia clinica</a></li>
+	    <li><a href="{{ path('ctc_search') }}" class="sub_sel">CTC</a></li>
+	{% elseif is_granted('ROLE_AUX')%}
+		<li><a href="{{ path('hc_search') }}">Historia clinica</a></li>
+		<li><a href="{{ path('ctc_search') }}" class="sub_sel">CTC</a></li>
+	{% endif %}
+{% endblock %}
+
+{% block cuerpo %}
+
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+<form action="{{ path('ctc_buscar') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+    	<legend>Busqueda</legend>
+    	{{ form_widget(form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Buscar</span>
+    </button>
+            
+</form><br/><br/><br/>  
+    
+{% endblock %}

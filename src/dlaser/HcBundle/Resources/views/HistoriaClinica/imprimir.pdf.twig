@@ -1,0 +1,396 @@
+{% extends "::simple.html.twig" %}
+
+{% block stylesheets %}
+<style>
+	h1{
+		text-align: center;
+	}
+	
+	h2{
+		text-align: center;
+	}
+	
+	h3{
+		text-align: center;
+	}
+	
+	h4{
+		text-align: center;
+	}
+	
+	table.paciente {
+    	font-size: 9pt;
+        border-bottom: 2px solid #000;
+        margin-top: 2%;
+    }
+</style>    
+{% endblock %}
+
+{% block patient %}
+	<table class="paciente">
+		<tr>
+			<td colspan="5"><br /><br /></td>
+		</tr>
+		<tr>
+			<td width="130" align="center"><b>{{ paciente.tipoid }} - {{ paciente.identificacion }}</b></td>
+		  	<td width="200" align="center"><b>{{ paciente.prinombre|capitalize }} {{ paciente.segnombre|capitalize }} {{ paciente.priapellido|capitalize }} {{ paciente.segapellido|capitalize }}</b></td>
+		  	<td width="70" align="center"><b>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</b></td>
+		  	<td width="180" align="center"> <b>{{ cliente.nombre }}</b></td>
+		  	<td width="90" align="center"><b>{{ entity.fecha | date('d-m-y') }}</b></td>
+	 	</tr>
+	 </table>
+{% endblock %}
+
+{% block space %}
+	<h1>Historia Clinica</h1>
+{% endblock %}
+
+{% block body %}
+
+		<b>SIGNOS VITALES</b><br />
+		
+		<b>p/a: </b>{{ entity.sistole }}/{{ entity.diastole }} mm de Hg &nbsp;&nbsp;
+		<b>Frec/card: </b>{{ entity.fC }} /Min. &nbsp;&nbsp;
+		<b>Frec/resp: </b>{{ entity.fR }} /Min. &nbsp;&nbsp;
+		<b>Peso: </b>{{ entity.peso }} Kg. &nbsp;&nbsp;
+		<b>Estatura: </b>{{ entity.estatura }} /Cms. &nbsp;&nbsp;
+		<b>IMC: </b>
+			{% if(entity.peso and entity.estatura) %}
+				{{ (entity.peso/((entity.estatura/100)*(entity.estatura/100)))|number_format(2) }} &nbsp;&nbsp;
+			{% endif %}
+		
+		<br />
+		<br />
+
+
+		<b>ANTECEDENTES DE RIESGO CARDIOVASCULAR</b><br />  
+		
+		<b>hta: </b>{{ entity.hta }} &nbsp;&nbsp;
+		<b>Diabetes: </b>{{ entity.diabetes }} &nbsp;&nbsp;  
+		<b>Dislipidemia: </b>{{ entity.dislipidemia }} &nbsp;&nbsp;
+		<b>Tabaquismo: </b>{{ entity.tabaquismo }} &nbsp;&nbsp; 
+		<b>Obesidad: </b>{{ entity.obesidad }} &nbsp;&nbsp; 
+		<b>Ante Familiar: </b>{{ entity.anteFamiliar }} &nbsp;&nbsp;
+		<b>Sedentarismo: </b>{{ entity.sedentarismo }} &nbsp;&nbsp;  
+		
+		<br />
+		<br />
+		 
+		<b>ENFERMEDAD ACTUAL: </b>{{ entity.enfermedad }}<br /><br />
+		
+		<b>REVISIÓN SISTEMICA CARDIOVASCULAR: </b>{{ entity.revCardiovascular }}<br /><br />
+		
+		<b>EXÁMEN FISICO CARDIOVASCULAR: </b>{{ entity.exaFisico }}<br /><br />
+		
+		{% if exa_solicitado %}
+			<b>Examenes presentados</b>			    
+		    	<span>
+				{% for exa_pre in exa_presentado %}            
+					{{ exa_pre.fecha_r}} - {{ exa_pre.nombre}}:{{ exa_pre.resultado}},&nbsp;&nbsp;
+		        {% endfor %}
+		        
+		        {% for exa_pre in exaPrePrimerVez %}            
+					{{ exa_pre.fecha_r}} - {{ exa_pre.nombre}}:{{ exa_pre.resultado}},&nbsp;&nbsp;
+		        {% endfor %}
+		        
+		     	</span>
+		     	<span>{{ entity.exaPresentado }}</span>
+		    	<br /><br />
+		{% endif %}
+
+		{% if exa_solicitado %}
+			<b>Examenes solicitados</b>			    
+		    	<span>
+				{% for exa_sol in exa_solicitado %}            
+		        	{{ exa_sol.nombre}},&nbsp;&nbsp;
+		        {% endfor %}
+		     	</span>
+		     	<span>{{ entity.notaExaSoli }}</span>
+		    	<br /><br />
+		{% endif %}
+		
+		{% if perHcCie%}
+			<b>Diagnosticos</b>
+		    <span>
+				{% for permiso in perHcCie %}            
+		        	{{ permiso.codigo}} - {{ permiso.nombre}},&nbsp;&nbsp;&nbsp;			        
+		        {% endfor %} 
+			</span>
+			<span>{{ entity.dxPresunto }}</span>
+			<br /><br />
+		{% endif %}
+		
+		{% if perHcMe %}
+			<b>Recetario</b>  
+				{% for permiso in  perHcMe%}            
+		        	{{ permiso.principioActivo}} {{ permiso.presentacion}} {{ permiso.concentracion}} tomar {{ permiso.dosisDia }} cada {{ permiso.tiempo }} horas por {{ permiso.diasTratamiento }} dias # {{ ((24 /  permiso.tiempo ) * (permiso.dosisDia * permiso.diasTratamiento)) }}<br />
+		        {% endfor %} 				
+			<br />
+		{% endif %}
+		
+		<b>INTERCONSULTA: </b>
+			{% if entity.interconsulta  %} 
+				{{ entity.interconsulta }}
+			{% else %}
+				No aplca.
+			{% endif %}
+		<br /><br />
+		
+		{% if entity.motivoInter  %}
+			<b>INTERCONSULTA 2: </b>
+				{{ entity.motivoInter }}
+		{% endif %}
+		<br /><br />
+		
+		<b>PLAN DE MANEJO </b>{{ entity.manejo }}<br /><br />
+		
+		<b>CONTROL </b>{{ entity.control }}. 
+		{% if entity.ctrlPrioritario  %}
+			<b>Prioritario</b>
+		{% endif %}
+		
+		<br /><br />
+		<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+		<br />
+		<br />
+		<p>Fin del documento</p>
+		
+		
+		<tcpdf method="AddPage" />
+		
+{% set i = 0 %}
+
+{% if entity.interconsulta %}
+
+{% set i = i+1 %}
+
+{% if(i is even) %}
+	{% include "HcBundle:includes:header.html.twig" %}
+{% endif %}
+
+	<table class="paciente">
+		<tr>
+			<td colspan="5"><br /><br /></td>
+		</tr>
+		<tr>
+			<td width="130" align="center"><b>{{ paciente.tipoid }} - {{ paciente.identificacion }}</b></td>
+		  	<td width="200" align="center"><b>{{ paciente.prinombre }} {{ paciente.segnombre }} {{ paciente.priapellido }} {{ paciente.segapellido }}</b></td>
+		  	<td width="70" align="center"><b>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</b></td>
+		  	<td width="180" align="center"> <b>{{ cliente.nombre }}</b></td>
+		  	<td width="90" align="center"><b>{{ entity.fecha | date('d-m-y') }}</b></td>
+	 	</tr>
+	 </table>
+
+	<table>
+		<tr>
+			<td height="300">
+			    
+			    <h1>INTERCONSULTA</h1>
+			    
+			    <br /><br /><br /><br />
+			    
+			    <span>{{ entity.interconsulta }}</span>
+			
+				<br /><br /><br /><br />
+			
+				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+			</td>
+		</tr>
+		
+		{% if(i is odd) %}
+			{% include "HcBundle:includes:footer.html.twig" %}
+		{% endif %}		
+	</table>
+
+{% endif %}
+
+
+{% if exa_solicitado %}
+
+{% set i = i+1 %}
+
+{% if(i is even) %}
+	{% include "HcBundle:includes:header.html.twig" %}
+{% endif %}
+
+	<table class="paciente">
+		<tr>
+			<td colspan="5"><br /><br /></td>
+		</tr>
+		<tr>
+			<td width="130" align="center"><b>{{ paciente.tipoid }} - {{ paciente.identificacion }}</b></td>
+		  	<td width="200" align="center"><b>{{ paciente.prinombre }} {{ paciente.segnombre }} {{ paciente.priapellido }} {{ paciente.segapellido }}</b></td>
+		  	<td width="70" align="center"><b>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</b></td>
+		  	<td width="180" align="center"> <b>{{ cliente.nombre }}</b></td>
+		  	<td width="90" align="center"><b>{{ entity.fecha | date('d-m-y') }}</b></td>
+	 	</tr>
+	 </table>
+
+	<table>
+		<tr>
+			<td height="290">
+			    
+			    <h1>SOLICITUD DE EXAMENES</h1>
+			    
+			    <br /><br /><br /><br />
+			    
+			    <ul>   
+			    	{% for exa_sol in exa_solicitado %}            
+			        	<li>{{ exa_sol.codigo}} - {{ exa_sol.nombre}}</li>
+			        {% endfor %} 
+				</ul>
+				
+				<span>{{ entity.notaExaSoli }}</span>
+			
+				<br /><br /><br /><br />
+			
+				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+			</td>
+		</tr>
+		{% if(i is odd) %}
+			{% include "HcBundle:includes:footer.html.twig" %}
+		{% endif %}
+	</table>
+	
+{% endif %}
+
+
+{% if perHcMe %}
+
+	{% set i = i+1 %}
+
+	{% if(i is even) %}
+		{% include "HcBundle:includes:header.html.twig" %}
+	{% endif %}
+
+
+	<table class="paciente">
+		<tr>
+			<td colspan="5"><br /><br /><br /></td>
+		</tr>
+		<tr>
+			<td width="130" align="center"><b>{{ paciente.tipoid }} - {{ paciente.identificacion }}</b></td>
+		  	<td width="200" align="center"><b>{{ paciente.prinombre }} {{ paciente.segnombre }} {{ paciente.priapellido }} {{ paciente.segapellido }}</b></td>
+		  	<td width="70" align="center"><b>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</b></td>
+		  	<td width="180" align="center"> <b>{{ cliente.nombre }}</b></td>
+		  	<td width="90" align="center"><b>{{ entity.fecha | date('d-m-y') }}</b></td>
+	 	</tr>
+	 </table>
+
+	<table>
+		<tr>
+			<td height="290">
+			    
+			    <h1>FORMULA MÉDICA</h1>
+			    
+			    <br /><br /><br /><br />
+			    
+			    <ul>
+			    	{% for permiso in  perHcMe%}            
+			        	<li>{{ permiso.principioActivo}} {{ permiso.presentacion}} {{ permiso.concentracion}} tomar {{ permiso.dosisDia }} cada {{ permiso.tiempo }} horas por {{ permiso.diasTratamiento }} dias # {{ ((24 / permiso.tiempo) * (permiso.dosisDia * permiso.diasTratamiento)) }}</li>
+			        {% endfor %}				
+				</ul>
+			
+				<br /><br /><br /><br />
+			
+				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+			</td>
+		</tr>
+		{% if(i is odd) %}
+			{% include "HcBundle:includes:footer.html.twig" %}
+		{% endif %}
+	</table>
+	
+{% endif %}
+
+
+{% if entity.motivoInter %}
+	
+	{% set i = i+1 %}
+
+	{% if(i is even) %}
+		{% include "HcBundle:includes:header.html.twig" %}
+	{% endif %}
+
+	<table class="paciente">
+		<tr>
+			<td colspan="5"><br /><br /></td>
+		</tr>
+		<tr>
+			<td width="130" align="center"><b>{{ paciente.tipoid }} - {{ paciente.identificacion }}</b></td>
+		  	<td width="200" align="center"><b>{{ paciente.prinombre }} {{ paciente.segnombre }} {{ paciente.priapellido }} {{ paciente.segapellido }}</b></td>
+		  	<td width="70" align="center"><b>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</b></td>
+		  	<td width="180" align="center"> <b>{{ cliente.nombre }}</b></td>
+		  	<td width="90" align="center"><b>{{ entity.fecha | date('d-m-y') }}</b></td>
+		</tr>
+	</table>
+	
+	<table>
+		<tr>
+			<td height="270">
+			    
+			    <h1>INTERCONSULTA</h1>
+			    
+			    <br /><br /><br /><br />
+			    
+			    <span>{{ entity.motivoInter }}</span>
+			
+				<br /><br /><br /><br />
+			
+				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+			</td>
+		</tr>		
+		{% if(i is odd) %}
+			{% include "HcBundle:includes:footer.html.twig" %}
+		{% endif %}		
+	</table>
+	
+{% endif %}
+
+
+{% if entity.control %}
+	{% set i = i+1 %}
+	
+	{% if(i is even) %}
+		{% include "HcBundle:includes:header.html.twig" %}
+	{% endif %}
+
+	<table class="paciente">
+		<tr>
+			<td colspan="5"><br /><br /></td>
+		</tr>
+		<tr>
+			<td width="130" align="center"><b>{{ paciente.tipoid }} - {{ paciente.identificacion }}</b></td>
+		  	<td width="200" align="center"><b>{{ paciente.prinombre }} {{ paciente.segnombre }} {{ paciente.priapellido }} {{ paciente.segapellido }}</b></td>
+		  	<td width="70" align="center"><b>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</b></td>
+		  	<td width="180" align="center"> <b>{{ cliente.nombre }}</b></td>
+		  	<td width="90" align="center"><b>{{ entity.fecha | date('d-m-y') }}</b></td>
+		</tr>
+	</table>
+    
+    <table>
+		<tr>
+			<td height="280">
+			    
+			    <h1>CONTROL</h1>
+			    
+			    <br /><br /><br /><br />
+			    
+			    <span>
+			    	{{ entity.control }}
+			    	{% if entity.ctrlPrioritario  %}
+						<b>Prioritario</b>
+					{% endif %}
+			    </span>
+			
+				<br /><br />
+			
+				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+			</td>
+		</tr>		
+		{% if(i is odd) %}
+			{% include "HcBundle:includes:footer.html.twig" %}
+		{% endif %}		
+	</table>
+{% endif %}
+{% endblock %}

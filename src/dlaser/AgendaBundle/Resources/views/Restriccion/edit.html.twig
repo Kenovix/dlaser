@@ -1,0 +1,30 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/agenda.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Modificar restricción{% endblock %}
+
+{% block menu %}{% endblock %}
+
+{% block cuerpo %}
+
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+<form action="{{ path('restriccion_update', { 'id': entity.id, 'agenda' : agenda }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <fieldset>
+    	<legend>Datos de la restricción</legend>
+    	{{ form_widget(edit_form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Modificar</span>
+    </button>
+    <a href="{{ path('agenda_show', {'id': entity.id}) }}" class="button left"><span class="label">Detalle de la agenda</span></a>    
+</form>
+{% endblock %}

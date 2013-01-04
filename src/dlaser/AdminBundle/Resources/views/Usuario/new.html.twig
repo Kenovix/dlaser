@@ -1,0 +1,33 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/usuarios.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Nuevo Usuario{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('empresa_list') }}">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}" class="sub_sel">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+<form action="{{ path('usuario_save') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+    	<legend>Datos del usuario</legend>
+    	{{ form_widget(form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Crear</span>
+    </button>
+    
+    <a href="{{ path('usuario_list') }}" class="button left"><span class="label">Regresar al listado</span></a>
+    
+</form>
+{% endblock %}

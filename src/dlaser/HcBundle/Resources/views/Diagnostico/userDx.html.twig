@@ -1,0 +1,73 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block header %}
+    {% include 'HcBundle::includes/HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Relacion de los diagnosticos{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('medicamento_list') }}">Medicamento</a></li>
+    <li><a href="{{ path('examen_list') }}" >Examen</a></li>    
+    <li><a href="{{ path('dx_userDx') }}"  class="sub_sel">Diagnostico</a></li>
+    <li><a href="{{ path('hc_search') }}">Historia clinica</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+<table class="">
+     <tr> 
+     <td colspan="2">Agrege los diagnosticos:</td>
+       <td colspan="2">
+	      <select id="asignar">
+	      <option>Seleccione el diagnostico</option>
+	       {% for campo in cies %} 
+	         <option value="{{ campo.id }}" data-url="{{ path('dx_saveUserDx', { 'usuario': entity.id, 'cie': campo.id }) }}"> 
+	            {{ loop.index }} - {{ campo.nombre }} - {{ campo.codigo }}        
+	          </option>
+	       {% endfor %}       
+	      </select>
+      </td>     
+     </tr>
+</table>
+      
+      <br/><h4>Relacion entre usuarios y diagnosticos</h4>
+      
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Codigo</th>                
+                <th>Opcion</th>                
+            </tr>
+        </thead>
+        <tbody>
+     
+{% for permiso in permisos %}            
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ path('dx_edit', {'id':permiso.id}) }}">{{ permiso.nombre }}</a></td>
+                <td>{{ permiso.codigo }}</td>
+                <td>               
+    			<a><a href="{{ path('dx_deleteUserDx',{'usuario':entity.id,'cie':permiso.id}) }}" class="button left"><span class="label">Quitar</span></a>
+    			</td>
+            </tr>
+        {% endfor %} 
+       
+
+      </tbody>
+    </table>
+    
+   <script type="text/javascript">
+   		 var lista = document.getElementById('asignar');
+   		    		
+    	 lista.onchange = function() {
+        	var url = lista.options[lista.selectedIndex].getAttribute('data-url');
+       	 	window.location = url;
+    	  };
+   </script>    
+    
+{% endblock %}
+    
+        

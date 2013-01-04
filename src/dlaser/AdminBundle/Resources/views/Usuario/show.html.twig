@@ -1,0 +1,94 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/usuarios.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Detalles del usuario{% endblock %}
+
+{% block menu %}    
+    <li><a href="{{ path('empresa_list') }}">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}" class="sub_sel">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+    <table>
+        <tbody>
+         <tr>
+            <th>Nombre</th>
+            <td>{{ entity.nombre }}</td>
+         </tr>
+         <tr>
+            <th>Apellido</th>
+            <td>{{ entity.apellido }}</td>
+         </tr>
+         <tr>
+            <th>Cedula</th>
+            <td>{{ entity.cc }}</td>
+         </tr>
+         <tr>
+            <th>Perfil</th>
+            <td>{{ entity.perfil }}</td>
+         </tr>
+         <tr>
+            <th>Telefono</th>
+            <td>{{ entity.telefono }}</td>
+         </tr>
+         <tr>
+            <th>Direccion</th>
+            <td>{{ entity.direccion }}</td>
+         </tr>
+         <tr>
+            <th>TProfecional</th>
+            <td>{{ entity.tp }}</td>
+         </tr>
+         <tr>
+            <th>Espesialidad</th>
+            <td>{{ entity.especialidad }}</td>
+         </tr>         
+        </tbody>
+    </table>
+    
+    
+    <a href="{{ path('usuario_edit', { 'id': entity.id }) }}" class="button left"><span class="label">Modificar usuario</span></a>
+    <a href="{{ path('usuario_list') }}" class="button middle"><span class="label">Regresar al listado</span></a>
+    
+    <h2>Permisos del usuario</h2>
+    
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+    
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Nombre</th>
+                <th>Ciudad</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for sede in sedes %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ path('sede_show', {'id':sede.id}) }}">{{ sede.nombre }}</a></td>
+                <td>{{ sede.ciudad }}</td>
+            </tr>
+         {% else %}
+         	<tr>
+         		<td colspan="3">No tenemos sedes creadas.</td>
+         	</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('permiso_new', { 'id': entity.id }) }}" class="button left"><span class="label">Asignar sedes</span></a>
+{% endblock %}
+    

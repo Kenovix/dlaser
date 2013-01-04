@@ -1,0 +1,64 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block header %}
+    {% include 'HcBundle:includes:HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Formatos NO POS de {{ entity.0.hc.factura.paciente.priNombre | capitalize }} {{ entity.0.hc.factura.paciente.segNombre | capitalize }} {{ entity.0.hc.factura.paciente.priApellido | capitalize }} {{ entity.0.hc.factura.paciente.segApellido | capitalize }} {% endblock %}
+
+{% block menu %}
+
+	{% if is_granted('ROLE_MEDICO') %}
+	    <li><a href="{{ path('medicamento_list') }}">Medicamento</a></li>
+	    <li><a href="{{ path('examen_list') }}">Examen</a></li> 
+	    <li><a href="{{ path('dx_list') }}" >Diagnostico</a></li>
+	    <li><a href="{{ path('hc_search') }}" >Historia clinica</a></li>
+	    <li><a href="{{ path('ctc_search') }}" class="sub_sel">CTC</a></li>
+	{% elseif is_granted('ROLE_AUX')%}
+		<li><a href="{{ path('hc_search') }}">Historia clinica</a></li>
+		<li><a href="{{ path('ctc_search') }}" class="sub_sel">CTC</a></li>
+	{% endif %}
+
+{% endblock %}
+
+{% block cuerpo %}
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Medicamento</th>                
+                <th>Diagnostico</th>
+                <th>Imprimir</th>
+            </tr>
+        </thead>
+        <tbody>
+	{% if is_granted('ROLE_MEDICO') %}
+		{% for entities in entity %}            
+			<tr>
+	        	<td>{{ entities.fecha|date('d/m/y') }}</td>
+	            <td><a href="{{ path('ctc_edit', {'id':entities.id}) }}">{{ entities.medicamento.principioActivo }}</a></td>
+	            <td>{{ entities.cie.nombre }}</td>
+	            <td><a href="{{ path('ctc_imprimir', {'id': entities.id}) }}" class="button"><span class="icon icon153"></span></a></td>
+	    	</tr>
+	    
+	    	{% else %}
+	        	<td colspan="3">No hay información disponible.</td>
+	  	
+	    {% endfor %}
+	{% elseif is_granted('ROLE_AUX')%}
+		{% for entities in entity %}            
+			<tr>
+	        	<td>{{ entities.fecha|date('d/m/y') }}</td>
+	            <td>{{ entities.medicamento.principioActivo }}</td>
+	            <td>{{ entities.cie.nombre }}</td>
+	            <td><a href="{{ path('ctc_imprimir', {'id': entities.id}) }}" class="button"><span class="icon icon153"></span></a></td>
+	    	</tr>
+	    
+	    	{% else %}
+	        	<td colspan="3">No hay información disponible.</td>
+	  	
+	    {% endfor %}
+	{% endif %}
+      </tbody>
+    </table>     
+{% endblock %}

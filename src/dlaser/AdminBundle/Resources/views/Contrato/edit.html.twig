@@ -1,0 +1,38 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/parametrizar.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Nueva empresa{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('empresa_list') }}">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}" class="sub_sel">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+<form action="{{ path('contrato_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <fieldset>
+    	<legend>Datos del contrato</legend>
+    	{{ form_widget(edit_form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Modificar</span>
+    </button>
+    <a href="{{ path('contrato_show', {'id': entity.id}) }}" class="button left"><span class="label">Detalle del contrato</span></a>
+    
+</form>
+{% endblock %}

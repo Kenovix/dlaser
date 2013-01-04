@@ -1,0 +1,45 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/parametrizar.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Detalles del cliente{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('empresa_list') }}">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}" class="sub_sel">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Código</th>
+                <td>{{ entity.cups }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ entity.nombre }}</td>
+            </tr>
+            <tr>
+                <th>Indicaciones</th>
+                <td>{{ entity.indicacion }}</td>
+            </tr>
+            <tr>
+                <th>Valor</th>
+                <td>$ {{ entity.valor | number_format(0, ',', '.') }}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    <a href="{{ path('cargo_edit', { 'id': entity.id }) }}" class="button left"><span class="label">Modificar cargo</span></a>
+    <a href="{{ path('cargo_list') }}" class="button middle"><span class="label">Regresar al listado</span></a>
+
+{% endblock %}

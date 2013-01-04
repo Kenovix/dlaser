@@ -1,0 +1,64 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block header %}
+    {% include 'HcBundle:includes:HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Listado de medicamentos{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('medicamento_list') }}" class="sub_sel">Medicamento</a></li>
+    <li><a href="{{ path('examen_list') }}">Examen</a></li>    
+    <li><a href="{{ path('dx_userDx') }}" >Diagnostico</a></li>
+    <li><a href="{{ path('hc_search') }}">Historia clinica</a></li>   
+{% endblock %}
+
+{% block cuerpo %}
+
+<form action="{{ path('medicamento_search') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+    	<legend>Busqueda</legend>
+    	{{ form_widget(form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Buscar</span>
+    </button>
+    <a href="{{ path('medicamento_list') }}" class="button left"><span class="label">Listar todo</span></a>
+            
+</form><br/><br/><br/>
+
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Principio activo</th>
+                <th>Concentracion</th>
+                <th>Presentacion</th>
+                <th>Dosis dia</th>
+                <th>Tiempo</th>
+                <th>Dias tratamiento</th>
+                <th>Pos</th>
+                <th>Estado</th>                              
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('medicamento_edit', {'id':entity.id}) }}">{{ loop.index }}</a></td>
+                <td>{{ entity.principioActivo }}</td>
+                <td>{{ entity.concentracion }}</td>
+                <td>{{ entity.presentacion }}</td>
+                <td>{{ entity.dosisDia }}</td>
+                <td>{{ entity.tiempo }}</td>
+                <td>{{ entity.diasTratamiento }}</td>
+                <td>{{ entity.pos }}</td>
+                <td>{{ entity.estado }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('medicamento_new') }}" class="button left"><span class="label">Nuevo medicamento</span></a>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/parametrizar.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Detalles del cliente{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('empresa_list') }}">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}" class="sub_sel">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+    <table>
+        <tbody>
+            <tr>
+                <th><strong>Nit</strong></th>
+                <td>{{ cliente.nit }}</td>
+            </tr>
+            <tr>
+                <th><strong>Nombre</strong></th>
+                <td>{{ cliente.nombre }}</td>
+            </tr>
+            <tr>
+                <th><strong>Código de la eps</strong></th>
+                <td>{{ cliente.codEps }}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    <a href="{{ path('cliente_edit', { 'id': cliente.id }) }}" class="button left"><span class="label">Modificar cliente</span></a>
+    <a href="{{ path('cliente_list') }}" class="button middle"><span class="label">Regresar al listado</span></a>
+    
+    <h2>Contratos</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Contacto</th>
+                <th>Teléfono</th>
+                <th>Estado</th>
+                <th>Porcentaje</th>
+                <th>Sede</th>
+                <th>Ciudad</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contrato in contratos %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ path('contrato_show', { 'id': contrato.id }) }}">{{ contrato.contacto }}</a></td>
+                <td>{{ contrato.telefono }} - {{ contrato.celular }}</td>
+                <td>{{ contrato.estado }}</td>
+                <td>{{ contrato.porcentaje }}</td>
+                <td>{{ contrato.sede }}</td>
+                <td>{{ contrato.sede.ciudad }}</td>
+            </tr>
+         {% else %}
+         	<tr>
+         		<td colspan="5">No tenemos contratos definidos.</td>
+         	</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('contrato_new', { 'id': cliente.id }) }}" class="button left"><span class="label">Crear contrato</span></a>
+
+{% endblock %}

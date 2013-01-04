@@ -1,0 +1,30 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/parametrizar.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Nueva empresa{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('empresa_list') }}" class="sub_sel">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+<form action="{{ path('empresa_save') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+    	<legend>Datos de la empresa</legend>
+    	{{ form_widget(form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Crear</span>
+    </button>
+    <a href="{{ path('empresa_list') }}" class="button left"><span class="label">Regresar al listado</span></a>
+    
+</form>
+{% endblock %}

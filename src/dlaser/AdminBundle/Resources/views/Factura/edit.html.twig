@@ -1,0 +1,38 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+	{% include 'AdminBundle:includes:factura.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Modificar admisión{% endblock %}
+
+{% block menu %}
+	    <li><a href="{{ path('factura_search') }}">Facturar cita</a></li>
+	    <li><a href="{{ path('factura_arqueo') }}">Cierre de caja</a></li>
+	    <li><a href="{{ path('factura_cliente_list') }}">Facturar cliente</a></li>
+	    <li><a href="{{ path('factura_reporte_medico') }}">Listado Medico</a></li>
+	    <li><a href="{{ path('factura_admision_search') }}" class="sub_sel">Editar admisión</a></li>
+	    <li><a href="{{ path('factura_rips_search') }}">RIPS</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+<form action="{{ path('factura_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <fieldset>
+    	<legend>Datos de la admisión</legend>
+    	{{ form_widget(edit_form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Modificar</span>
+    </button>
+    <a href="{{ path('factura_show', { 'id': entity.id }) }}" class="button left"><span class="label">Detalle de la admisión</span></a>
+    
+</form>
+{% endblock %}

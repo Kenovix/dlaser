@@ -1,0 +1,42 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+  	{% include 'AdminBundle:includes:parametrizar.html.twig' %}
+{% endblock %}
+    
+{% block menu %}
+	<li><a href="{{ path('empresa_list') }}">Empresarios</a></li>
+    <li><a href="{{ path('cliente_list') }}">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}" class="sub_sel">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}">Usuario</a></li>
+{% endblock %}
+
+{% block titulo %}<br />Nuevo paciente{% endblock %}
+
+{% block cuerpo %}
+
+<form action="{{ path('paciente_save') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+    	<legend>Datos del paciente</legend>
+    	{{ form_widget(form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Crear</span>
+    </button>
+    <a href="{{ path('paciente_list') }}" class="button left"><span class="label">Regresar al listado</span></a>
+    
+</form>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/cahis/js/jquery.chained.remote.js') }}"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+    	$(function() {    
+            $("#newPaciente_mupio").remoteChained("#newPaciente_depto", "{{ path('municipios', {'id': 1010 }) }}");
+        });     
+    </script>
+{% endblock %}

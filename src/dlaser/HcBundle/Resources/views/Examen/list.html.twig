@@ -1,0 +1,73 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block header %}
+    {% include 'HcBundle::includes/HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Listado de los examenes{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('medicamento_list') }}">Medicamento</a></li>
+    <li><a href="{{ path('examen_list') }}"  class="sub_sel">Examen</a></li>    
+    <li><a href="{{ path('dx_userDx') }}" >Diagnostico</a></li>
+    <li><a href="{{ path('hc_search') }}">Historia clinica</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+<table class="">
+     <tr> 
+     <td colspan="2">Agrege los examens:</td>
+       <td colspan="3">
+	      <select id="asignar">
+	      <option>Seleccione un examen</option>
+	       {% for examen in examenes %} 
+	         <option value="{{ examen.id }}" data-url="{{ path('examen_userExamen', { 'usuario': entity.id, 'examen': examen.id }) }}"> 
+	            {{ loop.index }} - {{ examen.nombre }} - {{ examen.codigo }}        
+	          </option>
+	       {% endfor %}       
+	      </select>
+      </td>     
+     </tr>
+</table>
+      
+      <br/><h4>Relacion entre usuarios y examenes</h4>
+      
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Codigo</th>
+                <th>Tipo</th>
+                <th>Opcion</th>                
+            </tr>
+        </thead>
+        <tbody>
+     
+{% for permiso in permisos %}            
+            <tr>
+                <td>{{ loop.index }}</td>                
+                <td>{{ permiso.nombre }}</td>                                
+                <td>{{ permiso.codigo }}</td>
+                <td>{{ permiso.tipo }}</td>
+                <td>               
+    			<a><a href="{{ path('examen_deleteUserExamen',{'usuario':entity.id,'examen':permiso.id}) }}" class="button left"><span class="label">Quitar</span></a>
+    			</td>
+            </tr>
+        {% endfor %} 
+      </tbody>
+    </table>
+    
+   <script type="text/javascript">
+   		 var lista = document.getElementById('asignar');
+   		    		
+    	 lista.onchange = function() {
+        	var url = lista.options[lista.selectedIndex].getAttribute('data-url');
+       	 	window.location = url;
+    	  };
+   </script>    
+    
+{% endblock %}
+    
+        

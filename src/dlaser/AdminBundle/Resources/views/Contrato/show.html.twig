@@ -1,0 +1,116 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle::includes/parametrizar.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Detalles del contrato{% endblock %}
+
+{% block menu %}
+    <li><a href="{{ path('empresa_list') }}">Empresa</a></li>
+    <li><a href="{{ path('cliente_list') }}" class="sub_sel">Cliente</a></li>
+    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
+    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
+    <li><a href="#">Factura</a></li>
+    <li><a href="{{ path('usuario_list') }}">Usuario</a></li>
+{% endblock %}
+
+{% block cuerpo %}
+
+{% if app.session.flash('info') %}
+    <div class="success">
+        <span>{{ app.session.flash('info') }}</span>
+    </div>
+{% endif %}
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Contacto</th>
+                <td>{{ contrato.contacto }}</td>
+            </tr>
+            <tr>
+                <th>Cargo</th>
+                <td>{{ contrato.cargo }}</td>
+            </tr>
+            <tr>
+                <th>Teléfono</th>
+                <td>{{ contrato.telefono }}</td>
+            </tr>
+            <tr>
+                <th>Movil</th>
+                <td>{{ contrato.celular }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ contrato.email }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{% if contrato.estado == 'A' %}
+            		    Activo
+            	    {% else %}
+            		    Inactivo
+            	    {% endif %}</td>
+            </tr>
+            <tr>
+                <th>Porcentaje</th>
+                <td>{{ contrato.porcentaje }}</td>
+            </tr>
+            <tr>
+                <th>Observación</th>
+                <td>{{ contrato.observacion }}</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    <a href="{{ path('contrato_edit', {'id': contrato.id}) }}" class="button left"><span class="label">Modificar contrato</span></a>
+    <a href="{{ path('cliente_show', {'id': contrato.cliente.id}) }}" class="button middle"><span class="label">Regresar al listado</span></a>
+    
+    
+    <h2>Actividades contratadas</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Indicación</th>
+                <th>Valor</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for actividad in actividades %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td><a href="{{ path('actividad_show', {'contrato': contrato.id, 'cargo': actividad.cargo.id}) }}">{{ actividad.cargo.cups }}</a></td>
+                <td>{{ actividad.cargo.nombre }}</td>
+                <td>{{ actividad.cargo.indicacion }}</td>
+                <td>
+                    {% if actividad.precio %}
+                    <b>${{ actividad.precio | number_format(0, '.', ',')}}</b>
+                    {% else %}
+                    ${{ (actividad.cargo.valor + ((actividad.cargo.valor * contrato.porcentaje)/100)) | number_format(0, '.', ',') }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if actividad.estado == 'A' %}
+            		    Activo
+            	    {% else %}
+            		    Inactivo
+            	    {% endif %}
+                </td>
+            </tr>
+         {% else %}
+         	<tr>
+         		<td colspan="6">No tiene actividades contratadas.</td>
+         	</tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('actividad_new', { 'id': contrato.id }) }}" class="button left"><span class="label">Crear actividad</span></a>
+{% endblock %}

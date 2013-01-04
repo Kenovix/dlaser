@@ -1,0 +1,28 @@
+{% extends "ParametrizarBundle::auxLayout.html.twig" %}
+
+{% block titulo %}<br />Nuevo paciente{% endblock %}
+
+{% block cuerpo %}
+<form action="{{ path('paciente_save') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+    	<legend>Datos del paciente</legend>
+    	{{ form_widget(form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Crear</span>
+    </button>
+    <a href="{{ path('paciente_list') }}" class="button left"><span class="label">Regresar al listado</span></a>
+    
+</form>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/cahis/js/jquery.chained.remote.js') }}"></script>
+    
+    <script type="text/javascript" charset="utf-8">
+    	$(function() {    
+            $("#newPaciente_mupio").remoteChained("#newPaciente_depto", "{{ path('municipios', {'id': 1010 }) }}");
+        });     
+    </script>
+{% endblock %}

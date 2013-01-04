@@ -1,0 +1,16 @@
+{% extends "HcBundle::hcLayout.html.twig" %}
+
+{% block header %}
+    {% include 'HcBundle::includes/HistoriaClinica.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Pre-consulta del paciente {{ paciente.priNombre}} {{ paciente.priApellido }}{% endblock %}
+
+{% block menu %}    
+    <li><a href="{{ path('signos_edit',{'id':factura.id}) }}"  class="sub_sel">Signos</a></li>
+    <li><a href="{{ path('signos_examen',{'id':factura.id}) }}">Examenes</a></li>    
+{% endblock %}
+
+{% block cuerpo %}
+
+{% endblock %}

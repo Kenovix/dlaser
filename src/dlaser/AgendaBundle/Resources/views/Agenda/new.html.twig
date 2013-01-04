@@ -1,0 +1,25 @@
+{% extends "AdminBundle::adminLayout.html.twig" %}
+
+{% block header %}
+    {% include 'AdminBundle:includes:agenda.html.twig' %}
+{% endblock %}
+
+{% block titulo %}Nueva agenda{% endblock %}
+
+{% block menu %}{% endblock %}
+
+{% block cuerpo %}
+
+<form action="{{ path('agenda_save') }}" method="post" {{ form_enctype(form) }}>
+    <fieldset>
+    	<legend>Datos de la agenda</legend>
+    	{{ form_widget(form) }}
+    </fieldset>
+    
+    <button class="action blue" type="submit">
+        <span class="label">Crear</span>
+    </button>
+    <a href="{{ path('agenda_list') }}" class="button left"><span class="label">Regresar al listado</span></a>
+    
+</form>
+{% endblock %}
