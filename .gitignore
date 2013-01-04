@@ -6,8 +6,24 @@ vendor/*
 */logs/*
 */cache/*
 web/uploads/*
-web/bundles/*
+web/rips/*
+web/bundles/acmedemo/*
+web/bundles/fosjsrouting/*
+web/bundles/framework/*
+web/bundles/sensiodistribution/*
+web/bundles/stfalcontinymce/*
+web/bundles/webprofiler/*
+web/bundles/dlaser/images/*
 
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
+
+#IDE
+/.DS_Store
+/.classpath
+/.project
+/.settings
+/.metadata/
+/.buildpath
+
