@@ -1,4 +1,28 @@
-{% extends "HcBundle::hcLayout.html.twig" %}
+{% extends "AdminBundle::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('AdminBundle:Builder:adminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Historia Clinica de {{ paciente.priNombre | capitalize }} {{ paciente.priApellido | capitalize }}{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="success">
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="info">
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="error">
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -6,33 +30,9 @@
 	<link href="{{ asset('bundles/cahis/css/jquery-ui-1.8.23.custom.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block header %}
-    {% include 'HcBundle:includes:HistoriaClinica.html.twig' %}
-{% endblock %}
 
-{% block titulo %}Historia Clinica de {{ paciente.priNombre | capitalize }} {{ paciente.priApellido | capitalize }}{% endblock %}
-
-{% block menu %}    
-    {% if is_granted('ROLE_MEDICO') %}
-	    <li><a href="{{ path('medicamento_list') }}">Medicamento</a></li>
-	    <li><a href="{{ path('examen_list') }}">Examen</a></li> 
-	    <li><a href="{{ path('dx_userDx') }}" >Diagnostico</a></li>
-	    <li><a href="{{ path('hc_search') }}"  class="sub_sel">Historia clinica</a></li>
-	    <li><a href="{{ path('ctc_list',{'id':factura.id}) }}" target="_blank">Listado NO POS</a></li>
-	{% elseif is_granted('ROLE_AUX')%}
-		<li><a href="{{ path('hc_search') }}"  class="sub_sel">Historia clinica</a></li>
-	{% endif %}
-{% endblock %}
 
 {% block cuerpo %}
-{% if app.session.flash('info') %}
-    <div class="success">
-        <span>{{ app.session.flash('info') }}</span>
-        {% if factura.estado == 'I' %}
-	    	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank"><span class="label">Imprimir</span></a>    
-	    {% endif %}
-    </div>
-{% endif %}
 
 <form action="{{ path('hc_update', { 'id': entity.id }) }}" id="h_c_edit" method="post" {{ form_enctype(edit_form) }}>
 	<fieldset>

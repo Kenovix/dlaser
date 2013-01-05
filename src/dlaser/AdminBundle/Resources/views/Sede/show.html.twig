@@ -1,27 +1,33 @@
-{% extends "AdminBundle::adminLayout.html.twig" %}
+{% extends "AdminBundle::admin_layout.html.twig" %}
 
-{% block header %}
-    {% include 'AdminBundle::includes/parametrizar.html.twig' %}
+{% block menu %}
+	{{ knp_menu_render('AdminBundle:Builder:adminMenu') }}
 {% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
 {% block titulo %}Detalles de la empresa{% endblock %}
 
-{% block menu %}
-    <li><a href="{{ path('empresa_list') }}" class="sub_sel">Empresa</a></li>
-    <li><a href="{{ path('cliente_list') }}">Cliente</a></li>
-    <li><a href="{{ path('cargo_list') }}">Cargo</a></li>
-    <li><a href="{{ path('paciente_list') }}">Paciente</a></li>
-    <li><a href="#">Factura</a></li>
-    <li><a href="{{ path('usuario_list') }}">Usuario</a></li>
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="success">
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="info">
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="error">
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}
 
-{% if app.session.flash('info') %}
-    <div class="success">
-        <span>{{ app.session.flash('info') }}</span>
-    </div>
-{% endif %}
+
+
+{% block cuerpo %}
 
     <table>
         <tbody>

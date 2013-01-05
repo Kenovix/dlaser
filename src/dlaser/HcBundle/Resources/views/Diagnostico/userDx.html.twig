@@ -1,17 +1,31 @@
-{% extends "HcBundle::hcLayout.html.twig" %}
+{% extends "AdminBundle::admin_layout.html.twig" %}
 
-{% block header %}
-    {% include 'HcBundle::includes/HistoriaClinica.html.twig' %}
+{% block menu %}
+	{{ knp_menu_render('AdminBundle:Builder:adminMenu') }}
 {% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
 {% block titulo %}Relacion de los diagnosticos{% endblock %}
 
-{% block menu %}
-    <li><a href="{{ path('medicamento_list') }}">Medicamento</a></li>
-    <li><a href="{{ path('examen_list') }}" >Examen</a></li>    
-    <li><a href="{{ path('dx_userDx') }}"  class="sub_sel">Diagnostico</a></li>
-    <li><a href="{{ path('hc_search') }}">Historia clinica</a></li>
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="success">
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="info">
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="error">
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
 {% endblock %}
+
+
+
 
 {% block cuerpo %}
 

@@ -1,12 +1,32 @@
-{% extends "AdminBundle::adminLayout.html.twig" %}
+{% extends "AdminBundle::admin_layout.html.twig" %}
 
-{% block header %}
-    {% include 'AdminBundle::includes/agenda.html.twig' %}
+{% block menu %}
+	{{ knp_menu_render('AdminBundle:Builder:adminMenu') }}
 {% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
 {% block titulo %}Nueva restricción{% endblock %}
 
-{% block menu %}{% endblock %}
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="success">
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="info">
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="error">
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
+
+
+
 
 {% block cuerpo %}
 

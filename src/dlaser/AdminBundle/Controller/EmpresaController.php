@@ -13,7 +13,7 @@ class EmpresaController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
     
-        $empresas = $em->getRepository('ParametrizarBundle:Empres    a')->findAll();
+        $empresas = $em->getRepository('ParametrizarBundle:Empresa')->findAll();
         
         return $this->render('AdminBundle:Empresa:list.html.twig', array(
                 'entities'  => $empresas
