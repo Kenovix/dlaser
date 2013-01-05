@@ -12,8 +12,14 @@ class EmpresaController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-    
+            
         $empresas = $em->getRepository('ParametrizarBundle:Empresa')->findAll();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        
+        $breadcrumbs->addItem("Empresa");
         
         return $this->render('AdminBundle:Empresa:list.html.twig', array(
                 'entities'  => $empresas
@@ -27,6 +33,12 @@ class EmpresaController extends Controller
         $validator = $this->get('validator');
                
         $form   = $this->createForm(new EmpresaType(), $entity);
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));        
+        $breadcrumbs->addItem("Empresa", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Nueva");
     
         return $this->render('AdminBundle:Empresa:new.html.twig', array(
             'entity' => $entity,
@@ -47,12 +59,16 @@ class EmpresaController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            $this->get('session')->setFlash('info', 'Empresa ha sido creada éxitosamente.');
-        
+            $this->get('session')->setFlash('ok', 'La empresa ha sido creada éxitosamente.');        
 
-            return $this->redirect($this->generateUrl('empresa_show', array("id" => $entity->getId())));
-        
+            return $this->redirect($this->generateUrl('empresa_show', array("id" => $entity->getId())));        
         }
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Empresa", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Nueva");
         
         return $this->render('AdminBundle:Empresa:new.html.twig', array(
             'entity' => $entity,
@@ -73,6 +89,12 @@ class EmpresaController extends Controller
         }
         
         $sede= $em->getRepository('ParametrizarBundle:Sede')->findByEmpresa($id);
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Empresa", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Detalle de ".$empresa->getNombre());
     
         return $this->render('AdminBundle:Empresa:show.html.twig', array(
                 'entity'  => $empresa,
@@ -92,6 +114,12 @@ class EmpresaController extends Controller
         }
     
         $editForm = $this->createForm(new EmpresaType(), $entity);
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");        
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Empresa", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Detalle", $this->get("router")->generate("empresa_show", array("id" => $entity->getId())));
+        $breadcrumbs->addItem("Modificar ".$entity->getNombre());
     
         return $this->render('AdminBundle:Empresa:edit.html.twig', array(
                 'entity'      => $entity,
@@ -119,9 +147,15 @@ class EmpresaController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            $this->get('session')->setFlash('info', 'La información de la empresa ha sido modificada éxitosamente.');    
+            $this->get('session')->setFlash('ok', 'La empresa ha sido modificada éxitosamente.');    
             return $this->redirect($this->generateUrl('empresa_edit', array('id' => $id)));
-        }    
+        }
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Empresa", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Detalle", $this->get("router")->generate("empresa_show", array("id" => $entity->getId())));
+        $breadcrumbs->addItem("Modificar ".$entity->getNombre());
     
         return $this->render('AdminBundle:Empresa:edit.html.twig', array(
                 'entity'      => $entity,
