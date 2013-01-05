@@ -33,7 +33,9 @@ class CupoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         
-        $breadcrumbs->addItem("pruebita");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("cupo_new"));
+        
+        $breadcrumbs->addItem("pruebita", $this->get("router")->generate("cupo_new"));
         $breadcrumbs->addItem("prueba");
         
         $form   = $this->createForm(new CupoType(array('user' => $id)), $entity);

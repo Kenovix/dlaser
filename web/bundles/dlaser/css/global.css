@@ -8,18 +8,6 @@
 .container_16{
     margin-bottom: 20px;
 }
-
-#menu_main{
-	height: 30px;
-	color: #FFFFFF;
-}
-
-#menu_main ul{
-	margin-top: 5px;
-}
-
-#menu_main ul li{
-	display: inline-block;
         
 }
 
@@ -44,35 +32,6 @@
 #titulo h1{
 	margin-left: 30px;
 }
-
-#menu{
-}
-
-#menu ul {
-    margin-bottom: 10px;
-}
-
-#menu ul li {
-    list-style: none;
-	padding-top: 5px;
-}
-
-#menu ul li a{
-	text-decoration:none;	
-	color: #222;
-	font-size: 1.2em;
-	padding: 4px;
-}
-
-#menu ul li a:hover{
-	background-color: #F2F2F2;
-}
-
-#menu ul li a.sub_sel{
-	font-weight: bold;
-	color: #DD4B39;
-}
-
 
 #cuerpo{
 	margin-bottom: 2em;

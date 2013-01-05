@@ -30,3 +30,18 @@
 		<div class="container_16"><div id="pie">2012 Dermolaser - Con la tecnologia kenovix</div></div>
 	</footer>
 {% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		$(function() {
+	    	if ($.browser.msie && $.browser.version.substr(0,1)<7)
+	        {
+				$('li').has('ul').mouseover(function(){
+					$(this).children('ul').show();
+					}).mouseout(function(){
+					$(this).children('ul').hide();
+					})
+	       	}
+	  	});
+    </script>
+{% endblock %}

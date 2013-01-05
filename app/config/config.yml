@@ -108,10 +108,10 @@ stfalcon_tinymce:
             
 # Rastro de miga
 white_october_breadcrumbs:
-    separator:          '>'
+    separator:          ''
     separatorClass:     'separator'
     listId:             'wo-breadcrumbs'
-    listClass:          'breadcrumb'
-    itemClass:          'prueba'
+    listClass:          ''
+    itemClass:          
     locale:             
     translation_domain: 
