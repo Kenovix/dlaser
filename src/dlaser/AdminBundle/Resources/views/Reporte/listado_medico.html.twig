@@ -1,27 +1,34 @@
-{% extends "AdminBundle::adminLayout.html.twig" %}
+{% extends "AdminBundle::admin_layout.html.twig" %}
 
-{% block header %}
-	{% include 'AdminBundle:includes:factura.html.twig' %}
+{% block menu %}
+	{{ knp_menu_render('AdminBundle:Builder:adminMenu') }}
 {% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
 {% block titulo %}Actividades realizadas a un cliente{% endblock %}
 
-{% block menu %}
-    <li><a href="{{ path('factura_search') }}">Facturar cita</a></li>
-    <li><a href="{{ path('factura_arqueo') }}">Cierre de caja</a></li>
-    <li><a href="{{ path('factura_cliente_list') }}">Facturar cliente</a></li>
-    <li><a href="{{ path('factura_reporte_medico') }}" class="sub_sel">Listado Medico</a></li>
-	<li><a href="{{ path('factura_admision_search') }}">Editar admisión</a></li>
-	<li><a href="{{ path('factura_rips_search') }}">RIPS</a></li>
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="success">
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="info">
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="error">
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
 {% endblock %}
 
-{% block cuerpo %}
 
-{% if app.session.flash('info') %}
-    <div class="success">
-        <span>{{ app.session.flash('info') }}</span>
-    </div>
-{% endif %}
+
+
+
+{% block cuerpo %}
 
 <form action="{{ path('factura_medico_list') }}" onSubmit="return confirm('Seguro de querer generar el reporte?');" method="post">
     <fieldset>

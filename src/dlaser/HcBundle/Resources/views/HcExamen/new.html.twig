@@ -1,4 +1,28 @@
-{% extends "HcBundle::hcLayout.html.twig" %}
+{% extends "AdminBundle::admin_layout.html.twig" %}
+
+{% block menu %}
+	{{ knp_menu_render('AdminBundle:Builder:adminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Ingresar examenes del paciente {{ paciente.priNombre}} {{ paciente.priApellido }}{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="success">
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="info">
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="error">
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -6,24 +30,10 @@
 	<link href="{{ asset('bundles/cahis/css/jquery-ui-1.8.23.custom.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-{% block header %}
-    {% include 'HcBundle:includes:HistoriaClinica.html.twig' %}
-{% endblock %}
 
-{% block titulo %}Ingresar examenes del paciente {{ paciente.priNombre}} {{ paciente.priApellido }}{% endblock %}
 
-{% block menu %}    
-    <li><a href="{{ path('signos_edit',{'id':factura.id}) }}">Signos</a></li>
-    <li><a href="{{ path('signos_examen',{'id':factura.id}) }}"  class="sub_sel">Examenes</a></li>    
-{% endblock %}
 
 {% block cuerpo %}
-
-{% if app.session.flash('info') %}
-    <div class="success">
-        <span>{{ app.session.flash('info') }}</span>
-    </div>
-{% endif %}
 
 	<form>
 		<div>
