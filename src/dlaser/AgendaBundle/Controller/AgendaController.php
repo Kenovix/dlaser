@@ -26,9 +26,12 @@ class AgendaController extends Controller
                 WHERE a.fechaFin > :fi
                 ORDER BY a.fechaInicio ASC');
         
-        $query->setParameter('fi', new \DateTime('now'));
-        
+        $query->setParameter('fi', new \DateTime('now'));        
         $agenda = $query->getResult();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Agenda");
     
         return $this->render('AgendaBundle:Agenda:list.html.twig', array(
                 'agendas'  => $agenda
@@ -42,6 +45,10 @@ class AgendaController extends Controller
         $entity->setFechaFin(new \DateTime('now'));
         
         $form   = $this->createForm(new AgendaType(), $entity);
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Agenda nueva");        
                    
         return $this->render('AgendaBundle:Agenda:new.html.twig', array(
                 'entity' => $entity,
@@ -79,10 +86,8 @@ class AgendaController extends Controller
                 $turno->add(new \DateInterval('PT'.$entity->getIntervalo().'M'));                
             }            
     
-            $this->get('session')->setFlash('info', 'La agenda ha sido creada éxitosamente.');
-    
-            return $this->redirect($this->generateUrl('agenda_show', array("id" => $entity->getId())));
-    
+            $this->get('session')->setFlash('ok', 'La agenda ha sido creada éxitosamente.');    
+            return $this->redirect($this->generateUrl('agenda_show', array("id" => $entity->getId())));    
         }
     
         return $this->render('AgendaBundle:Agenda:new.html.twig', array(
@@ -94,15 +99,17 @@ class AgendaController extends Controller
     
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $agenda = $em->getRepository('AgendaBundle:Agenda')->find($id);
     
         if (!$agenda) {
             throw $this->createNotFoundException('La agenda solicitada no existe.');
-        }
-        
+        }        
         $firewalls = $em->getRepository('AgendaBundle:Restriccion')->findByAgenda($id);
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));        
+        $breadcrumbs->addItem("Detalle agenda");
     
         return $this->render('AgendaBundle:Agenda:show.html.twig', array(
                 'agenda'  => $agenda,
@@ -113,14 +120,18 @@ class AgendaController extends Controller
     
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $entity = $em->getRepository('AgendaBundle:Agenda')->find($id);
     
         if (!$entity) {
             throw $this->createNotFoundException('La agenda solicitada no existe');
         }
     
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Detalle",$this->get("router")->generate("agenda_show",array("id" => $id)));
+        $breadcrumbs->addItem("Modificar agenda");
+        
         $editForm = $this->createForm(new AgendaType(), $entity);
     
         return $this->render('AgendaBundle:Agenda:edit.html.twig', array(

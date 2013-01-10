@@ -246,17 +246,7 @@ class HcController extends Controller
 				$dql->setMaxResults(1);
 				$HC = $dql->getSingleResult();											
 																
-				/*foreach ($examen_hc as $examenes){
-			
-					$entity = new HcExamen();
-					$entity->setExamen($examenes->getExamen());
-					$entity->setHc($HC);
-					$entity->setFecha(new \DateTime('now'));
-					$entity->setEstado(0);
-					
-					$em->persist($entity);
-					$em->flush();
-				}*/
+				
 				foreach ($medi_hc as $medicamentos){
 						
 					$entity  = new HcMedicamento();			
@@ -308,8 +298,7 @@ class HcController extends Controller
 	
 	public function editAction($id)
 	{
-		$em = $this->getDoctrine()->getEntityManager();
-		
+		$em = $this->getDoctrine()->getEntityManager();		
 		$factura = $em->getRepository('ParametrizarBundle:Factura')->find($id);
 		
 		if(!$factura)
@@ -510,6 +499,11 @@ class HcController extends Controller
 		
 		//-------------------------------------END EXAMENES---------------------------------------------------------
 		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Modificar HC");
+		
+		
 		$editform = $this->createForm(new HcType(), $hc);
 		$editexform = $this->createForm(new HcExamenType());
 		$medform = $this->createForm(new MedicamentoType());
@@ -703,7 +697,11 @@ class HcController extends Controller
 	 */
 	public function searchAction()
 	{
-		$form   = $this->createForm(new searchType());		
+		$form   = $this->createForm(new searchType());	
+
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Search");
 
 			return $this->render('HcBundle:HistoriaClinica:search.html.twig', array(
 					'form'   => $form->createView()
@@ -718,6 +716,10 @@ class HcController extends Controller
 		
 		$form   = $this->createForm(new searchType());
 		$form->bindRequest($request);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar");
 		
 		if($form->isValid())
 		{
@@ -737,8 +739,8 @@ class HcController extends Controller
 		
 			$dql->setParameter('id', $idP);
 			$dql->setParameter('tipo', $tipoid);
-			$HC = $paginador->paginate($dql->getResult())->getResult();		
-		
+			$HC = $paginador->paginate($dql->getResult())->getResult();
+					
 			if(!$HC)
 			{
 				$this->get('session')->setFlash('info',
@@ -828,7 +830,11 @@ class HcController extends Controller
 		
 		$entity  = new Hc();
 		$entity->setFecha(new \DateTime('now'));
-		$form    = $this->createForm(new HcType(), $entity);		
+		$form    = $this->createForm(new HcType(), $entity);	
+
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Nueva HC");
 		
 		return $this->render('HcBundle:HistoriaClinica:new.html.twig', array(								
 				'factura' => $factura,

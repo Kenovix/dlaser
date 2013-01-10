@@ -15,9 +15,12 @@ class PacienteController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-
         $pacientes = $em->getRepository('ParametrizarBundle:Paciente')->findAll();
-
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list"));
+        
         return $this->render('AdminBundle:Paciente:list.html.twig', array(
                 'entities'  => $pacientes
         ));
@@ -26,17 +29,22 @@ class PacienteController extends Controller
     public function newAction()
     {
         $entity = new Paciente();
-        $form   = $this->createForm(new PacienteType(), $entity);
-        
-        if ($this->get('security.context')->isGranted('ROLE_AUX')) {
+        $form   = $this->createForm(new PacienteType(), $entity);        
+        $user = $this->get('security.context')->getToken()->getUser();
+                
+        if ($user->getPerfil() == 'ROLE_AUX') {
         	$plantilla = 'ParametrizarBundle:Paciente:new.html.twig';
         }
-        elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        elseif ($user->getPerfil() == 'ROLE_ADMIN') {
         	$plantilla = 'AdminBundle:Paciente:new.html.twig';
-        }
-        
+        }        
     
-        return $this->render($plantilla, array(
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list"));
+        $breadcrumbs->addItem("Nuevo");
+        
+        return $this->render($plantilla, array(        		
                 'entity' => $entity,
                 'form'   => $form->createView()
         ));
@@ -55,18 +63,18 @@ class PacienteController extends Controller
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'El paciente ha sido creado éxitosamente.');    
-    
+            $this->get('session')->setFlash('ok', 'El paciente ha sido creado éxitosamente.');      
             return $this->redirect($this->generateUrl('paciente_show', array("id" => $entity->getId())));
     
-        }
-        
-        if ($this->get('security.context')->isGranted('ROLE_AUX')) {
+        }        
+    	$user = $this->get('security.context')->getToken()->getUser();
+                
+        if ($user->getPerfil() == 'ROLE_AUX') {
         	$plantilla = 'ParametrizarBundle:Paciente:new.html.twig';
         }
-        elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        elseif ($user->getPerfil() == 'ROLE_ADMIN') {
         	$plantilla = 'AdminBundle:Paciente:new.html.twig';
-        }
+        } 
     
         return $this->render($plantilla, array(
                 'entity' => $entity,
@@ -77,40 +85,42 @@ class PacienteController extends Controller
     
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($id);
     
         if (!$paciente) {
             throw $this->createNotFoundException('El paciente solicitado no existe.');
         }
         
-        $afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($id);
-        
-        $afiliacion = new Afiliacion();
-        
+        $afiliaciones = $em->getRepository('ParametrizarBundle:Afiliacion')->findByPaciente($id);        
+        $afiliacion = new Afiliacion();        
         $form = $this->createForm(new AfiliacionType(), $afiliacion);
         
         $vars = array('paciente' => $paciente,
                       'afiliaciones' => $afiliaciones,
                       'form' => $form->createView());
         
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {        	
-        	$plantilla = 'AdminBundle:Paciente:show.html.twig';        	
+   		$user = $this->get('security.context')->getToken()->getUser();
+                
+        if ($user->getPerfil() == 'ROLE_AUX') {
+        	$plantilla = 'ParametrizarBundle:Paciente:show.html.twig';
         }
-        elseif ($this->get('security.context')->isGranted('ROLE_AUX')) {
-        	$plantilla = 'ParametrizarBundle:Paciente:show.html.twig';        	
-        }
+        elseif ($user->getPerfil() == 'ROLE_ADMIN') {
+        	$plantilla = 'AdminBundle:Paciente:show.html.twig';
+        } 
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list"));
+        $breadcrumbs->addItem("Detalle ".$paciente->getPriNombre());
     	
         return $this->render($plantilla, $vars);
     }
     
     public function editAction($id)
     {    	
-    	$em = $this->getDoctrine()->getEntityManager();
-    
-        $entity = $em->getRepository('ParametrizarBundle:Paciente')->find($id);
-        
+    	$em = $this->getDoctrine()->getEntityManager();    
+        $entity = $em->getRepository('ParametrizarBundle:Paciente')->find($id);        
     
         if (!$entity) {
             throw $this->createNotFoundException('El paciente solicitado no existe');
@@ -118,13 +128,21 @@ class PacienteController extends Controller
     
         $editForm = $this->createForm(new PacienteType(), $entity);
         
-        if ($this->get('security.context')->isGranted('ROLE_AUX')) {
+    	$user = $this->get('security.context')->getToken()->getUser();
+                
+        if ($user->getPerfil() == 'ROLE_AUX') {
         	$plantilla = 'ParametrizarBundle:Paciente:edit.html.twig';
         }
-        elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        elseif ($user->getPerfil() == 'ROLE_ADMIN') {
         	$plantilla = 'AdminBundle:Paciente:edit.html.twig';
-        }
+        } 
     
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list"));
+        $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("paciente_show",array("id" => $entity->getId())));
+        $breadcrumbs->addItem("Modificar ".$entity->getPriNombre());
+        
         return $this->render($plantilla, array(
                 'entity'      => $entity,
                 'edit_form'   => $editForm->createView()
@@ -133,18 +151,15 @@ class PacienteController extends Controller
     
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $entity = $em->getRepository('ParametrizarBundle:Paciente')->find($id);
     
         if (!$entity) {
             throw $this->createNotFoundException('El paciente solicitado no existe.');
         }
     
-        $editForm   = $this->createForm(new PacienteType(), $entity);
-    
-        $request = $this->getRequest();
-    
+        $editForm   = $this->createForm(new PacienteType(), $entity);    
+        $request = $this->getRequest();    
         $editForm->bindRequest($request);
     
         if ($editForm->isValid()) {
@@ -152,17 +167,18 @@ class PacienteController extends Controller
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'La información del paciente ha sido modificada éxitosamente.');
-    
+            $this->get('session')->setFlash('ok', 'La paciente ha sido modificado éxitosamente.');    
             return $this->redirect($this->generateUrl('paciente_edit', array('id' => $id)));
         }
         
-        if ($this->get('security.context')->isGranted('ROLE_AUX')) {
+    	$user = $this->get('security.context')->getToken()->getUser();
+                
+        if ($user->getPerfil() == 'ROLE_AUX') {
         	$plantilla = 'ParametrizarBundle:Paciente:edit.html.twig';
         }
-        elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+        elseif ($user->getPerfil() == 'ROLE_ADMIN') {
         	$plantilla = 'AdminBundle:Paciente:edit.html.twig';
-        }
+        } 
     
         return $this->render($plantilla, array(
                 'entity'      => $entity,
@@ -215,8 +231,7 @@ class PacienteController extends Controller
                     foreach($cliente as $value)
                     {
                         $response['cliente'][$value->getCliente()->getId()] = $value->getCliente()->getNombre();
-                    }
-                    
+                    }                    
                 }
                 else{
                     $response=array("responseCode"=>400, "msg"=>"el paciente no existe en el sistema!");

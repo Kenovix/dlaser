@@ -21,14 +21,14 @@ class SignosController extends Controller
 					WHERE  p.id = :id ORDER BY hc.fecha DESC ");				
 		
 		$dql->setParameter('id', $id);
-		$HC = $paginador->paginate($dql->getResult())->getResult();
-			
+		$HC = $paginador->paginate($dql->getResult())->getResult();			
 		$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($id);
 		
 		if(!$HC )
 		{
 			throw $this->createNotFoundException('La informacion solicitada no existe');
-		}
+		}		
+		
 			
 		return $this->render('HcBundle:Signos:list.html.twig', array('entities' => $HC, 'paciente'=>$paciente));
 	}
@@ -48,6 +48,11 @@ class SignosController extends Controller
 			throw $this->createNotFoundException('La factura no existe');
 		}
 		$paciente = $factura->getPaciente();
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+		$breadcrumbs->addItem("Historia",$this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Signos");
 					
 		
 		return $this->render('HcBundle:Signos:signos.html.twig', 
@@ -69,6 +74,12 @@ class SignosController extends Controller
 		$factura = $entity->getFactura();
 		$paciente = $entity->getFactura()->getPaciente();
 		$form   = $this->createForm(new HcAuxType(), $entity);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+		$breadcrumbs->addItem("Historia",$this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Signos ",$this->get("router")->generate("signos_signos",array("id" => $id)));
+		$breadcrumbs->addItem("Modificar");
 		
 		return $this->render('HcBundle:Signos:edit.html.twig', array(
 				'paciente' => $paciente,
@@ -170,6 +181,11 @@ class SignosController extends Controller
 			$examen = null;
 		}
 
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+		$breadcrumbs->addItem("Historia",$this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Signos ",$this->get("router")->generate("signos_signos",array("id" => $id)));
+		$breadcrumbs->addItem("Listar examen");
 
 		return $this->render('HcBundle:Signos:listExamenes.html.twig', array(
 				'examenes' => $examen,

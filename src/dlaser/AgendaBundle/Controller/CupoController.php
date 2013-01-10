@@ -21,7 +21,11 @@ class CupoController extends Controller
 
     public function listAction()
     {        
-        return $this->render('AgendaBundle:Cupo:list.html.twig');
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+    	$breadcrumbs->addItem("Reserva");
+    	
+        return $this->render('AgendaBundle:Cupo:list.html.twig');        
     }
 
     public function newAction()
@@ -31,15 +35,12 @@ class CupoController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();        
         $id=$user->getId();
         
-        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs = $this->get("white_october_breadcrumbs");        
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));       
+        $breadcrumbs->addItem("Reserva", $this->get("router")->generate("cupo_list"));
+        $breadcrumbs->addItem("Nueva reserva");
         
-        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("cupo_new"));
-        
-        $breadcrumbs->addItem("pruebita", $this->get("router")->generate("cupo_new"));
-        $breadcrumbs->addItem("prueba");
-        
-        $form   = $this->createForm(new CupoType(array('user' => $id)), $entity);
-        
+        $form   = $this->createForm(new CupoType(array('user' => $id)), $entity);       
         $afiliacion = new Afiliacion();
         
         $form_afil = $this->createForm(new AfiliacionType(), $afiliacion);
@@ -75,15 +76,14 @@ class CupoController extends Controller
         $em->persist($cupo);
         $em->flush();
     
-        $this->get('session')->setFlash('info', 'La reserva ha sido creada éxitosamente.');
+        $this->get('session')->setFlash('ok', 'La reserva ha sido creada éxitosamente.');
     
         return $this->redirect($this->generateUrl('cupo_show', array('id' => $cupo->getId())));
     }
 
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $cupo = $em->getRepository('AgendaBundle:Cupo')->find($id);
     
         if (!$cupo) {
@@ -91,6 +91,11 @@ class CupoController extends Controller
         }
         
         $usuario = $em->getRepository('UsuarioBundle:Usuario')->find($cupo->getRegistra());
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Reserva", $this->get("router")->generate("cupo_list"));
+        $breadcrumbs->addItem("Detalle reserva");
                     
         return $this->render('AgendaBundle:Cupo:show.html.twig', array(
                 'cupo'  => $cupo,
@@ -111,6 +116,12 @@ class CupoController extends Controller
         $id=$user->getId();
 
         $editForm = $this->createForm(new CupoType(array('user' => $id)));
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Reserva", $this->get("router")->generate("cupo_list"));
+        $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("cupo_show",array("id" => $id)));
+        $breadcrumbs->addItem("Modificar reserva");
 
         return $this->render('AgendaBundle:Cupo:edit.html.twig', array(
                 'entity'      => $entity,
@@ -173,7 +184,7 @@ class CupoController extends Controller
             $em->flush();
         }
         
-        $this->get('session')->setFlash('info', 'La información de la reserva ha sido modificada éxitosamente.');
+        $this->get('session')->setFlash('ok', 'La reserva ha sido modificada éxitosamente.');
     
         return $this->redirect($this->generateUrl('cupo_show', array('id' => $cupo->getId())));
         
@@ -182,10 +193,8 @@ class CupoController extends Controller
     public function deleteAction()
     {    	
     	$request = $this->get('request');
-    	$cupo=$request->request->get('cupo');
-    	    	    	
-    	$em = $this->getDoctrine()->getEntityManager();
-    
+    	$cupo=$request->request->get('cupo');    	    	    	
+    	$em = $this->getDoctrine()->getEntityManager();    
     	$cupo = $em->getRepository('AgendaBundle:Cupo')->find($cupo);
     
     	if (!$cupo) {
@@ -214,6 +223,10 @@ class CupoController extends Controller
 
     public function searchAction()
     {
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+    	$breadcrumbs->addItem("Reserva", $this->get("router")->generate("cupo_list"));
+    	$breadcrumbs->addItem("Buscar");
     
     	return $this->render('AgendaBundle:Cupo:search.html.twig');
     }

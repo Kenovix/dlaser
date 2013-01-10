@@ -32,8 +32,8 @@ class AfiliacionController extends Controller
             $afiliacion = $em->getRepository('ParametrizarBundle:Afiliacion')->findBy(array('cliente' => $entity->getCliente()->getId(), 'paciente' => $paciente->getId()));
             
             if($afiliacion){
-                $this->get('session')->setFlash('info', 'La asociación ya existe.');
-                
+            	
+                $this->get('session')->setFlash('info', 'La asociación ya existe.');                
                 return $this->redirect($this->generateUrl('paciente_show', array("id" => $paciente->getId())));
             }
             
@@ -41,9 +41,7 @@ class AfiliacionController extends Controller
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'La asociación ha sido registrada éxitosamente.');
-    
-    
+            $this->get('session')->setFlash('ok', 'La asociación ha sido registrada éxitosamente.');    
             return $this->redirect($this->generateUrl('paciente_show', array("id" => $paciente->getId())));
     
         }
@@ -69,8 +67,7 @@ class AfiliacionController extends Controller
             $em->remove($entity);
             $em->flush();
 
-            $this->get('session')->setFlash('info', 'La asociación ha sido eliminada éxitosamente.');
-    
+            $this->get('session')->setFlash('ok', 'La asociación ha sido eliminada éxitosamente.');    
             return $this->redirect($this->generateUrl('paciente_show', array("id" => $paciente)));
     }
     

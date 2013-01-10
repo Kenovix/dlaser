@@ -28,9 +28,9 @@ class Actividad
     /**
      * @var integer $precio
      * 
-     * @ORM\Column(name="precio", type="integer", nullable=true)
-     * @Assert\Min(limit = "1", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n��mero v��lido")
-     * @Assert\Max(limit = "9999999", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n��mero v��lido")
+     * @ORM\Column(name="precio", type="integer", nullable=false)
+     * @Assert\Min(limit = "99", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
+     * @Assert\Max(limit = "9999999", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
      */
     private $precio;
     
@@ -38,7 +38,7 @@ class Actividad
      * @var string $estado
      * 
      * @ORM\Column(name="estado", type="string", nullable=false)
-     * @Assert\Choice(choices = {"I", "A"}, message = "Selecciona una opci��n valida.")
+     * @Assert\Choice(choices = {"I", "A"}, message = "Selecciona una opción valida.")
      */
     private $estado;
 

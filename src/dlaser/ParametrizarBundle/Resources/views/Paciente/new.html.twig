@@ -1,6 +1,29 @@
-{% extends "ParametrizarBundle::auxLayout.html.twig" %}
+{% extends "AdminBundle::admin_layout.html.twig" %}
 
-{% block titulo %}<br />Nuevo paciente{% endblock %}
+{% block menu %}
+	{{ knp_menu_render('AdminBundle:Builder:adminMenu') }}
+{% endblock %}
+
+{% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
+
+{% block titulo %}Nuevo paciente{% endblock %}
+
+{% block msg %}
+	{% if app.session.flash('ok') %}
+	    <div class="success">
+	        <span>{{ app.session.flash('ok') }}</span>
+	    </div>
+	{% elseif app.session.flash('info') %}
+		<div class="info">
+	        <span>{{ app.session.flash('info') }}</span>
+	    </div>
+	{% elseif app.session.flash('error') %}
+		<div class="error">
+	        <span>{{ app.session.flash('error') }}</span>
+	    </div>
+	{% endif %}
+{% endblock %}
+
 
 {% block cuerpo %}
 <form action="{{ path('paciente_save') }}" method="post" {{ form_enctype(form) }}>
@@ -18,7 +41,7 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/cahis/js/jquery.chained.remote.js') }}"></script>
+    <script src="{{ asset('bundles/dlaser/js/jquery.chained.remote.js') }}"></script>
     
     <script type="text/javascript" charset="utf-8">
     	$(function() {    

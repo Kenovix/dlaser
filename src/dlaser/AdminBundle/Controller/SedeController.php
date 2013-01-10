@@ -15,6 +15,18 @@ class SedeController extends Controller
     {
         $entity = new Sede();
         $form   = $this->createForm(new SedeType(), $entity);
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $empresa = $em->getRepository('ParametrizarBundle:Empresa')->find($id);
+        
+        if (!$empresa) {
+        	throw $this->createNotFoundException('La empresa solicitada no esta disponible.');
+        }
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Detalle ".$empresa->getNombre(), $this->get("router")->generate("empresa_show", array("id" => $empresa->getId())));        
+        $breadcrumbs->addItem("Sede Nueva");
 
         return $this->render('AdminBundle:Sede:new.html.twig', array(
             'entity' => $entity,
@@ -45,7 +57,7 @@ class SedeController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            $this->get('session')->setFlash('info', 'La información de la sede ha sido registrada éxitosamente.');
+            $this->get('session')->setFlash('ok', 'La sede ha sido creada éxitosamente.');  
         
             return $this->redirect($this->generateUrl('empresa_show', array("id" => $id)));
         
@@ -60,15 +72,18 @@ class SedeController extends Controller
     
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
-        $sede = $em->getRepository('ParametrizarBundle:Sede')->find($id);
-        
-        $empresa = $sede->getEmpresa();
+        $em = $this->getDoctrine()->getEntityManager();    
+        $sede = $em->getRepository('ParametrizarBundle:Sede')->find($id);       
     
         if (!$sede) {
             throw $this->createNotFoundException('La sede solicitada no esta disponible.');
         }
+        $empresa = $sede->getEmpresa();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Detalle ".$empresa->getNombre(), $this->get("router")->generate("empresa_show", array("id" => $empresa->getId())));
+        $breadcrumbs->addItem("Detalle ".$sede->getNombre());
     
         return $this->render('AdminBundle:Sede:show.html.twig', array(
                 'entity'  => $sede,
@@ -78,19 +93,25 @@ class SedeController extends Controller
     
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getEntityManager();    
+        $sede = $em->getRepository('ParametrizarBundle:Sede')->find($id);
     
-        $entity = $em->getRepository('ParametrizarBundle:Sede')->find($id);
-    
-        if (!$entity) {
+        if (!$sede) {
             throw $this->createNotFoundException('La sede solicitada no existe');
-        }
-    
-        $editForm = $this->createForm(new SedeType(), $entity);
+        }    
+        $empresa = $sede->getEmpresa();
+        
+        $editForm = $this->createForm(new SedeType(), $sede);
         $deleteForm = $this->createDeleteForm($id);
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Detalle ".$empresa->getNombre(), $this->get("router")->generate("empresa_show", array("id" => $empresa->getId())));
+        $breadcrumbs->addItem("Detalle ", $this->get("router")->generate("sede_show", array("id" => $sede->getId())));
+        $breadcrumbs->addItem("Modificar ".$sede->getNombre());
     
         return $this->render('AdminBundle:Sede:edit.html.twig', array(
-                'entity'      => $entity,
+                'entity'      => $sede,
                 'edit_form'   => $editForm->createView(),
                 'delete_form' => $deleteForm->createView(),
         ));
@@ -98,8 +119,7 @@ class SedeController extends Controller
     
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $entity = $em->getRepository('ParametrizarBundle:Sede')->find($id);
     
         if (!$entity) {
@@ -109,8 +129,7 @@ class SedeController extends Controller
         $editForm   = $this->createForm(new SedeType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
     
-        $request = $this->getRequest();
-    
+        $request = $this->getRequest();    
         $editForm->bindRequest($request);
     
         if ($editForm->isValid()) {
@@ -118,8 +137,7 @@ class SedeController extends Controller
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'La información de la sede ha sido modificada éxitosamente.');
-    
+            $this->get('session')->setFlash('ok', 'La sede ha sido modificada éxitosamente.');    
             return $this->redirect($this->generateUrl('sede_edit', array('id' => $id)));
         }
     
@@ -150,8 +168,7 @@ class SedeController extends Controller
             $em->remove($entity);
             $em->flush();
             
-            $this->get('session')->setFlash('info', 'La información de la sede ha sido eliminada éxitosamente.');
-            
+            $this->get('session')->setFlash('ok', 'La sede ha sido eliminada éxitosamente.');            
             return $this->redirect($this->generateUrl('empresa_show', array('id' => $empresa)));
         }
         
