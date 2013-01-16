@@ -1,6 +1,8 @@
 <?php
 
-namespace dlaser\AdminBundle\Controller;;
+namespace dlaser\AdminBundle\Controller;use dlaser\ParametrizarBundle\Entity\Cargo;
+
+;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use dlaser\ParametrizarBundle\Entity\Cliente;
@@ -14,6 +16,21 @@ class ActividadController extends Controller
     {
         $entity = new Actividad();
         $form   = $this->createForm(new ActividadType(), $entity);
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $contrato = $em->getRepository('ParametrizarBundle:Contrato')->find(array('id' => $id));
+        
+        if (!$contrato) {
+        	throw $this->createNotFoundException('El contrato solicitado no existe.');
+        }
+        $cliente = $contrato->getCliente();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
+        $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
+        $breadcrumbs->addItem("Nueva atividad ");
     
         return $this->render('AdminBundle:Actividad:new.html.twig', array(
                 'entity' => $entity,
@@ -24,8 +41,7 @@ class ActividadController extends Controller
     
     public function saveAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        
+        $em = $this->getDoctrine()->getEntityManager();        
         $contrato = $em->getRepository('ParametrizarBundle:Contrato')->find($id);
         
         if (!$contrato) {
@@ -42,8 +58,17 @@ class ActividadController extends Controller
             $actividad = $em->getRepository('ParametrizarBundle:Actividad')->findBy(array('contrato' => $contrato->getId(), 'cargo' => $entity->getCargo()->getId()));
             
             if($actividad){
-                $this->get('session')->setFlash('info', 'La actividad ya se encuentra contratada.');
+                $this->get('session')->setFlash('error', 'La actividad ya se encuentra contratada.');
 
+                $cliente = $contrato->getCliente();
+                
+                $breadcrumbs = $this->get("white_october_breadcrumbs");
+                $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+                $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+                $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
+                $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
+                $breadcrumbs->addItem("Nueva atividad ");
+                
                 return $this->render('AdminBundle:Actividad:new.html.twig', array(
                         'entity' => $entity,
                         'id'    => $id,
@@ -55,8 +80,7 @@ class ActividadController extends Controller
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'La actividad ha sido creado éxitosamente.');    
-    
+            $this->get('session')->setFlash('ok', 'La actividad ha sido creado éxitosamente.');      
             return $this->redirect($this->generateUrl('actividad_show', array("contrato" => $id, "cargo" => $entity->getCargo()->getId())));
     
         }
@@ -77,13 +101,23 @@ class ActividadController extends Controller
         $query->setParameters(array(
                 'contrato' => $contrato,
                 'cargo' => $cargo,
-        ));
-        
+        ));        
         $actividad = $query->getSingleResult();
+        
+        
     
         if (!$actividad) {
             throw $this->createNotFoundException('La actividad solicitada no existe.');
         }
+        $contrato = $em->getRepository('ParametrizarBundle:Contrato')->find($contrato);        
+        $cliente = $contrato->getCliente();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
+        $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
+        $breadcrumbs->addItem("Detalle Actividad");
     
         return $this->render('AdminBundle:Actividad:show.html.twig', array(
                 'actividad'    => $actividad,
@@ -104,6 +138,17 @@ class ActividadController extends Controller
         if (!$actividad) {
             throw $this->createNotFoundException('La actividad solicitada no existe');
         }
+        
+        $contrato = $em->getRepository('ParametrizarBundle:Contrato')->find($contrato);
+        $cliente = $contrato->getCliente();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
+        $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
+        $breadcrumbs->addItem("Detalle",$this->get("router")->generate("actividad_show",array("contrato" => $contrato->getId(),"cargo" => $cargo)));
+        $breadcrumbs->addItem("Modificar actividad");
     
         $editForm = $this->createForm(new ActividadType(), $actividad);
     
@@ -128,10 +173,8 @@ class ActividadController extends Controller
             throw $this->createNotFoundException('La actividad solicitada no existe');
         }
     
-        $editForm   = $this->createForm(new ActividadType(), $actividad);
-    
-        $request = $this->getRequest();
-    
+        $editForm   = $this->createForm(new ActividadType(), $actividad);    
+        $request = $this->getRequest();    
         $editForm->bindRequest($request);
     
         if ($editForm->isValid()) {
@@ -139,8 +182,7 @@ class ActividadController extends Controller
             $em->persist($actividad);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'La información de la actividad ha sido modificada éxitosamente.');
-    
+            $this->get('session')->setFlash('ok', 'La actividad ha sido modificada éxitosamente.');    
             return $this->redirect($this->generateUrl('actividad_edit', array('contrato' => $contrato, 'cargo' => $cargo)));
         }
     

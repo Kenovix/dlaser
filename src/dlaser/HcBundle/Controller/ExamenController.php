@@ -30,6 +30,13 @@ class ExamenController extends Controller
 		{
 			throw $this->createNotFoundException('El examen no existe.');
 		}
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia",$this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar",$this->get("router")->generate("examen_examen"));
+		$breadcrumbs->addItem("Detalle examen");
+				
 				
 		return $this->render('HcBundle:Examen:show.html.twig', array(
 				'entity'  => $examen,
@@ -49,6 +56,11 @@ class ExamenController extends Controller
 		}		
 					
 		$examenes = $paginador->paginate($em->getRepository('HcBundle:Examen')->findAll())->getResult();
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia",$this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar examen");
 	
 		return $this->render('HcBundle:Examen:examen.html.twig', array(
 				'examenes'   => $examenes				
@@ -62,6 +74,11 @@ class ExamenController extends Controller
 	{
 		$entity = new Examen();		
 		$form   = $this->createForm(new ExamenType(), $entity);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia",$this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Nuevo examen");
 
 		return $this->render('HcBundle:Examen:new.html.twig', array(
 				'entity' => $entity,				
@@ -131,6 +148,10 @@ class ExamenController extends Controller
 			$consulta = $em->getRepository('HcBundle:Examen')->findAll();
 			$permisos = 0;
 		}
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia",$this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar examen");
 		
 		return $this->render('HcBundle:Examen:list.html.twig', array(
 				'entity' => $usuario,
@@ -195,6 +216,12 @@ class ExamenController extends Controller
 
 		$editform   = $this->createForm(new ExamenType(), $editEx);
 		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia",$this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar",$this->get("router")->generate("examen_examen"));
+		$breadcrumbs->addItem("Modificar examen");
+		
 		return $this->render('HcBundle:Examen:edit.html.twig', array(
 				'entity' => $editEx,
 				'edit_form'   => $editform->createView()
@@ -219,7 +246,7 @@ class ExamenController extends Controller
 		{
 			$em->persist($update);
 			$em->flush();
-			$this->get('session')->setFlash('info', 'El examen ha sido modificada éxitosamente.');
+			$this->get('session')->setFlash('ok', 'El examen ha sido modificada éxitosamente.');
 			return $this->redirect($this->generateUrl('examen_edit', array('id' => $id)));
 		}
 			

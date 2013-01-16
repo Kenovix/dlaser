@@ -177,6 +177,11 @@ class CtcController extends Controller
 		
 		$ctc = $em->getRepository('HcBundle:Ctc')->findOneBy(array('hc' => $hmId, 'medicamento' => $md->getId()));
 		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Nuevo CTC");
+		
+		
 		if(!$ctc){
 				
 			$entity = new Ctc();

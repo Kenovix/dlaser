@@ -26,6 +26,11 @@ class DiagnosticoController extends Controller
 		$form   = $this->createForm(new DxSearchType());
 						
 		$Cie = $paginador->paginate($em->getRepository('HcBundle:Cie')->findAll())->getResult();
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));		
+		$breadcrumbs->addItem("Listar diagnostico");
+		
 					
 		return $this->render('HcBundle:Diagnostico:listDx.html.twig', array(
 				'entities' => $Cie,		
@@ -80,6 +85,10 @@ class DiagnosticoController extends Controller
 			));
 	
 		}	
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar diagnostico");
+		
 		return $this->render('HcBundle:Diagnostico:listDx.html.twig', array(
 				'medicamento' => null,
 				'entities' => null,				
@@ -91,6 +100,11 @@ class DiagnosticoController extends Controller
 	{
 		$entity = new Cie();		
 		$form   = $this->createForm(new DiagnosticoType(), $entity);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar",$this->get("router")->generate("dx_list"));
+		$breadcrumbs->addItem("Nuevo diagnostico");
 		
 		return $this->render('HcBundle:Diagnostico:newDx.html.twig', array(
 				'entity' => $entity,				
@@ -144,6 +158,11 @@ class DiagnosticoController extends Controller
 		}
 		
 		$editform   = $this->createForm(new DiagnosticoType(), $editCie);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar",$this->get("router")->generate("dx_list"));
+		$breadcrumbs->addItem("Modificar diagnostico");
 		
 		return $this->render('HcBundle:Diagnostico:editDx.html.twig', array(
 				'entity' => $editCie,
@@ -211,6 +230,11 @@ class DiagnosticoController extends Controller
 			$consulta = $em->getRepository('HcBundle:Cie')->findAll();			
 			$permisos = 0;
 		}
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar",$this->get("router")->generate("dx_list"));
+		$breadcrumbs->addItem("Relacionar diagnostico");
 		
 		return $this->render('HcBundle:Diagnostico:userDx.html.twig', array(
 				'entity' => $usuario,

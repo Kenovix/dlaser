@@ -24,6 +24,11 @@ class MedicamentoController extends Controller
 
 		$medicamento = $em->getRepository('HcBundle:Medicamento')->findBy(array('usuario' =>$user->getId()), array('principioActivo' => 'ASC'));
 		
+				
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar medicamento");		
+		
 		return $this->render('HcBundle:Medicamento:list.html.twig', array(
 				'entities' => $medicamento,
 				'usuario' => $user,
@@ -68,6 +73,10 @@ class MedicamentoController extends Controller
 			}
 		}
 	
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Search medicamento");
+		
 		return $this->render('HcBundle:Medicamento:list.html.twig', array(
 					'usuario' => $id,
 					'form'   => $form->createView()
@@ -79,6 +88,11 @@ class MedicamentoController extends Controller
 	{
 		$entity = new Medicamento();		
 		$form   = $this->createForm(new MedicamentoType(), $entity);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));		
+		$breadcrumbs->addItem("Listar",$this->get("router")->generate("medicamento_list"));
+		$breadcrumbs->addItem("Detalle medicamento");
 	
 		return $this->render('HcBundle:Medicamento:new.html.twig', array(
 				'entity' => $entity,				
@@ -134,6 +148,11 @@ class MedicamentoController extends Controller
 	
 		$editform   = $this->createForm(new MedicamentoType(), $editMe);
 		$usuario = $editMe->getUsuario();
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar",$this->get("router")->generate("medicamento_list"));
+		$breadcrumbs->addItem("Modificar medicamento");
 	
 		return $this->render('HcBundle:Medicamento:edit.html.twig', array(
 				'entity' => $editMe,

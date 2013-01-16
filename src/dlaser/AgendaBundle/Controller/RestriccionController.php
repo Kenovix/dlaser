@@ -13,6 +13,11 @@ class RestriccionController extends Controller
     {
         $entity = new Restriccion();
         $form   = $this->createForm(new RestriccionType(), $entity);
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Detalle agenda",$this->get("router")->generate("agenda_show",array("id" => $id)));
+        $breadcrumbs->addItem("Nueva restriccion");
     
         return $this->render('AgendaBundle:Restriccion:new.html.twig', array(
                 'entity' => $entity,
@@ -42,7 +47,7 @@ class RestriccionController extends Controller
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'La restricción ha sido creada éxitosamente.');
+            $this->get('session')->setFlash('ok', 'La restricción ha sido creada éxitosamente.');
     
             return $this->redirect($this->generateUrl('agenda_show', array("id" => $agenda->getId())));
     
@@ -59,8 +64,7 @@ class RestriccionController extends Controller
     
     public function editAction($id, $agenda)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $entity = $em->getRepository('AgendaBundle:Restriccion')->find($id);
     
         if (!$entity) {
@@ -69,6 +73,11 @@ class RestriccionController extends Controller
     
         $editForm = $this->createForm(new RestriccionType(), $entity);
     
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Detalle agenda",$this->get("router")->generate("agenda_show",array("id" => $agenda)));
+        $breadcrumbs->addItem("Modificar restriccion");
+        
         return $this->render('AgendaBundle:Restriccion:edit.html.twig', array(
                 'entity'      => $entity,
                 'agenda'      => $agenda,
@@ -78,16 +87,14 @@ class RestriccionController extends Controller
     
     public function updateAction($id, $agenda)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $entity = $em->getRepository('AgendaBundle:Restriccion')->find($id);
     
         if (!$entity) {
             throw $this->createNotFoundException('La restricción solicitada no existe.');
         }
     
-        $editForm = $this->createForm(new RestriccionType(), $entity);
-    
+        $editForm = $this->createForm(new RestriccionType(), $entity);    
         $request = $this->getRequest();
     
         $editForm->bindRequest($request);
@@ -97,7 +104,7 @@ class RestriccionController extends Controller
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'La información de la restricción ha sido modificada éxitosamente.');
+            $this->get('session')->setFlash('ok', 'La  restricción ha sido modificada éxitosamente.');
     
             return $this->redirect($this->generateUrl('agenda_show', array('id' => $agenda)));
         }

@@ -30,6 +30,11 @@ class FacturaController extends Controller
         $cliente = $em->getRepository('ParametrizarBundle:Cliente')->find($reserva->getCliente());
         $valorFijo = $actividad->getPrecio();
 
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+        $breadcrumbs->addItem("Nueva admisión");
+        
         return $this->render('AdminBundle:Factura:new.html.twig', array(
             'cupo' => $reserva,
         	'cliente' => $cliente,
@@ -81,14 +86,12 @@ class FacturaController extends Controller
             $em->persist($reserva);
             $em->flush();
             
-            $this->get('session')->setFlash('info', 'La información de la admisión ha sido registrada éxitosamente.');
+            $this->get('session')->setFlash('ok', 'La admisión ha sido registrada éxitosamente.');
             
             if($entity->getCargo()->getCups()=='890202'){
             	return $this->redirect($this->generateUrl('hc_autoSave',array('id'=>$entity->getId())));
-            }            
-            
-            return $this->redirect($this->generateUrl('factura_show',array("id"=>$entity->getId())));           
-        
+            }                  
+            return $this->redirect($this->generateUrl('factura_show',array("id"=>$entity->getId())));        
         }
         
         return $this->render('AdminBundle:Factura:new.html.twig', array(
@@ -99,8 +102,22 @@ class FacturaController extends Controller
         
     }
     
+    public function searchAction()
+    {
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search");
+    	
+    	return $this->render('AdminBundle:Factura:search.html.twig');
+    }
+    
     public function buscarFacturaAction()
     {
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Buscar admisión");    	
+    	
     	return $this->render('AdminBundle:Factura:buscar_factura.html.twig');
     }
     
@@ -110,7 +127,6 @@ class FacturaController extends Controller
 
     	$parametro = $request->request->get('parametro');
     	$valor = $request->request->get('valor');
-
 
     	if(is_numeric(trim($valor)) && $valor > 0 ){
 
@@ -146,10 +162,14 @@ class FacturaController extends Controller
 		    			f.fecha DESC";
     		
     		$query = $em->createQuery($dql);
-
-    		$query->setParameter('identificacion', $valor);
-    		
+    		$query->setParameter('identificacion', $valor);    		
     		$entity = $query->getResult();
+    		
+    		$breadcrumbs = $this->get("white_october_breadcrumbs");
+    		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    		$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    		$breadcrumbs->addItem("Buscar",$this->get("router")->generate("factura_admision_search"));
+    		$breadcrumbs->addItem("Listar admisión");
     		
     		return $this->render('AdminBundle:Factura:listar_admisiones.html.twig', array(
     				'entities' => $entity
@@ -163,20 +183,27 @@ class FacturaController extends Controller
 
     public function editAction($id)
     {
-    	$em = $this->getDoctrine()->getEntityManager();
-    
+    	$em = $this->getDoctrine()->getEntityManager();    
     	$entity = $em->getRepository('ParametrizarBundle:Factura')->find($id);
     
     	if (!$entity) {
     		throw $this->createNotFoundException('La factura solicitada no existe');
     	}
-    
-    	if($this->get('security.context')->isGranted('ROLE_ADMIN')){
+    	$user = $this->get('security.context')->getToken()->getUser();
+    	    
+    	if ($user->getPerfil() == 'ROLE_AUX') {
     		$editForm = $this->createForm(new AdmisionType(), $entity);
-    	}else{
+    	}
+    	else{
     		$editForm = $this->createForm(new AdmisionAuxType(), $entity);
     	}
     
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Detalle ",$this->get("router")->generate("factura_show",array("id" => $id)));
+    	$breadcrumbs->addItem("Modificar admisión");
+    	
     	return $this->render('AdminBundle:Factura:edit.html.twig', array(
     			'entity'      => $entity,
     			'edit_form'   => $editForm->createView(),
@@ -242,12 +269,7 @@ class FacturaController extends Controller
     			'entity'      => $entity,
     			'edit_form'   => $editForm->createView(),
     	));
-    }
-    
-    public function searchAction()
-    {            
-        return $this->render('AdminBundle:Factura:search.html.twig');
-    }
+    }   
     
     public function showAction($id)
     {
@@ -260,6 +282,11 @@ class FacturaController extends Controller
             throw $this->createNotFoundException('La factura solicitada no esta disponible.');
         }
     
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+        $breadcrumbs->addItem("Detalle admisión");
+        
         return $this->render('AdminBundle:Factura:show.html.twig', array(
                 'entity'  => $factura,
                 
@@ -445,6 +472,11 @@ class FacturaController extends Controller
     		throw $this->createNotFoundException('El usuario no existe no esta identificado.'); 
     	}    	
     	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Arqueo");
+    	
     	return $this->render('AdminBundle:Factura:arqueo.html.twig', array(
     			'sedes' => $sedes,
     			'usuario' => $sedes
@@ -538,6 +570,11 @@ class FacturaController extends Controller
     	}else {
     		$plantilla = 'AdminBundle:Reporte:listado_cliente.html.twig';
     	}
+    	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Clientes");
 
     	return $this->render($plantilla, array(
     			'sedes' => $sedes,
@@ -651,11 +688,18 @@ class FacturaController extends Controller
     	
     	$entity = $query->getResult();
     	
-    	if($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+    	$user = $this->get('security.context')->getToken()->getUser();
+    	
+    	if($user->getPerfil() == 'ROLE_ADMIN') {
     		$plantilla = 'AdminBundle:Factura:actividades_cliente.html.twig';
     	}else {
     		$plantilla = 'AdminBundle:Reporte:actividades_cliente.html.twig';
     	}
+    	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Actividades");
     	    	
     	return $this->render($plantilla, array(
     			'entities' => $entity,
@@ -673,6 +717,11 @@ class FacturaController extends Controller
     	 
     	$sedes = $em->getRepository("ParametrizarBundle:Sede")->findAll();
     	$medicos = $em->getRepository("UsuarioBundle:Usuario")->findBy(array('perfil' => 'ROLE_MEDICO'), array('nombre' => 'ASC'));
+    	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Reporte medico");
     	    
     	return $this->render('AdminBundle:Reporte:listado_medico.html.twig', array(
     			'sedes' => $sedes,
@@ -789,6 +838,12 @@ class FacturaController extends Controller
     	$query->setParameter('usuario', $usuario);
     	 
     	$entity = $query->getResult();
+    	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Reporte ",$this->get("router")->generate("factura_reporte_medico"));
+    	$breadcrumbs->addItem("Actividad medico");
     
     	return $this->render('AdminBundle:Reporte:actividades_medico.html.twig', array(
     			'entities' => $entity,
@@ -1045,6 +1100,11 @@ class FacturaController extends Controller
     	$clientes = $em->getRepository("ParametrizarBundle:Cliente")->findAll();
     	
     	$plantilla = 'AdminBundle:Factura:rips.html.twig';
+    	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Buscar rips");    	
 
     	return $this->render($plantilla, array(
     			'sedes' => $sedes,
@@ -1560,6 +1620,11 @@ class FacturaController extends Controller
     	
     	$form   = $this->createForm(new FacturacionType(), $entity);
     	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Final nuevo");
+    	
     	return $this->render('AdminBundle:Factura:factura_previa.html.twig', array(
     			'valores' => $valor,
     			'cliente' => $obj_cliente,
@@ -1629,6 +1694,11 @@ class FacturaController extends Controller
     	if (!$factura) {
     		throw $this->createNotFoundException('La factura solicitada no esta disponible.');
     	}
+    	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Search", $this->get("router")->generate("factura_search"));
+    	$breadcrumbs->addItem("Factura venta");
     
     	return $this->render('AdminBundle:Factura:factura_final_show.html.twig', array(
     			'entity'  => $factura    

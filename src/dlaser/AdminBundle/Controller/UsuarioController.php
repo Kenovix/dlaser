@@ -50,6 +50,11 @@ class UsuarioController extends Controller
 	{
 		$em = $this->getDoctrine()->getEntityManager();		
 		$usuario = $em->getRepository('UsuarioBundle:Usuario')->findAll();
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));		
+		$breadcrumbs->addItem("Usuario");
+		
 		return $this->render('AdminBundle:Usuario:list.html.twig', array('entities' => $usuario)); 
 	}
 	
@@ -57,6 +62,11 @@ class UsuarioController extends Controller
 	{
 		$entity = new Usuario();
 		$form   = $this->createForm(new UsuarioType(), $entity);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+		$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+		$breadcrumbs->addItem("Nuevo");
 		
 		return $this->render('AdminBundle:Usuario:new.html.twig', array(
 				'entity' => $entity,
@@ -86,8 +96,7 @@ class UsuarioController extends Controller
 				$em->persist($entity);
 				$em->flush();
 				
-				$this->get('session')->setFlash('info','El usuario se ha registrado correctamente');
-			
+				$this->get('session')->setFlash('ok','El usuario se ha creado éxitosamente');			
 				return $this->redirect($this->generateUrl('usuario_list'));
 
 			}
@@ -110,6 +119,11 @@ class UsuarioController extends Controller
 		}
 		
 		$sedes = $usuario->getSede();
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+		$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+		$breadcrumbs->addItem("Detalle ".$usuario->getNombre());
 						
 		return $this->render('AdminBundle:Usuario:show.html.twig', array(
 				'entity'  => $usuario,
@@ -120,17 +134,22 @@ class UsuarioController extends Controller
 	public function editAction($id)
 	{
 		$em = $this->getDoctrine()->getEntityManager();		
-		$editUsuario = $em->getRepository('UsuarioBundle:Usuario')->find($id);
+		$usuario = $em->getRepository('UsuarioBundle:Usuario')->find($id);
 	  	
-		if(!$editUsuario)
+		if(!$usuario)
 		{
 			throw $this->createNotFoundException('El usuario solicitado no existe');
-		}
+		}		
+		$editform   = $this->createForm(new UsuarioType(), $usuario);
 		
-		$editform   = $this->createForm(new UsuarioType(), $editUsuario);
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+		$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+		$breadcrumbs->addItem("Detalle ", $this->get("router")->generate("usuario_show",array("id" => $usuario->getId())));
+		$breadcrumbs->addItem("Modificar ".$usuario->getNombre());
 		
 		return $this->render('AdminBundle:Usuario:edit.html.twig', array(
-				'entity' => $editUsuario,
+				'entity' => $usuario,
 				'edit_form'   => $editform->createView()
 		));
 		
@@ -170,7 +189,7 @@ class UsuarioController extends Controller
 			$em->persist($entity);
     		$em->flush();    	
     		
-    		$this->get('session')->setFlash('info', 'La información del usuario ha sido modificada éxitosamente.');    	
+    		$this->get('session')->setFlash('ok', 'El usuario ha sido modificado éxitosamente.');    	
     		return $this->redirect($this->generateUrl('usuario_edit', array('id' => $id)));
     	}
     	
@@ -205,7 +224,13 @@ class UsuarioController extends Controller
     		$consulta = $em->getRepository('ParametrizarBundle:Sede')->findAll();;
     		$permisos = 0;
     	}    	    	
-    	    	    	    	
+
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+    	$breadcrumbs->addItem("Detalle ", $this->get("router")->generate("usuario_show",array("id" => $usuario->getId())));
+    	$breadcrumbs->addItem("Permiso ".$usuario->getNombre());
+    	
     	return $this->render('AdminBundle:Usuario:newPermiso.html.twig', array(
     			'entity' => $usuario,
     			'sedes'   => $consulta,
@@ -230,6 +255,7 @@ class UsuarioController extends Controller
     		$em->flush();
 		}
 
+		$this->get('session')->setFlash('ok', 'El permiso ha sido creado éxitosamente.');
     	return $this->redirect($this->generateUrl('permiso_new', array('id' => $usuario)));    	
     }
     
@@ -246,6 +272,7 @@ class UsuarioController extends Controller
     		    		   		    	    
     	$em->flush();    	    	
     	    	
+    	$this->get('session')->setFlash('ok', 'El permiso ha sido eliminado éxitosamente.');
     	return $this->redirect($this->generateUrl('permiso_new', array('id' => $usuario)));
     }
 }

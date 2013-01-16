@@ -14,6 +14,16 @@ class ContratoController extends Controller
     {
         $entity = new Contrato();
         $form   = $this->createForm(new ContratoType(), $entity);
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $cliente = $em->getRepository('ParametrizarBundle:Cliente')->find($id);
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
+        $breadcrumbs->addItem("Nuevo contrato");
+        
     
         return $this->render('AdminBundle:Contrato:new.html.twig', array(
                 'entity' => $entity,
@@ -24,8 +34,7 @@ class ContratoController extends Controller
     
     public function saveAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-        
+        $em = $this->getDoctrine()->getEntityManager();        
         $cliente = $em->getRepository('ParametrizarBundle:Cliente')->find($id);
         
         if (!$cliente) {
@@ -43,26 +52,21 @@ class ContratoController extends Controller
             $contrato = $em->getRepository('ParametrizarBundle:Contrato')->findBy(array('cliente' => $cliente->getId(), 'sede' => $entity->getSede()->getId()));
             
             if($contrato){
-                $this->get('session')->setFlash('info', 'Ya existe un contrato con la sede seleccionada.');
-            
+            	
+                $this->get('session')->setFlash('error', 'Ya existe un contrato con la sede seleccionada.');            
                 return $this->render('AdminBundle:Contrato:new.html.twig', array(
                         'entity' => $entity,
                         'id'    => $id,
                         'form'   => $form->createView()
                 ));
-            }
-            
+            }                        
             $entity->setCliente($cliente);            
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'El contrato ha sido creado éxitosamente.');
-    
-    
-            return $this->redirect($this->generateUrl('contrato_show', array("id" => $entity->getId())));
-    
-        }
-    
+            $this->get('session')->setFlash('ok', 'El contrato ha sido creado éxitosamente.');    
+            return $this->redirect($this->generateUrl('contrato_show', array("id" => $entity->getId())));    
+        }    
         return $this->render('AdminBundle:Contrato:new.html.twig', array(
                 'entity' => $entity,
                 'id'    => $id,
@@ -74,12 +78,19 @@ class ContratoController extends Controller
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
-
         $contrato = $em->getRepository('ParametrizarBundle:Contrato')->find(array('id' => $id));
     
         if (!$contrato) {
             throw $this->createNotFoundException('El contrato solicitado no existe.');
         }
+        
+        $cliente = $contrato->getCliente();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
+        $breadcrumbs->addItem("Detalle ".$contrato->getContacto());
         
         $actividades = $em->getRepository('ParametrizarBundle:Actividad')->findBy(array('contrato' => $id));
     
@@ -91,13 +102,21 @@ class ContratoController extends Controller
     
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $contrato = $em->getRepository('ParametrizarBundle:Contrato')->find(array('id' => $id));
     
         if (!$contrato) {
             throw $this->createNotFoundException('El contrato solicitado no existe.');
         }
+        
+        $cliente = $contrato->getCliente();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
+        $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
+        $breadcrumbs->addItem("Modificar ".$contrato->getContacto());
     
         $editForm = $this->createForm(new ContratoType(), $contrato);
     
@@ -109,18 +128,15 @@ class ContratoController extends Controller
     
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $contrato = $em->getRepository('ParametrizarBundle:Contrato')->find(array('id' => $id));
     
         if (!$contrato) {
             throw $this->createNotFoundException('El contrato solicitado no existe');
         }
     
-        $editForm   = $this->createForm(new ContratoType(), $contrato);
-    
-        $request = $this->getRequest();
-    
+        $editForm   = $this->createForm(new ContratoType(), $contrato);    
+        $request = $this->getRequest();    
         $editForm->bindRequest($request);
     
         if ($editForm->isValid()) {
@@ -128,8 +144,7 @@ class ContratoController extends Controller
             $em->persist($contrato);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'La información del contrato ha sido modificada éxitosamente.');
-    
+            $this->get('session')->setFlash('ok', 'La información del contrato ha sido modificada éxitosamente.');    
             return $this->redirect($this->generateUrl('contrato_edit', array('id' => $id)));
         }
     

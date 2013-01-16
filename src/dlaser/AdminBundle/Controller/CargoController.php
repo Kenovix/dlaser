@@ -14,8 +14,11 @@ class CargoController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-
         $cargos = $em->getRepository('ParametrizarBundle:Cargo')->findAll();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cargo");
 
         return $this->render('AdminBundle:Cargo:list.html.twig', array(
                 'entities'  => $cargos
@@ -26,6 +29,11 @@ class CargoController extends Controller
     {
         $entity = new Cargo();
         $form   = $this->createForm(new CargoType(), $entity);
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));
+        $breadcrumbs->addItem("Nuevo");
     
         return $this->render('AdminBundle:Cargo:new.html.twig', array(
                 'entity' => $entity,
@@ -44,13 +52,10 @@ class CargoController extends Controller
              
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
-            $em->flush();
-    
-            $this->get('session')->setFlash('info', 'El cargo ha sido creado éxitosamente.');
-    
-    
-            return $this->redirect($this->generateUrl('cargo_show', array("id" => $entity->getId())));
-    
+            $em->flush();            
+            
+            $this->get('session')->setFlash('ok', 'El cargo ha sido creado éxitosamente.');    
+            return $this->redirect($this->generateUrl('cargo_show', array("id" => $entity->getId())));    
         }
     
         return $this->render('AdminBundle:Cargo:new.html.twig', array(
@@ -62,14 +67,17 @@ class CargoController extends Controller
     
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $cargo = $em->getRepository('ParametrizarBundle:Cargo')->find($id);
     
         if (!$cargo) {
             throw $this->createNotFoundException('El cargo solicitado no existe.');
         }
         
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));
+        $breadcrumbs->addItem("Detalle ".$cargo->getNombre());        
             
         return $this->render('AdminBundle:Cargo:show.html.twig', array(
                 'entity'  => $cargo,
@@ -78,36 +86,38 @@ class CargoController extends Controller
     
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $em = $this->getDoctrine()->getEntityManager();    
+        $cargo = $em->getRepository('ParametrizarBundle:Cargo')->find($id);
     
-        $entity = $em->getRepository('ParametrizarBundle:Cargo')->find($id);
-    
-        if (!$entity) {
+        if (!$cargo) {
             throw $this->createNotFoundException('El cargo solicitado no existe');
         }
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));
+        $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("cargo_show",array("id" => $cargo->getId())));
+        $breadcrumbs->addItem("Modificar ".$cargo->getNombre());
     
-        $editForm = $this->createForm(new CargoType(), $entity);
+        $editForm = $this->createForm(new CargoType(), $cargo);
     
         return $this->render('AdminBundle:Cargo:edit.html.twig', array(
-                'entity'      => $entity,
+                'entity'      => $cargo,
                 'edit_form'   => $editForm->createView(),
         ));
     }
     
     public function updateAction($id)
     {
-        $em = $this->getDoctrine()->getEntityManager();
-    
+        $em = $this->getDoctrine()->getEntityManager();    
         $entity = $em->getRepository('ParametrizarBundle:Cargo')->find($id);
     
         if (!$entity) {
             throw $this->createNotFoundException('El cargo solicitado no existe.');
         }
     
-        $editForm   = $this->createForm(new CargoType(), $entity);
-    
-        $request = $this->getRequest();
-    
+        $editForm   = $this->createForm(new CargoType(), $entity);    
+        $request = $this->getRequest();    
         $editForm->bindRequest($request);
     
         if ($editForm->isValid()) {
@@ -115,8 +125,7 @@ class CargoController extends Controller
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('info', 'La información del cargo ha sido modificada éxitosamente.');
-    
+            $this->get('session')->setFlash('ok', 'El cargo ha sido modificado éxitosamente.');    
             return $this->redirect($this->generateUrl('cargo_edit', array('id' => $id)));
         }
     
