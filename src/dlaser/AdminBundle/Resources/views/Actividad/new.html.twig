@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nueva empresa{% endblock %}
+{% block titulo %}Nueva actividad{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -27,6 +27,52 @@
 
 
 {% block cuerpo %}
+
+<div id="tables">
+	<table>
+		<thead>
+			<tr>
+				<th colspan='2'>Cliente</th>
+				<th colspan='2'>Contrato</th>
+				<th colspan='2'>Sede</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+                <th><strong>Nit</strong></th>
+                <td>{{ cliente.nit }}</td>
+                
+                <th><strong>Contacto</strong></th>
+                <td>{{ contrato.contacto }}</td>
+                
+                <th><strong>Nombre</strong></th>
+                <td>{{ sede.nombre }}</td>
+            </tr>
+            <tr>
+                <th><strong>Nombre</strong></th>
+                <td>{{ cliente.nombre }}</td>
+                
+                <th><strong>Cargo</strong></th>
+                <td>{{ contrato.cargo }}</td>
+                
+                <th><strong>Ciudad</strong></th>
+                <td>{{ sede.ciudad }}</td>
+            </tr>
+            <tr>
+                <th><strong>Cód eps</strong></th>
+                <td>{{ cliente.codEps }}</td>
+                
+                 <th><strong>Porcentaje</strong></th>
+                <td>{{ contrato.porcentaje }}</td>
+                
+                <th><strong>Dirección</strong></th>
+                <td>{{ sede.direccion }}</td>
+            </tr>            		
+		</tbody>
+	</table>	
+</div>
+
+
 
 <form action="{{ path('actividad_save', {'id':id}) }}" method="post" {{ form_enctype(form) }}>
     <fieldset>

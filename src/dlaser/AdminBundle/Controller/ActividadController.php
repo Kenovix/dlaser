@@ -1,9 +1,8 @@
 <?php
 
-namespace dlaser\AdminBundle\Controller;use dlaser\ParametrizarBundle\Entity\Cargo;
+namespace dlaser\AdminBundle\Controller;
 
-;
-
+use dlaser\ParametrizarBundle\Entity\Cargo;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use dlaser\ParametrizarBundle\Entity\Cliente;
 use dlaser\ParametrizarBundle\Entity\Actividad;
@@ -24,17 +23,21 @@ class ActividadController extends Controller
         	throw $this->createNotFoundException('El contrato solicitado no existe.');
         }
         $cliente = $contrato->getCliente();
+        $sede = $contrato->getSede();
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
         $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
         $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
         $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
-        $breadcrumbs->addItem("Nueva atividad ");
+        $breadcrumbs->addItem("Nueva actividad ");
     
         return $this->render('AdminBundle:Actividad:new.html.twig', array(
                 'entity' => $entity,
                 'id'    => $id,
+        		'sede' => $sede,
+        		'contrato' => $contrato,
+        		'cliente' => $cliente,
                 'form'   => $form->createView()
         ));
     }

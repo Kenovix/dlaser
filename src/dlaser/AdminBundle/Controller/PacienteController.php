@@ -7,23 +7,100 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use dlaser\ParametrizarBundle\Entity\Paciente;
 use dlaser\ParametrizarBundle\Entity\Afiliacion;
 use dlaser\AdminBundle\Form\PacienteType;
+use dlaser\AdminBundle\Form\pacienteSearchType;
 use Symfony\Component\HttpFoundation\Response;
 
 class PacienteController extends Controller
 {
 
-    public function listAction()
-    {
+    public function listAction($char)
+    {    	   	
         $em = $this->getDoctrine()->getEntityManager();
-        $pacientes = $em->getRepository('ParametrizarBundle:Paciente')->findAll();
+    	$paginador = $this->get('ideup.simple_paginator');
+    	$paginador->setItemsPerPage(15);
+    	$form   = $this->createForm(new pacienteSearchType());
+    	
+    	$dql = $em->createQuery("SELECT p FROM ParametrizarBundle:Paciente p
+						WHERE p.priNombre LIKE :nombre ORDER BY p.priNombre, p.priApellido ASC");
+    	
+    	$dql->setParameter('nombre', $char.'%');
+    	$pacientes = $paginador->paginate($respusta = $dql->getResult())->getResult();    
+    	
+    
+    	if(!$pacientes)
+    	{
+    		throw $this->createNotFoundException('La informacion solicitada no existe');
+    	}
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list"));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list",array("char" => $char)));
         
+                
         return $this->render('AdminBundle:Paciente:list.html.twig', array(
-                'entities'  => $pacientes
-        ));
+    			'entities'  => $pacientes,    			
+    			'char' => $char,
+    			'form'   => $form->createView()
+    	));
+    }
+    public function pacisearchAction()
+    {
+    	$request = $this->getRequest();
+    	$form   = $this->createForm(new pacienteSearchType());
+    	$form->bindRequest($request);
+    	 
+    	if($form->isValid())
+    	{
+    		// de acuerdo a la opcion ingresada por el usuario se establece la consulta a la base de datos
+    		 
+    		$nombre = $form->get('nombre')->getData();
+    		$option = $form->get('option')->getData();
+    
+    		 
+    		$em = $this->getDoctrine()->getEntityManager();
+    		$paginador = $this->get('ideup.simple_paginator');
+    		$paginador->setItemsPerPage(15);
+    		$form   = $this->createForm(new pacienteSearchType());
+    		 
+    		if($option == 'nombre')
+    		{
+    			$dql = $em->createQuery("SELECT p FROM ParametrizarBundle:Paciente p
+						WHERE p.priNombre LIKE :nombre ORDER BY p.priNombre, p.priApellido ASC");
+    			 
+    			$dql->setParameter('nombre', $nombre.'%');
+    			$pacientes = $paginador->paginate($respusta = $dql->getResult())->getResult();
+    
+    		}
+    		elseif($option == 'apellido')
+    		{
+    			$dql = $em->createQuery("SELECT p FROM ParametrizarBundle:Paciente p
+						WHERE p.priApellido LIKE :apellido ORDER BY p.priNombre, p.priApellido ASC");
+    			 
+    			$dql->setParameter('apellido', $nombre.'%');
+    			$pacientes = $paginador->paginate($respusta = $dql->getResult())->getResult();
+    		}
+    		else if($option == 'cedula' && is_numeric($nombre))
+    		{
+    			$dql = $em->createQuery("SELECT p FROM ParametrizarBundle:Paciente p
+						WHERE p.identificacion LIKE :cedula ORDER BY p.priNombre, p.priApellido ASC");
+    			 
+    			$dql->setParameter('cedula', $nombre.'%');
+    			$pacientes = $paginador->paginate($respusta = $dql->getResult())->getResult();
+    		}
+    		 
+    	}else{
+    		return $this->redirect($this->generateUrl('paciente_list', array("char" => 'A')));
+    	}
+    	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list",array("char" => $nombre)));
+    
+    	return $this->render('AdminBundle:Paciente:list.html.twig', array(
+    			'entities'  => $pacientes,
+    			'char' => $nombre,
+    			'form'   => $form->createView()
+    	));
     }
     
     public function newAction()
@@ -41,7 +118,7 @@ class PacienteController extends Controller
     
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list"));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list",array("char" => 'A')));
         $breadcrumbs->addItem("Nuevo");
         
         return $this->render($plantilla, array(        		
@@ -111,7 +188,7 @@ class PacienteController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list"));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list",array("char" => 'A')));
         $breadcrumbs->addItem("Detalle ".$paciente->getPriNombre());
     	
         return $this->render($plantilla, $vars);
@@ -139,7 +216,7 @@ class PacienteController extends Controller
     
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list"));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list",array("char" => 'A')));
         $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("paciente_show",array("id" => $entity->getId())));
         $breadcrumbs->addItem("Modificar ".$entity->getPriNombre());
         

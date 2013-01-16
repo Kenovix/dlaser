@@ -28,6 +28,7 @@ class ContratoController extends Controller
         return $this->render('AdminBundle:Contrato:new.html.twig', array(
                 'entity' => $entity,
                 'id'    => $id,
+        		'cliente' => $cliente,
                 'form'   => $form->createView()
         ));
     }
@@ -57,6 +58,7 @@ class ContratoController extends Controller
                 return $this->render('AdminBundle:Contrato:new.html.twig', array(
                         'entity' => $entity,
                         'id'    => $id,
+                		'cliente' => $cliente,
                         'form'   => $form->createView()
                 ));
             }                        
@@ -70,6 +72,7 @@ class ContratoController extends Controller
         return $this->render('AdminBundle:Contrato:new.html.twig', array(
                 'entity' => $entity,
                 'id'    => $id,
+        		'cliente' => $cliente,
                 'form'   => $form->createView()
         ));
     
