@@ -1,6 +1,5 @@
 <?php
-
-namespace dlaser\AdminBundle\Controller;
+namespace dlaser\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;

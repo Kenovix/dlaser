@@ -1,12 +1,23 @@
+body {
+  _background: #E6E2DF;
+  _color: #333;
+  _height: auto;
+}
+
+#contenedor {
+  background-color: #fff;
+  background-repeat: repeat-y;
+}
+
+#wrapper {
+	margin-top: 1%;
+}
+
 #pie{
 	margin-left:auto;
 	margin-right: auto;
 	width: 300px;
 	text-align: center;
-}
-
-.container_16{
-    margin-bottom: 20px;
 }
         
 }
