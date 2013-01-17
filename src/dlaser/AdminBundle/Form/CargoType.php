@@ -1,5 +1,4 @@
 <?php
-
 namespace dlaser\AdminBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
