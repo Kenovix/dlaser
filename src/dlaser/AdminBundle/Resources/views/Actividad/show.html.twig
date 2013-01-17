@@ -68,4 +68,5 @@
     
     <a href="{{ path('actividad_edit', {'contrato': actividad.contrato.id, 'cargo': actividad.cargo.id}) }}" class="button left"><span class="label">Modificar actividad</span></a>
     <a href="{{ path('contrato_show', {'id': actividad.contrato.id}) }}" class="button middle"><span class="label">Regresar al listado</span></a>
+    <a href="{{ path('actividad_new', { 'id': actividad.contrato.id }) }}" class="button left"><span class="label">Crear actividad</span></a>
 {% endblock %}

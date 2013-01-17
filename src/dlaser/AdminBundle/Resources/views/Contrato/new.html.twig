@@ -29,6 +29,28 @@
 
 {% block cuerpo %}
 
+	<table>
+		<thead>
+			<tr>
+				<th colspan='2'>Cliente</th>
+			</tr>
+		</thead>
+        <tbody>
+            <tr>
+                <th><strong>Nit</strong></th>
+                <td>{{ cliente.nit }}</td>
+            </tr>
+            <tr>
+                <th><strong>Nombre</strong></th>
+                <td>{{ cliente.nombre }}</td>
+            </tr>
+            <tr>
+                <th><strong>Código de la eps</strong></th>
+                <td>{{ cliente.codEps }}</td>
+            </tr>
+        </tbody>
+    </table>
+
 <form action="{{ path('contrato_save', {'id':id}) }}" method="post" {{ form_enctype(form) }}>
     <fieldset>
     	<legend>Datos del contrato</legend>

@@ -215,8 +215,12 @@ paciente_save:
     defaults: { _controller: AdminBundle:Paciente:save }
     
 paciente_list:
-    pattern:  /paciente/list
+    pattern:  /paciente/list/{char}
     defaults: { _controller: AdminBundle:Paciente:list }
+    
+paciente_pacisearch:
+    pattern:  /paciente/list/
+    defaults: { _controller: AdminBundle:Paciente:pacisearch }
     
 paciente_show:
     pattern:  /paciente/{id}/show
