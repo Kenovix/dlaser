@@ -28,7 +28,7 @@
 
 {% block cuerpo %}
 
-<form action="{{ path('paciente_pacisearch') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('paciente_search') }}" method="post" {{ form_enctype(form) }}>
     <fieldset>
     	<legend>Busqueda</legend>
     	{{ form_widget(form) }}

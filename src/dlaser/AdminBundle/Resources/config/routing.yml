@@ -218,7 +218,7 @@ paciente_list:
     pattern:  /paciente/list/{char}
     defaults: { _controller: AdminBundle:Paciente:list }
     
-paciente_pacisearch:
+paciente_search:
     pattern:  /paciente/list/
     defaults: { _controller: AdminBundle:Paciente:pacisearch }
     
