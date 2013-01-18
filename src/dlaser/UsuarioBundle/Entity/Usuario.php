@@ -51,7 +51,7 @@ class Usuario implements UserInterface, \Serializable
      */
     function getUsername()
     {
-        return $this->getNombre()." ".$this->getApellido();
+        return $this->getNombre();
     }
     
     /**

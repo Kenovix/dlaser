@@ -19,7 +19,7 @@
 {% block body %}
 	<section id="wrapper">
 		<div class="container_16">{% block rastro %}{% endblock %}</div>
-		<div class="container_16"><h1>{% block titulo %}{% endblock %}</h1></div>
+		<div class="container_16"><h1 id="titulo">{% block titulo %}{% endblock %}</h1></div>
 		<div class="container_16">{% block msg %}{% endblock %}</div>
 		<div class="container_16">{% block cuerpo %}{% endblock %}</div>
 	</section>
@@ -43,5 +43,9 @@
 					})
 	       	}
 	  	});
+
+		$(document).ready(function(){
+            setTimeout(function(){ $(".mensajes").fadeOut(800).fadeIn(800).fadeOut(500).fadeIn(500).slideUp(300);}, 3000);  
+        });	        
     </script>
 {% endblock %}
