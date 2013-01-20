@@ -28,11 +28,16 @@
 	line-height: 0;
 }
 
+#menu li.last
+{
+	float: right;
+}
+
 #menu a 
 {
 	float: left;
 	height: 25px;
-	padding: 0 25px;
+	padding: 0 22px;
 	color: #999;
 	text-transform: uppercase;
 	font: bold 12px/25px Arial, Helvetica;

@@ -16,7 +16,7 @@
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
-	    <div class="success">
+	    <div class="success mensajes">
 	        <span>{{ app.session.flash('ok') }}</span>
 	    </div>
 	{% elseif app.session.flash('info') %}
