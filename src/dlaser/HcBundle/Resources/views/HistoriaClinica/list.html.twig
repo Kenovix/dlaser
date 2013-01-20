@@ -85,7 +85,7 @@
         </tbody>
     </table>
     {% if factura %}    	
-	{{ simple_paginator_render('hc_paginator', null, {'routeParams' : {'id' : paciente.id}}) }}
+	   {{ simple_paginator_render('hc_paginator', null, {'routeParams' : {'id' : paciente.id}}) }}
     {% endif %}
 {% endblock %}
 

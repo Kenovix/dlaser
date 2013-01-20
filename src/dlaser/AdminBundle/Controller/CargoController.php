@@ -14,11 +14,17 @@ class CargoController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $cargos = $em->getRepository('ParametrizarBundle:Cargo')->findAll();
+
+        $paginador = $this->get('ideup.simple_paginator');
+        $paginador->setItemsPerPage(20);
         
+        $dql = $em->createQuery('SELECT c FROM ParametrizarBundle:Cargo c ORDER BY c.nombre ASC');
+        $cargos = $paginador->paginate($dql->getResult())->getResult();
+                
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cargo");
+        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));
+        $breadcrumbs->addItem("Listar");
 
         return $this->render('AdminBundle:Cargo:list.html.twig', array(
                 'entities'  => $cargos
@@ -32,7 +38,7 @@ class CargoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));
+        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));        
         $breadcrumbs->addItem("Nuevo");
     
         return $this->render('AdminBundle:Cargo:new.html.twig', array(
@@ -76,7 +82,7 @@ class CargoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));
+        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));        
         $breadcrumbs->addItem("Detalle ".$cargo->getNombre());        
             
         return $this->render('AdminBundle:Cargo:show.html.twig', array(
@@ -95,7 +101,7 @@ class CargoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));
+        $breadcrumbs->addItem("Cargo", $this->get("router")->generate("cargo_list"));        
         $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("cargo_show",array("id" => $cargo->getId())));
         $breadcrumbs->addItem("Modificar ".$cargo->getNombre());
     

@@ -129,7 +129,7 @@ hc_list:
     defaults: { _controller: HcBundle:Hc:list }
     
 hc_paginator:
-    pattern:  /{id}/paginator
+    pattern:  /{id}/list
     defaults: { _controller: HcBundle:Hc:paginator }
     
 hc_imprime:
@@ -145,7 +145,7 @@ examen_examen:
     defaults: { _controller: HcBundle:Examen:examen }
         
 examen_new:
-    pattern:  /examen/new
+    pattern:  /examen/nuevo
     defaults: { _controller: HcBundle:Examen:new }
     
 examen_save:
@@ -277,10 +277,6 @@ ctc_update:
 ctc_list:
     pattern:  /ctc/{id}/list
     defaults: { _controller: HcBundle:Ctc:list }  
-    
-ctc_OList:
-    pattern:  /ctc/{id}/OList
-    defaults: { _controller: HcBundle:Ctc:OList }  
     
 ctc_search:
     pattern:  /ctc/search

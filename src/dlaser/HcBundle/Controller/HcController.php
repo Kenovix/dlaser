@@ -501,6 +501,7 @@ class HcController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
 		$breadcrumbs->addItem("Modificar HC");
 		
 		
@@ -673,6 +674,11 @@ class HcController extends Controller
 		
 		$examenes = $usuario->getExamen();
 		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Modificar HC");
+		
 		return $this->render('HcBundle:HistoriaClinica:edit.html.twig', array(
 				'entity' => $hc,
 				'medicamentos' => $medicamento,
@@ -701,7 +707,8 @@ class HcController extends Controller
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-		$breadcrumbs->addItem("Search");
+		$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Buscar");
 
 			return $this->render('HcBundle:HistoriaClinica:search.html.twig', array(
 					'form'   => $form->createView()
@@ -719,6 +726,7 @@ class HcController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
 		$breadcrumbs->addItem("Listar");
 		
 		if($form->isValid())
@@ -729,11 +737,20 @@ class HcController extends Controller
 			$em = $this->getDoctrine()->getEntityManager();
 			
 			$dql = $em->createQuery("SELECT p.id FROM ParametrizarBundle:Paciente p WHERE p.identificacion = :id");
-			$dql->setParameter('id', $idP);			
-			$identifi = $dql->getSingleResult();
+			$dql->setParameter('id', $idP);
+			$identifi = $dql->getResult();
+			
+			
+			if(!$identifi)
+			{
+				throw $this->createNotFoundException('Verifique que la cedula del paciente este correcta.');
+			}else{
+				$identifi = $dql->getSingleResult();
+			}
 							
 			$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($identifi['id']);
-						
+			
+									
 			$dql = $em->createQuery("SELECT hc FROM HcBundle:Hc hc JOIN hc.factura f JOIN f.paciente p
 					WHERE f.estado = 'I' AND  p.identificacion = :id AND p.tipoId = :tipo ORDER BY hc.fecha DESC");				
 		
@@ -743,8 +760,7 @@ class HcController extends Controller
 					
 			if(!$HC)
 			{
-				$this->get('session')->setFlash('info',
-						'¡Enhorabuena! No hay informacion disponible');
+				$this->get('session')->setFlash('error','No hay informacion disponible');
 				
 				return $this->render('HcBundle:HistoriaClinica:list.html.twig', array(
 					'factura' => $HC,
@@ -777,34 +793,33 @@ class HcController extends Controller
 		
 		$form   = $this->createForm(new searchType());
 		
-		$user = $this->get('security.context')->getToken()->getUser();
-		$rolle = 'ROLE_MEDICO';//$user->getPerfil();
-		
 			$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($id);
 				
-			$dql = $em->createQuery("SELECT hc FROM HcBundle:Hc hc JOIN hc.factura f
-					WHERE f.estado = 'R' AND f.id IN (SELECT F FROM ParametrizarBundle:Factura F JOIN F.paciente p
-					WHERE p.id IN (SELECT P FROM ParametrizarBundle:Paciente P WHERE P.id = :id )) ORDER BY hc.fecha DESC");
-				
-			$dql->setParameter('id', $id);			
+			$dql = $em->createQuery("SELECT hc FROM HcBundle:Hc hc JOIN hc.factura f JOIN f.paciente p
+					WHERE f.estado = 'I' AND  p.id = :id ORDER BY hc.fecha DESC");	
+										
+			$dql->setParameter('id', $paciente->getId());			
 			$HC = $paginador->paginate($dql->getResult())->getResult();
-		
+			
+			$breadcrumbs = $this->get("white_october_breadcrumbs");
+			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+			$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
+			$breadcrumbs->addItem("Listar");
+								
 			if(!$HC)
 			{
-				$this->get('session')->setFlash('info','No hay informacion disponible');
+				$this->get('session')->setFlash('warning','No hay informacion disponible');
 		
 				return $this->render('HcBundle:HistoriaClinica:list.html.twig', array(
 						'factura' => $HC,
-						'paciente' => $paciente,
-						'rolle' => $rolle,
+						'paciente' => $paciente,						
 						'form'   => $form->createView()
 				));		
 			}
 		
 			return $this->render('HcBundle:HistoriaClinica:list.html.twig', array(
 					'factura' => $HC,
-					'paciente' => $paciente,
-					'rolle' => $rolle,
+					'paciente' => $paciente,					
 					'form'   => $form->createView()
 			));		
 	}
@@ -834,6 +849,7 @@ class HcController extends Controller
 
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
 		$breadcrumbs->addItem("Nueva HC");
 		
 		return $this->render('HcBundle:HistoriaClinica:new.html.twig', array(								
@@ -874,6 +890,11 @@ class HcController extends Controller
 			}		
 
 					
+			$breadcrumbs = $this->get("white_october_breadcrumbs");
+			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+			$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
+			$breadcrumbs->addItem("Nueva HC");
+			
 		return $this->render('HcBundle:HistoriaClinica:new.html.twig', array(								
 				'factura' => $factura,
 				'form'   => $form->createView()

@@ -56,4 +56,8 @@
     </table>
     
     <a href="{{ path('cargo_new') }}" class="button left"><span class="label">Nuevo cargo</span></a>
+    
+    {% if entities %}
+		{{ simple_paginator_render('cargo_list', null) }}
+    {% endif %}
 {% endblock %}

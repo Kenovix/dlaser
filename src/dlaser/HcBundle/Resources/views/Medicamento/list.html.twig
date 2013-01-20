@@ -58,7 +58,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+        {% for entity in medicamentos %}
             <tr>
                 <td><a href="{{ path('medicamento_edit', {'id':entity.id}) }}">{{ loop.index }}</a></td>
                 <td>{{ entity.principioActivo }}</td>
@@ -75,4 +75,9 @@
     </table>
     
     <a href="{{ path('medicamento_new') }}" class="button left"><span class="label">Nuevo medicamento</span></a>
+    
+    {% if medicamentos %}
+		{{ simple_paginator_render('medicamento_list', null) }}
+    {% endif %}
+    
 {% endblock %}

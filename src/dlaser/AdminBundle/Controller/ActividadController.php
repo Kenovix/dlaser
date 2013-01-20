@@ -27,7 +27,7 @@ class ActividadController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Cliente Listar",$this->get("router")->generate("cliente_list"));
         $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
         $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
         $breadcrumbs->addItem("Nueva actividad ");
@@ -55,28 +55,32 @@ class ActividadController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm(new ActividadType(), $entity);
         $form->bindRequest($request);
+        
+        $cliente = $contrato->getCliente();
+        $sede = $contrato->getSede();
+        
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Cliente Listar",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
+        $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
+        $breadcrumbs->addItem("Nueva atividad ");
                     
         if ($form->isValid()) {
             
             $actividad = $em->getRepository('ParametrizarBundle:Actividad')->findBy(array('contrato' => $contrato->getId(), 'cargo' => $entity->getCargo()->getId()));
             
             if($actividad){
-                $this->get('session')->setFlash('error', 'La actividad ya se encuentra contratada.');
-
-                $cliente = $contrato->getCliente();
-                
-                $breadcrumbs = $this->get("white_october_breadcrumbs");
-                $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-                $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
-                $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
-                $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
-                $breadcrumbs->addItem("Nueva atividad ");
+                $this->get('session')->setFlash('error', 'La actividad ya se encuentra contratada.');              
                 
                 return $this->render('AdminBundle:Actividad:new.html.twig', array(
-                        'entity' => $entity,
-                        'id'    => $id,
-                        'form'   => $form->createView()
-                ));
+	                'entity' => $entity,
+	                'id'    => $id,
+	        		'sede' => $sede,
+	        		'contrato' => $contrato,
+	        		'cliente' => $cliente,
+	                'form'   => $form->createView()
+        		));
             }
 
             $entity->setContrato($contrato);
@@ -88,9 +92,12 @@ class ActividadController extends Controller
     
         }
     
-        return $this->render('AdminBundle:Actividad:new.html.twig', array(
+       return $this->render('AdminBundle:Actividad:new.html.twig', array(
                 'entity' => $entity,
                 'id'    => $id,
+        		'sede' => $sede,
+        		'contrato' => $contrato,
+        		'cliente' => $cliente,
                 'form'   => $form->createView()
         ));
     
@@ -117,7 +124,7 @@ class ActividadController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Cliente Listar",$this->get("router")->generate("cliente_list"));
         $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
         $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
         $breadcrumbs->addItem("Detalle Actividad");
@@ -147,7 +154,7 @@ class ActividadController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Cliente Listar",$this->get("router")->generate("cliente_list"));
         $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
         $breadcrumbs->addItem("Detalle ".$contrato->getContacto(),$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
         $breadcrumbs->addItem("Detalle",$this->get("router")->generate("actividad_show",array("contrato" => $contrato->getId(),"cargo" => $cargo)));
