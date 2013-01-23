@@ -4,6 +4,25 @@ body {
   _height: auto;
 }
 
+#logo{
+	background:url(../images/logo.png);
+	-moz-background-size:50% 100%;
+	background-size: 50% 100%;
+	background-repeat: no-repeat;
+	background-position:right center;
+	width: 60px;
+	height: 105px;
+}
+
+#banner_cliente{
+	background:url(../images/banner.png);
+	-moz-background-size:100% 65%;
+	background-size: 87% 60%;
+	background-repeat: no-repeat;
+	background-position:left center;
+	height: 105px;
+}
+
 #contenedor {
   background-color: #fff;
   background-repeat: repeat-y;
