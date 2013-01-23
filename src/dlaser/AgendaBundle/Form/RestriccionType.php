@@ -14,7 +14,7 @@ class RestriccionType extends AbstractType
         ->add('cantidad', 'integer', array('required' => false, 'attr' => array('placeholder' => 'Cantidad de actividades')))
         ->add('cargo', 'entity', array(
                 'class' => 'dlaser\\ParametrizarBundle\\Entity\\Cargo',
-                'required' => false,
+                'required' => true,
                 'empty_value' => 'Seleccione una actividad',
                 'query_builder' => function(EntityRepository $repositorio) {
                 return $repositorio->createQueryBuilder('c')
@@ -23,7 +23,7 @@ class RestriccionType extends AbstractType
         ))
         ->add('sede', 'entity', array(
                 'class' => 'dlaser\\ParametrizarBundle\\Entity\\Sede',
-                'required' => false,
+                'required' => true,
                 'empty_value' => 'Seleccione una sede',
                 'query_builder' => function(EntityRepository $repositorio) {
                 return $repositorio->createQueryBuilder('s')
@@ -32,7 +32,7 @@ class RestriccionType extends AbstractType
         ))
         ->add('cliente', 'entity', array(
                 'class' => 'dlaser\\ParametrizarBundle\\Entity\\Cliente',
-                'required' => false,
+                'required' => true,
                 'empty_value' => 'seleccione un cliente',
                 'query_builder' => function(EntityRepository $repositorio) {
                 return $repositorio->createQueryBuilder('c')

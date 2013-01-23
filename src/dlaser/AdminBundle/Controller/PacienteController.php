@@ -35,6 +35,7 @@ class PacienteController extends Controller
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
         $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list",array("char" => $char)));
+        $breadcrumbs->addItem("Listar");
         
                 
         return $this->render('AdminBundle:Paciente:list.html.twig', array(
@@ -88,13 +89,14 @@ class PacienteController extends Controller
     			$pacientes = $paginador->paginate($respusta = $dql->getResult())->getResult();
     		}
     		 
-    	}else{
+    	}else{    		
     		return $this->redirect($this->generateUrl('paciente_list', array("char" => 'A')));
     	}
     	
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
     	$breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list",array("char" => $nombre)));
+    	$breadcrumbs->addItem("Listar");
     
     	return $this->render('AdminBundle:Paciente:list.html.twig', array(
     			'entities'  => $pacientes,
@@ -188,7 +190,7 @@ class PacienteController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list",array("char" => 'A')));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_search"));        
         $breadcrumbs->addItem("Detalle ".$paciente->getPriNombre());
     	
         return $this->render($plantilla, $vars);
@@ -216,7 +218,7 @@ class PacienteController extends Controller
     
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_list",array("char" => 'A')));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_search"));        
         $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("paciente_show",array("id" => $entity->getId())));
         $breadcrumbs->addItem("Modificar ".$entity->getPriNombre());
         
@@ -257,6 +259,12 @@ class PacienteController extends Controller
         	$plantilla = 'AdminBundle:Paciente:edit.html.twig';
         } 
     
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Paciente",$this->get("router")->generate("paciente_search"));
+        $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("paciente_show",array("id" => $entity->getId())));
+        $breadcrumbs->addItem("Modificar ".$entity->getPriNombre());
+        
         return $this->render($plantilla, array(
                 'entity'      => $entity,
                 'edit_form'   => $editForm->createView(),

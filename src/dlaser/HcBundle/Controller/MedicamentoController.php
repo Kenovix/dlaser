@@ -18,19 +18,26 @@ class MedicamentoController extends Controller
 	public function listAction()
 	{
 		$em = $this->getDoctrine()->getEntityManager();
-		$form   = $this->createForm(new MedicamentoSearchType());
-		
+
+		$paginador = $this->get('ideup.simple_paginator');
+		$paginador->setItemsPerPage(15);		
+		$form   = $this->createForm(new MedicamentoSearchType());		
 		$user = $this->get('security.context')->getToken()->getUser();
 
-		$medicamento = $em->getRepository('HcBundle:Medicamento')->findBy(array('usuario' =>$user->getId()), array('principioActivo' => 'ASC'));
-		
+		$medicamento = $paginador->paginate($em->getRepository('HcBundle:Medicamento')->findBy(array('usuario' =>$user->getId()), array('principioActivo' => 'ASC')))->getResult();	
 				
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-		$breadcrumbs->addItem("Listar medicamento");		
+		$breadcrumbs->addItem("Medicamento", $this->get("router")->generate("medicamento_list"));
+		$breadcrumbs->addItem("Listar");	
+		
+		if(!$medicamento)
+		{
+			$this->get('session')->setFlash('info','No tienes medicamentos asignados.');
+		}
 		
 		return $this->render('HcBundle:Medicamento:list.html.twig', array(
-				'entities' => $medicamento,
+				'medicamentos' => $medicamento,
 				'usuario' => $user,
 				'form'   => $form->createView()
 		));
@@ -43,7 +50,13 @@ class MedicamentoController extends Controller
 		$form->bindRequest($request);
 			
 		$user = $this->get('security.context')->getToken()->getUser();
+		$medicamento=null;
 		$id = $user->getId();
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Medicamento", $this->get("router")->generate("medicamento_list"));
+		$breadcrumbs->addItem("Listar");
 		
 		if($form->isValid())
 		{
@@ -56,28 +69,14 @@ class MedicamentoController extends Controller
 			$dql->setParameter('id', $id);			
 			$dql->setParameter('nombre', $nombre.'%');
 			$medicamento = $dql->getResult();
-	
-	
+		
 			if(!$medicamento){
-				return $this->render('HcBundle:Medicamento:list.html.twig', array(
-					'medicamentos' => $medicamento,
-					'usuario' => $id,
-					'form'   => $form->createView()
-				));
-			}else{
-				return $this->render('HcBundle:Medicamento:list.html.twig', array(
-						'medicamentos' => $medicamento,
-						'usuario' => $id,
-						'form'   => $form->createView()
-				));
+				return $this->redirect($this->generateUrl('medicamento_list'));
 			}
-		}
-	
-		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-		$breadcrumbs->addItem("Search medicamento");
+		}		
 		
 		return $this->render('HcBundle:Medicamento:list.html.twig', array(
+					'medicamentos' => $medicamento,
 					'usuario' => $id,
 					'form'   => $form->createView()
 		));	
@@ -90,9 +89,9 @@ class MedicamentoController extends Controller
 		$form   = $this->createForm(new MedicamentoType(), $entity);
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));		
-		$breadcrumbs->addItem("Listar",$this->get("router")->generate("medicamento_list"));
-		$breadcrumbs->addItem("Detalle medicamento");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Medicamento", $this->get("router")->generate("medicamento_list"));
+		$breadcrumbs->addItem("Nuevo");
 	
 		return $this->render('HcBundle:Medicamento:new.html.twig', array(
 				'entity' => $entity,				
@@ -123,11 +122,15 @@ class MedicamentoController extends Controller
 			$em->persist($entity);
 			$em->flush();
 	
-			$this->get('session')->setFlash('info',
-					'¡Enhorabuena! El medicamento se ha registrado correctamente ');
-				
+			$this->get('session')->setFlash('ok','El medicamento se ha registrado correctamente ');				
 			return $this->redirect($this->generateUrl('medicamento_list',array('id'=>$id)));
+			
 		}else{
+			$breadcrumbs = $this->get("white_october_breadcrumbs");
+			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+			$breadcrumbs->addItem("Medicamento", $this->get("router")->generate("medicamento_list"));
+			$breadcrumbs->addItem("Nuevo");
+			
 			return $this->render('HcBundle:Medicamento:new.html.twig', array(
 					'entity' => $entity,					
 					'form'   => $form->createView()
@@ -151,8 +154,9 @@ class MedicamentoController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-		$breadcrumbs->addItem("Listar",$this->get("router")->generate("medicamento_list"));
-		$breadcrumbs->addItem("Modificar medicamento");
+		$breadcrumbs->addItem("Medicamento", $this->get("router")->generate("medicamento_list"));		
+		$breadcrumbs->addItem("Modificar");
+		
 	
 		return $this->render('HcBundle:Medicamento:edit.html.twig', array(
 				'entity' => $editMe,
@@ -178,9 +182,14 @@ class MedicamentoController extends Controller
 		{
 			$em->persist($update);
 			$em->flush();
-			$this->get('session')->setFlash('info', 'El medicamento ha sido modificado éxitosamente.');
+			$this->get('session')->setFlash('ok', 'El medicamento ha sido modificado éxitosamente.');
 			return $this->redirect($this->generateUrl('medicamento_edit', array('id' => $id)));
 		}
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Medicamento", $this->get("router")->generate("medicamento_list"));
+		$breadcrumbs->addItem("Modificar");
 			
 		return $this->render('HcBundle:Medicamento:edit.html.twig', array(
 				'entity'      => $update,

@@ -25,6 +25,8 @@ class SedeController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Empresa", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Listar", $this->get("router")->generate("empresa_list"));
         $breadcrumbs->addItem("Detalle ".$empresa->getNombre(), $this->get("router")->generate("empresa_show", array("id" => $empresa->getId())));        
         $breadcrumbs->addItem("Sede Nueva");
 
@@ -82,6 +84,8 @@ class SedeController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Empresa", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Listar", $this->get("router")->generate("empresa_list"));
         $breadcrumbs->addItem("Detalle ".$empresa->getNombre(), $this->get("router")->generate("empresa_show", array("id" => $empresa->getId())));
         $breadcrumbs->addItem("Detalle ".$sede->getNombre());
     
@@ -106,6 +110,8 @@ class SedeController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Empresa", $this->get("router")->generate("empresa_list"));
+        $breadcrumbs->addItem("Listar", $this->get("router")->generate("empresa_list"));
         $breadcrumbs->addItem("Detalle ".$empresa->getNombre(), $this->get("router")->generate("empresa_show", array("id" => $empresa->getId())));
         $breadcrumbs->addItem("Detalle ", $this->get("router")->generate("sede_show", array("id" => $sede->getId())));
         $breadcrumbs->addItem("Modificar ".$sede->getNombre());

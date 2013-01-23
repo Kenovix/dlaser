@@ -53,7 +53,8 @@ class UsuarioController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));		
-		$breadcrumbs->addItem("Usuario");
+		$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+		$breadcrumbs->addItem("Listar");
 		
 		return $this->render('AdminBundle:Usuario:list.html.twig', array('entities' => $usuario)); 
 	}
@@ -122,7 +123,7 @@ class UsuarioController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-		$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+		$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));		
 		$breadcrumbs->addItem("Detalle ".$usuario->getNombre());
 						
 		return $this->render('AdminBundle:Usuario:show.html.twig', array(
@@ -144,7 +145,7 @@ class UsuarioController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-		$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+		$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));		
 		$breadcrumbs->addItem("Detalle ", $this->get("router")->generate("usuario_show",array("id" => $usuario->getId())));
 		$breadcrumbs->addItem("Modificar ".$usuario->getNombre());
 		
@@ -193,6 +194,12 @@ class UsuarioController extends Controller
     		return $this->redirect($this->generateUrl('usuario_edit', array('id' => $id)));
     	}
     	
+    	$breadcrumbs = $this->get("white_october_breadcrumbs");
+    	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
+    	$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+    	$breadcrumbs->addItem("Detalle ", $this->get("router")->generate("usuario_show",array("id" => $usuario->getId())));
+    	$breadcrumbs->addItem("Modificar ".$usuario->getNombre());
+    	
     	return $this->render('AdminBundle:Usuario:edit.html.twig', array(
     			'entity'      => $entity,
     			'edit_form'   => $upForm->createView(),
@@ -214,8 +221,7 @@ class UsuarioController extends Controller
     	if($permisos){
     		
     		$dql = $em->createQuery('SELECT s FROM ParametrizarBundle:Sede s
-    				WHERE s.id NOT IN (SELECT S FROM ParametrizarBundle:Sede S JOIN S.usuario us
-    				WHERE us.id = :id AND us.id IN (SELECT u FROM UsuarioBundle:Usuario u JOIN u.sede se))');
+    				WHERE s.id NOT IN (SELECT S FROM ParametrizarBundle:Sede S JOIN S.usuario u JOIN u.sede se WHERE u.id = :id)');
     		
     		$dql->setParameter('id', $id);    		 
     		$consulta = $dql->getResult();    		
@@ -227,7 +233,7 @@ class UsuarioController extends Controller
 
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-    	$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
+    	$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));    	
     	$breadcrumbs->addItem("Detalle ", $this->get("router")->generate("usuario_show",array("id" => $usuario->getId())));
     	$breadcrumbs->addItem("Permiso ".$usuario->getNombre());
     	

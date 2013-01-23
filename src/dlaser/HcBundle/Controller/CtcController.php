@@ -39,7 +39,6 @@ class CtcController extends Controller
 	public function listAction($id)
 	{
 		$em = $this->getDoctrine()->getEntityManager();
-
 		$factura = $em->getRepository('ParametrizarBundle:Factura')->find($id);
 		
 		if(!$factura)
@@ -66,46 +65,30 @@ class CtcController extends Controller
 			
 		$ctc = $dql->getResult();
 		
+		if(!$ctc){
+			throw $this->createNotFoundException('No hay CTCs para el paciente consultado.....');
+		}
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("CTC", $this->get("router")->generate("ctc_search"));
+		$breadcrumbs->addItem("Listar");
+		
 		return $this->render('HcBundle:Ctc:list.html.twig', array(
 				'entity' => $ctc
 		));
 	}
 	
-	public function OListAction($id)
-	{
-		$em = $this->getDoctrine()->getEntityManager();
-		$paginador = $this->get('ideup.simple_paginator');
-		$paginador->setItemsPerPage(15);
-		$factura = $em->getRepository('ParametrizarBundle:Factura')->find($id);
-		
-		if(!$factura)
-		{
-			throw $this->createNotFoundException('informacion solicitada NO existe');
-		}
-		
-		$idP = $factura->getPaciente();
-		
-		$dql = $em->createQuery("SELECT ctc.id,ctc.resumenHc,ctc.posUtilizado,
-				ctc.posDosis,ctc.posTiempo,ctc.posPosologia,ctc.posRespuesta,
-				ctc.noposNota,ctc.noposEfectos,ctc.fecha, me.principioActivo, 
-				c.nombre,c.codigo
-				FROM HcBundle:Ctc ctc JOIN ctc.hc his JOIN ctc.medicamento me JOIN ctc.cie c
-				WHERE his.id IN (SELECT hc FROM HcBundle:Hc hc JOIN hc.factura f
-				WHERE f.id IN (SELECT F FROM ParametrizarBundle:Factura F JOIN F.paciente p
-				WHERE p.id = :id ))");
-		$dql->setParameter('id', $idP);
-		$ctc = $paginador->paginate($dql->getResult())->getResult();		
-						
-		return $this->render('HcBundle:Ctc:OList.html.twig', array(
-				'entity' => $ctc,
-				'factura' => $factura,
-		));
-	}
-
+	
 	public function searchAction()
 	{
 		$form   = $this->createForm(new searchType());
 	
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("CTC", $this->get("router")->generate("ctc_search"));
+		$breadcrumbs->addItem("Listar");
+		
 		return $this->render('HcBundle:Ctc:search.html.twig', array(
 				'form'   => $form->createView()
 		));
@@ -117,6 +100,11 @@ class CtcController extends Controller
 	
 		$form   = $this->createForm(new searchType());
 		$form->bindRequest($request);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("CTC", $this->get("router")->generate("ctc_search"));
+		$breadcrumbs->addItem("Listar");
 	
 		if($form->isValid())
 		{
@@ -143,6 +131,11 @@ class CtcController extends Controller
 			$dql->setParameter('tipoid', $tipoid);
 			
 			$ctc = $dql->getResult();
+			
+			if(!$ctc){
+				throw $this->createNotFoundException('No hay CTCs para el paciente consultado.');
+			}
+			
 	
 			return $this->render('HcBundle:Ctc:list.html.twig', array(
 					'entity' => $ctc
@@ -179,7 +172,8 @@ class CtcController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-		$breadcrumbs->addItem("Nuevo CTC");
+		$breadcrumbs->addItem("CTC", $this->get("router")->generate("ctc_search"));
+		$breadcrumbs->addItem("Nuevo");
 		
 		
 		if(!$ctc){
@@ -246,6 +240,12 @@ class CtcController extends Controller
 			$this->get('session')->setFlash('info','La Información se ha registrado correctamente');				
 			return $this->redirect($this->generateUrl('ctc_edit',array('id' => $entity->getId())));
 		}
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("CTC", $this->get("router")->generate("ctc_search"));
+		$breadcrumbs->addItem("Nuevo");
+		
 		return $this->render('HcBundle:Ctc:new.html.twig', array(
 				'entity' => $entity,
 				'hm' => $hcMedicamento,
@@ -270,6 +270,11 @@ class CtcController extends Controller
 		$hc = $entity->getHc()->getId();
 
 		$editform = $this->createForm(new CtcType(array('cie' => $hc)), $entity);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("CTC", $this->get("router")->generate("ctc_search"));
+		$breadcrumbs->addItem("Detalles");
 		
 		return $this->render('HcBundle:Ctc:edit.html.twig', array(
 				'entity' => $entity,
@@ -302,9 +307,14 @@ class CtcController extends Controller
 			$entity->setCie($cie);
 			$em->persist($entity);
 			$em->flush();
-			$this->get('session')->setFlash('info', 'La Información ha sido modificada éxitosamente.');
+			$this->get('session')->setFlash('ok', 'La Información ha sido modificada éxitosamente.');
 			return $this->redirect($this->generateUrl('ctc_edit', array('id' => $id)));
 		}
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("CTC", $this->get("router")->generate("ctc_search"));
+		$breadcrumbs->addItem("Detalles");
 			
 		return $this->render('HcBundle:Ctc:edit.html.twig', array(
 				'entity' => $entity,	

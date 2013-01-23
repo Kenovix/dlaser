@@ -28,9 +28,9 @@ class DiagnosticoController extends Controller
 		$Cie = $paginador->paginate($em->getRepository('HcBundle:Cie')->findAll())->getResult();
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));		
-		$breadcrumbs->addItem("Listar diagnostico");
-		
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Diagnostico",$this->get("router")->generate("dx_list"));
+		$breadcrumbs->addItem("Listar");		
 					
 		return $this->render('HcBundle:Diagnostico:listDx.html.twig', array(
 				'entities' => $Cie,		
@@ -43,6 +43,11 @@ class DiagnosticoController extends Controller
 		$request = $this->getRequest();
 		$form   = $this->createForm(new DxSearchType());
 		$form->bindRequest($request);
+		
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Diagnostico",$this->get("router")->generate("dx_list"));
+		$breadcrumbs->addItem("Listar");
 			
 		if($form->isValid())
 		{
@@ -50,7 +55,7 @@ class DiagnosticoController extends Controller
 			
 			$nombre = $form->get('nombre')->getData();
 			$option = $form->get('option')->getData();
-			
+									
 			$em = $this->getDoctrine()->getEntityManager();
 			
 			if($option == 'nombre')
@@ -68,29 +73,20 @@ class DiagnosticoController extends Controller
 				
 				$dql->setParameter('codigo', $nombre.'%');
 				$respusta = $dql->getResult();
-			}			
+			}
 		
 			if(!$respusta)
 			{
-				return $this->render('HcBundle:Diagnostico:listDx.html.twig', array(
-						'medicamento' => null,
-						'entities' => null,						
-						'form'   => $form->createView()
-				));
+				return $this->redirect($this->generateUrl('dx_list'));
 			}				
-			return $this->render('HcBundle:Diagnostico:listDx.html.twig', array(
-					'medicamento' => $respusta,
-					'entities' => null,					
+			return $this->render('HcBundle:Diagnostico:listDx.html.twig', array(					
+					'entities' => $respusta,					
 					'form'   => $form->createView()
 			));
 	
-		}	
-		$breadcrumbs = $this->get("white_october_breadcrumbs");
-		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-		$breadcrumbs->addItem("Listar diagnostico");
+		}		
 		
-		return $this->render('HcBundle:Diagnostico:listDx.html.twig', array(
-				'medicamento' => null,
+		return $this->render('HcBundle:Diagnostico:listDx.html.twig', array(				
 				'entities' => null,				
 				'form'   => $form->createView()
 		));
@@ -103,8 +99,8 @@ class DiagnosticoController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-		$breadcrumbs->addItem("Listar",$this->get("router")->generate("dx_list"));
-		$breadcrumbs->addItem("Nuevo diagnostico");
+		$breadcrumbs->addItem("Diagnostico",$this->get("router")->generate("dx_list"));		
+		$breadcrumbs->addItem("Nuevo");
 		
 		return $this->render('HcBundle:Diagnostico:newDx.html.twig', array(
 				'entity' => $entity,				
@@ -130,9 +126,7 @@ class DiagnosticoController extends Controller
 				$em->persist($entity);
 				$em->flush();
 				
-				$this->get('session')->setFlash('info',
-						'El diagnostico se ha registrado correctamente ');
-				
+				$this->get('session')->setFlash('ok','El diagnostico se ha registrado correctamente ');				
 				return $this->redirect($this->generateUrl('dx_new'));
 			}
 
@@ -161,8 +155,8 @@ class DiagnosticoController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-		$breadcrumbs->addItem("Listar",$this->get("router")->generate("dx_list"));
-		$breadcrumbs->addItem("Modificar diagnostico");
+		$breadcrumbs->addItem("Diagnostico",$this->get("router")->generate("dx_list"));		
+		$breadcrumbs->addItem("Modificar");
 		
 		return $this->render('HcBundle:Diagnostico:editDx.html.twig', array(
 				'entity' => $editCie,
@@ -190,7 +184,7 @@ class DiagnosticoController extends Controller
 		{
 			$em->persist($update);
 			$em->flush();
-			$this->get('session')->setFlash('info', 'El diagnostico ah sido modificada éxitosamente.');
+			$this->get('session')->setFlash('ok', 'El diagnostico ah sido modificada éxitosamente.');
 			return $this->redirect($this->generateUrl('dx_edit', array('id' => $id)));
 		}
 			
@@ -219,9 +213,9 @@ class DiagnosticoController extends Controller
 			
 		if($permisos){
 		
-			$dql = $em->createQuery('SELECT s FROM HcBundle:Cie s
-					WHERE s.id NOT IN (SELECT S FROM HcBundle:Cie S JOIN S.usuario us
-					WHERE us.id = :id AND us.id IN (SELECT u FROM UsuarioBundle:Usuario u JOIN u.sede se))');
+						
+			$dql = $em->createQuery('SELECT c FROM HcBundle:Cie c
+					WHERE c.id NOT IN (SELECT C FROM HcBundle:Cie C JOIN C.usuario u JOIN u.sede s WHERE u.id = :id)');
 		
 			$dql->setParameter('id', $id);
 			$consulta = $dql->getResult();
@@ -233,8 +227,8 @@ class DiagnosticoController extends Controller
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-		$breadcrumbs->addItem("Listar",$this->get("router")->generate("dx_list"));
-		$breadcrumbs->addItem("Relacionar diagnostico");
+		$breadcrumbs->addItem("Diagnostico",$this->get("router")->generate("dx_list"));
+		$breadcrumbs->addItem("Relacionar");
 		
 		return $this->render('HcBundle:Diagnostico:userDx.html.twig', array(
 				'entity' => $usuario,

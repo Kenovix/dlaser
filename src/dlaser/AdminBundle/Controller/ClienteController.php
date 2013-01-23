@@ -13,11 +13,16 @@ class ClienteController extends Controller
     public function listAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
-        $clientes = $em->getRepository('ParametrizarBundle:Cliente')->findAll();
+        $paginador = $this->get('ideup.simple_paginator');
+        $paginador->setItemsPerPage(20);
         
+        $dql = $em->createQuery('SELECT c FROM ParametrizarBundle:Cliente c ORDER BY c.nombre ASC');
+        $clientes = $paginador->paginate($dql->getResult())->getResult();
+                
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cliente");
+        $breadcrumbs->addItem("Cliente", $this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Listar");
 
         return $this->render('AdminBundle:Cliente:list.html.twig', array(
                 'entities'  => $clientes
@@ -74,7 +79,7 @@ class ClienteController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));        
         $breadcrumbs->addItem("Detalle ".$cliente->getNombre());
         
         $vars = array(
@@ -97,7 +102,7 @@ class ClienteController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));        
         $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
         $breadcrumbs->addItem("Modificar ".$cliente->getNombre());
     

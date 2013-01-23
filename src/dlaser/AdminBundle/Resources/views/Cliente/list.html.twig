@@ -53,4 +53,8 @@
     </table>
     
     <a href="{{ path('cliente_new') }}" class="button left"><span class="label">Nuevo cliente</span></a>
+    
+    {% if entities %}
+		{{ simple_paginator_render('cliente_list', null) }}
+    {% endif %}
 {% endblock %}

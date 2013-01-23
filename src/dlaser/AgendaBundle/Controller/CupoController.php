@@ -23,6 +23,7 @@ class CupoController extends Controller
     {        
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+    	$breadcrumbs->addItem("Citas", $this->get("router")->generate("cupo_list"));
     	$breadcrumbs->addItem("Reserva");
     	
         return $this->render('AgendaBundle:Cupo:list.html.twig');        
@@ -37,7 +38,7 @@ class CupoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");        
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));       
-        $breadcrumbs->addItem("Reserva", $this->get("router")->generate("cupo_list"));
+        $breadcrumbs->addItem("Citas", $this->get("router")->generate("cupo_list"));
         $breadcrumbs->addItem("Nueva reserva");
         
         $form   = $this->createForm(new CupoType(array('user' => $id)), $entity);       
@@ -94,7 +95,7 @@ class CupoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
-        $breadcrumbs->addItem("Reserva", $this->get("router")->generate("cupo_list"));
+        $breadcrumbs->addItem("Citas", $this->get("router")->generate("cupo_list"));
         $breadcrumbs->addItem("Detalle reserva");
                     
         return $this->render('AgendaBundle:Cupo:show.html.twig', array(
@@ -119,7 +120,7 @@ class CupoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
-        $breadcrumbs->addItem("Reserva", $this->get("router")->generate("cupo_list"));
+        $breadcrumbs->addItem("Citas", $this->get("router")->generate("cupo_list"));
         $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("cupo_show",array("id" => $id)));
         $breadcrumbs->addItem("Modificar reserva");
 
@@ -225,7 +226,7 @@ class CupoController extends Controller
     {
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
-    	$breadcrumbs->addItem("Reserva", $this->get("router")->generate("cupo_list"));
+    	$breadcrumbs->addItem("Citas", $this->get("router")->generate("cupo_list"));
     	$breadcrumbs->addItem("Buscar");
     
     	return $this->render('AgendaBundle:Cupo:search.html.twig');

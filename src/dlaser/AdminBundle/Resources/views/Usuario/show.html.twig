@@ -90,7 +90,7 @@
         {% for sede in sedes %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td><a href="{{ path('sede_show', {'id':sede.id}) }}">{{ sede.nombre }}</a></td>
+                <td>{{ sede.nombre }}</td>
                 <td>{{ sede.ciudad }}</td>
             </tr>
          {% else %}

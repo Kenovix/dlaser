@@ -16,8 +16,9 @@ class RestriccionController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
-        $breadcrumbs->addItem("Detalle agenda",$this->get("router")->generate("agenda_show",array("id" => $id)));
-        $breadcrumbs->addItem("Nueva restriccion");
+        $breadcrumbs->addItem("Agenda", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Detalle",$this->get("router")->generate("agenda_show",array("id" => $id)));
+        $breadcrumbs->addItem("Nueva restriccíon");
     
         return $this->render('AgendaBundle:Restriccion:new.html.twig', array(
                 'entity' => $entity,
@@ -53,6 +54,12 @@ class RestriccionController extends Controller
     
         }       
         
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Agenda", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Detalle",$this->get("router")->generate("agenda_show",array("id" => $id)));
+        $breadcrumbs->addItem("Nueva restriccíon");
+        
         return $this->render('AgendaBundle:Restriccion:new.html.twig', array(
                 'entity' => $entity,
                 'id' => $id,
@@ -75,8 +82,9 @@ class RestriccionController extends Controller
     
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
-        $breadcrumbs->addItem("Detalle agenda",$this->get("router")->generate("agenda_show",array("id" => $agenda)));
-        $breadcrumbs->addItem("Modificar restriccion");
+        $breadcrumbs->addItem("Agenda", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Detalle",$this->get("router")->generate("agenda_show",array("id" => $agenda)));
+        $breadcrumbs->addItem("Modificar restriccíon");
         
         return $this->render('AgendaBundle:Restriccion:edit.html.twig', array(
                 'entity'      => $entity,
@@ -95,8 +103,7 @@ class RestriccionController extends Controller
         }
     
         $editForm = $this->createForm(new RestriccionType(), $entity);    
-        $request = $this->getRequest();
-    
+        $request = $this->getRequest();    
         $editForm->bindRequest($request);
     
         if ($editForm->isValid()) {
@@ -104,13 +111,19 @@ class RestriccionController extends Controller
             $em->persist($entity);
             $em->flush();
     
-            $this->get('session')->setFlash('ok', 'La  restricción ha sido modificada éxitosamente.');
-    
+            $this->get('session')->setFlash('ok', 'La  restricción ha sido modificada éxitosamente.');    
             return $this->redirect($this->generateUrl('agenda_show', array('id' => $agenda)));
         }
     
-        return $this->render('AgendaBundle:Agenda:edit.html.twig', array(
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Agenda", $this->get("router")->generate("agenda_list"));
+        $breadcrumbs->addItem("Detalle",$this->get("router")->generate("agenda_show",array("id" => $agenda)));
+        $breadcrumbs->addItem("Modificar restriccíon");
+        
+        return $this->render('AgendaBundle:Restriccion:edit.html.twig', array(
                 'entity'      => $entity,
+                'agenda'      => $agenda,
                 'edit_form'   => $editForm->createView()
         ));
     }

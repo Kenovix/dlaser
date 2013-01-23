@@ -24,6 +24,7 @@ class AppKernel extends Kernel
         	new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
         	new Knp\Bundle\MenuBundle\KnpMenuBundle(),
         	new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),
+        	new JMS\Serializer\JMSSerializerBundle($this),
             new dlaser\AdminBundle\AdminBundle(),
             new dlaser\ParametrizarBundle\ParametrizarBundle(),
             new dlaser\AgendaBundle\AgendaBundle(),

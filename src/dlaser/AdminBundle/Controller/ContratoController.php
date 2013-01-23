@@ -20,7 +20,7 @@ class ContratoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Cliente Listar",$this->get("router")->generate("cliente_list"));        
         $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
         $breadcrumbs->addItem("Nuevo contrato");
         
@@ -91,7 +91,7 @@ class ContratoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Cliente Listar",$this->get("router")->generate("cliente_list"));        
         $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
         $breadcrumbs->addItem("Detalle ".$contrato->getContacto());
         
@@ -116,7 +116,7 @@ class ContratoController extends Controller
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
-        $breadcrumbs->addItem("Cliente",$this->get("router")->generate("cliente_list"));
+        $breadcrumbs->addItem("Cliente Listar",$this->get("router")->generate("cliente_list"));
         $breadcrumbs->addItem("Detalle ".$cliente->getNombre(),$this->get("router")->generate("cliente_show",array("id" => $cliente->getId())));
         $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("contrato_show",array("id" => $contrato->getId())));
         $breadcrumbs->addItem("Modificar ".$contrato->getContacto());
