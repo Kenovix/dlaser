@@ -15,7 +15,7 @@ doctrine:
         driver:   %database_driver%
         host:     %database_host%
         port:     %database_port%
-        dbname:   cahis_dev
+        dbname:   dlaser_dev
         user:     root
         password: root
         charset:  UTF8

@@ -36,7 +36,7 @@
 
 [metadata]
     git=http://github.com/schmittjoh/metadata.git
-    version=1.0.0
+    version=1.1.0
 
 [SensioFrameworkExtraBundle]
     git=http://github.com/sensio/SensioFrameworkExtraBundle.git
@@ -85,3 +85,7 @@
 [KnpMenuBundle]
     git=https://github.com/KnpLabs/KnpMenuBundle.git
     target=bundles/Knp/Bundle/MenuBundle
+    
+[JMSSerializerBundle]
+    git=git://github.com/schmittjoh/JMSSerializerBundle.git
+    target=bundles/JMS/SerializerBundle

@@ -289,3 +289,14 @@ ctc_buscar:
 ctc_imprimir:
     pattern:  /ctc/{id}/imprimir
     defaults: { _controller: HcBundle:Ctc:imprimir }
+
+    
+#****************** HC Estetica *********************#
+
+HcEstetica_new:
+    pattern:  /estetica/nueva
+    defaults: { _controller: HcBundle:HcEstetica:new }
+    
+HcEstetica_save:
+    pattern:  /estetica/{factura}/save
+    defaults: { _controller: HcBundle:HcEstetica:save}

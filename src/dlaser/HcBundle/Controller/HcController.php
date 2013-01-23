@@ -3,11 +3,8 @@
 namespace dlaser\HcBundle\Controller;
 
 use dlaser\HcBundle\Form\MedicamentoType;
-
-use dlaser\InformeBundle\Entity\Mapa;
-
 use dlaser\InformeBundle\Form\ThType;
-
+use dlaser\InformeBundle\Entity\Mapa;
 use dlaser\HcBundle\Entity\HcMedicamento;
 use dlaser\HcBundle\Entity\HcExamen;
 
@@ -439,8 +436,7 @@ class HcController extends Controller
 									ORDER BY
 										he.fecha DESC');
 			
-			$dql->setParameter('hc', $hc_ant->getId());
-			
+			$dql->setParameter('hc', $hc_ant->getId());			
 			$exaPresentados = $dql->getResult();
 			
 		}else {
@@ -791,9 +787,19 @@ class HcController extends Controller
 		$paginador = $this->get('ideup.simple_paginator');
 		$paginador->setItemsPerPage(15);
 		
-		$form   = $this->createForm(new searchType());
+		$breadcrumbs = $this->get("white_october_breadcrumbs");
+		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
+		$breadcrumbs->addItem("Listar");
 		
-			$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($id);
+				
+		$form   = $this->createForm(new searchType());		
+		$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($id);
+			
+			if(!$paciente)
+			{
+				throw $this->createNotFoundException('No hay pacientes disponibles.');
+			}
 				
 			$dql = $em->createQuery("SELECT hc FROM HcBundle:Hc hc JOIN hc.factura f JOIN f.paciente p
 					WHERE f.estado = 'I' AND  p.id = :id ORDER BY hc.fecha DESC");	
@@ -801,10 +807,7 @@ class HcController extends Controller
 			$dql->setParameter('id', $paciente->getId());			
 			$HC = $paginador->paginate($dql->getResult())->getResult();
 			
-			$breadcrumbs = $this->get("white_october_breadcrumbs");
-			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-			$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
-			$breadcrumbs->addItem("Listar");
+			
 								
 			if(!$HC)
 			{
@@ -864,15 +867,20 @@ class HcController extends Controller
 		$request = $this->getRequest();
 		$form    = $this->createForm(new HcType(), $entity);
 		
-		$em = $this->getDoctrine()->getEntityManager();				
-
+		$em = $this->getDoctrine()->getEntityManager();		
 		$form->bindRequest($request);
+		
 		
 						
 			if(!$form->isValid())
 			{
 
 				$factura = $em->getRepository('ParametrizarBundle:Factura')->find($id);
+				
+				if(!$factura)
+				{
+					throw $this->createNotFoundException('No hay facturas disponibles.');
+				}
 				
 				$entity->setFactura($factura);
 				$em->persist($entity);
