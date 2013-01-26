@@ -1,10 +1,10 @@
 [symfony]
     git=http://github.com/symfony/symfony.git
-    version=v2.0.19
+    version=v2.0.20
 
 [twig]
     git=http://github.com/fabpot/Twig.git
-    version=v1.10.3
+    version=v1.12.1
 
 [monolog]
     git=http://github.com/Seldaek/monolog.git
@@ -36,7 +36,7 @@
 
 [metadata]
     git=http://github.com/schmittjoh/metadata.git
-    version=1.1.0
+    version=1.0.0
 
 [SensioFrameworkExtraBundle]
     git=http://github.com/sensio/SensioFrameworkExtraBundle.git
@@ -47,10 +47,6 @@
     git=http://github.com/schmittjoh/JMSSecurityExtraBundle.git
     target=/bundles/JMS/SecurityExtraBundle
     version=origin/1.0.x
-    
-[JMSSerializerBundle]
-    git=git://github.com/schmittjoh/JMSSerializerBundle.git
-    target=bundles/JMS/SerializerBundle
 
 [SensioDistributionBundle]
     git=http://github.com/sensio/SensioDistributionBundle.git
@@ -88,8 +84,8 @@
 
 [KnpMenuBundle]
     git=https://github.com/KnpLabs/KnpMenuBundle.git
-    target=bundles/Knp/Bundle/MenuBundle
+    target=/bundles/Knp/Bundle/MenuBundle
     
-[JMSSerializerBundle]
-    git=git://github.com/schmittjoh/JMSSerializerBundle.git
-    target=bundles/JMS/SerializerBundle
+[IdeupSimplePaginatorBundle]
+    git=https://github.com/javiacei/IdeupSimplePaginatorBundle.git
+    target=/bundles/Ideup/SimplePaginatorBundle

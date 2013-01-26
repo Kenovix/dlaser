@@ -16,8 +16,8 @@ doctrine:
         host:     %database_host%
         port:     %database_port%
         dbname:   dlaser_dev
-        user:     root
-        password: root
+        user:     %database_user%
+        password: %database_password%
         charset:  UTF8
 
     orm:

@@ -27,7 +27,7 @@ class Sede
      *
      * @ORM\Column(name="nombre", type="string", length=80, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MinLength(limit=6, message="El valor ingresado debe tener al menos {{ limit }} caracteres.")
+     * @Assert\MinLength(limit=2, message="El valor ingresado debe tener al menos {{ limit }} caracteres.")
      */
     private $nombre;
 
@@ -37,7 +37,7 @@ class Sede
      * @ORM\Column(name="ciudad", type="string", length=60, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
      * @Assert\MinLength(limit=4, message="El valor ingresado debe tener al menos {{ limit }} caracteres.")
-     * @Assert\MaxLength(limit=60, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=60, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $ciudad;
 
