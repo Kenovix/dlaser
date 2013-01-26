@@ -29,7 +29,8 @@ class PacienteController extends Controller
     
     	if(!$pacientes)
     	{
-    		throw $this->createNotFoundException('La informacion solicitada no existe');
+    		$this->get('session')->setFlash('error', 'La informacion solicitada no existe');
+    		return $this->redirect($this->generateUrl('paciente_search'));
     	}
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");

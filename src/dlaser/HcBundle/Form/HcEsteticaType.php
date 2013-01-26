@@ -9,22 +9,22 @@ class HcEsteticaType extends AbstractType
 	public function buildForm(FormBuilder $builder, array $options)
 	{
 		$builder
-		->add('fecha', 'date', array('read_only'=>true,'required' => true))
+		->add('fecha',   			'datetime',array('read_only'=>true))
 		->add('edad_crono', 			'integer', array('label' => 'Edad Crono','attr' => array('autofocus'=>'autofocus')))
 		->add('edad_aparente', 			'integer', array('label' => 'Edad Aparente'))
+		
 		->add('piel_color', 'choice', array(
-				'choices' => array('N' => 'Normal', 'P' => 'Palida', 'R' => 'Rojiza'),
-				'multiple'=>false,
-				'expanded' => false
-				))
+				'choices' => array('N' => 'Normal', 'P' => 'Palida', 'R' => 'Rojiza')))
 		->add('piel_cutis', 'choice', array(
-				'choices' => array('S' => 'Seco', 'G' => 'Graso', 'M' => 'Mixto'),
-				'multiple'=>false,
-				'expanded' => false
-				))
+				'choices' => array('S' => 'Seco', 'G' => 'Graso', 'M' => 'Mixto')))
 		->add('piel_tacto', 'choice', array(
-				'choices' => array('LF' => 'Lisa y Fina', 'GR' => 'Gruesa y Rugosa')
-				))
+				'choices' => array('LF' => 'Lisa y Fina', 'GR' => 'Gruesa y Rugosa')))
+		->add('dentadura', 'choice', array(
+				'choices' => array('B' => 'Buena', 'R' => 'Regular', 'M' => 'Mala', 'P' => 'Protesis')))
+		->add('nutricion', 'choice', array(
+				'choices' => array('OB' => 'Obesidad', 'KG ' => 'KGS de exceso', 'DE' => 'Desnutricion')))
+		->add('kgs', 		'integer', array('label' => 'K.G.S'))
+				
 		->add('op', 'choice', array(
 				'choices' => array(
 						'aspecto_normal' => 'Aspecto normal', 'orificios_poco_visible ' => 'OrificiosPocoVisible',
@@ -52,9 +52,7 @@ class HcEsteticaType extends AbstractType
 				'multiple'=>true,
 				'expanded' => true
 		))
-		->add('dentadura', 'choice', array(
-				'choices' => array('B' => 'Buena', 'R' => 'Regular', 'M' => 'Mala', 'P' => 'Protesis')
-		))
+		
 		->add('flacidez', 'choice', array(
 				'choices' => array(
 						'nula' => 'Nula', 'mejilla ' => 'Mejilla', 'papada' => 'Papada',
@@ -71,12 +69,7 @@ class HcEsteticaType extends AbstractType
 				),
 				'multiple'=>true,
 				'expanded' => true
-		))
-		->add('nutricion', 'choice', array(
-				'choices' => array(
-						'OB' => 'Obesidad', 'KG ' => 'KGS de exceso', 'DE' => 'Desnutricion')
-		))
-		->add('medicacion', 			'textarea', array('label' => 'Medicacion'))
+		))		
 		->add('lesiones_cut', 'choice', array(
 				'choices' => array(
 						'querato_seborreica' => 'Queratosis seborreica', 'querato_acantoma ' => 'Queratosis acantoma', 'nevus ' => 'Nevus',
@@ -86,15 +79,16 @@ class HcEsteticaType extends AbstractType
 				'multiple'=>true,
 				'expanded' => true
 		))
-		->add('dx_cut', 		'textarea', array('label' => 'Diagnostico cutaneo'))
-		->add('e_uno', 			'textarea', array('label' => 'Escala uno'))
-		->add('e_dos', 			'textarea', array('label' => 'Escala dos'))
-		->add('e_tres', 		'textarea', array('label' => 'Escala tres'))
-		->add('e_cuatro', 		'textarea', array('label' => 'Escala cuatro'))
-		->add('e_cinco', 		'textarea', array('label' => 'Escala cinco'))
-		->add('e_seis', 		'textarea', array('label' => 'Escala seis'))
+		->add('medicacion', 			'textarea', array('label' => 'Medicacion'))
+		->add('dx_cut', 		'textarea', array('required' => false,'label' => 'Diagnostico cutaneo'))
+		->add('e_uno', 			'textarea', array('required' => false,'label' => 'Escala uno'))
+		->add('e_dos', 			'textarea', array('required' => false,'label' => 'Escala dos'))
+		->add('e_tres', 		'textarea', array('required' => false,'label' => 'Escala tres'))
+		->add('e_cuatro', 		'textarea', array('required' => false,'label' => 'Escala cuatro'))
+		->add('e_cinco', 		'textarea', array('required' => false,'label' => 'Escala cinco'))
+		->add('e_seis', 		'textarea', array('required' => false,'label' => 'Escala seis'))
 		
-			;		
+		;		
 	}
 	
 	public function getName()

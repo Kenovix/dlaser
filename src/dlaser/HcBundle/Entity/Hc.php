@@ -230,6 +230,13 @@ class Hc
      * })
      */
     private $factura;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="dlaser\HcBundle\Entity\HcEstetica", mappedBy="hc")
+     */
+    private $hcEstetica;
+    
+    
 
     public function __construct()
     {
@@ -815,5 +822,27 @@ class Hc
     public function getFactura()
     {
         return $this->factura;
+    }
+    
+    
+    /**
+     * Set hcEstetica
+     *
+     * @param dlaser\HcBundle\Entity\HcEstetica $hcEstetica
+     */
+    
+    public function setHcEstetica(\dlaser\HcBundle\Entity\HcEstetica $hcEstetica)
+    {
+    	$this->hcEstetica = $hcEstetica;
+    }
+    
+    /**
+     * Get hcEstetica
+     *
+     * @return dlaser\HcBundle\Entity\HcEstetica
+     */
+    public function getHcEstetica()
+    {
+    	return $this->hcEstetica;
     }
 }

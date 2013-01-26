@@ -29,7 +29,7 @@
 
 {% block cuerpo %}
 
-<form action="{{ path('HcEstetica_save', {'factura': 1}) }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('HcEstetica_save', {'hc': hc}) }}" method="post" {{ form_enctype(form) }}>
     <fieldset>
     	<legend>Datos de la estetica</legend>
     	{{ form_widget(form) }}

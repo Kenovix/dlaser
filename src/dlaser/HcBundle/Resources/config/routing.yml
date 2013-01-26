@@ -123,14 +123,14 @@ hc_update:
 hc_search:
     pattern:  /search
     defaults: { _controller: HcBundle:Hc:search }
+
+hc_paginator:
+    pattern:  /{id}/lisHc
+    defaults: { _controller: HcBundle:Hc:paginator }
     
 hc_list:
-    pattern:  /list
+    pattern:  /listHc
     defaults: { _controller: HcBundle:Hc:list }
-    
-hc_paginator:
-    pattern:  /{id}/list
-    defaults: { _controller: HcBundle:Hc:paginator }
     
 hc_imprime:
     pattern:  /imprimir/{factura}
@@ -145,23 +145,23 @@ examen_examen:
     defaults: { _controller: HcBundle:Examen:examen }
         
 examen_new:
-    pattern:  /examen/nuevo
+    pattern:  /examen/newExamn
     defaults: { _controller: HcBundle:Examen:new }
     
 examen_save:
-    pattern:  /examen/save
+    pattern:  /examen/saveExamn
     defaults: { _controller: HcBundle:Examen:save }
     
 examen_edit:
-    pattern:  /examen/{id}/edit
+    pattern:  /examen/{id}/editExamn
     defaults: { _controller: HcBundle:Examen:edit }
     
 examen_update:
-    pattern:  /examen/{id}/update
+    pattern:  /examen/{id}/updateExamn
     defaults: { _controller: HcBundle:Examen:update }
     
 examen_list:
-    pattern:  /examen/list
+    pattern:  /examen/listExamn
     defaults: { _controller: HcBundle:Examen:list }
     
 examen_userExamen:
@@ -294,9 +294,17 @@ ctc_imprimir:
 #****************** HC Estetica *********************#
 
 HcEstetica_new:
-    pattern:  /estetica/nueva
+    pattern:  /estetica/{hc}/New
     defaults: { _controller: HcBundle:HcEstetica:new }
     
 HcEstetica_save:
-    pattern:  /estetica/{factura}/save
+    pattern:  /estetica/{hc}/Save
     defaults: { _controller: HcBundle:HcEstetica:save}
+    
+HcEstetica_edit:
+    pattern:  /estetica/{hc}/Edit
+    defaults: { _controller: HcBundle:HcEstetica:edit }
+    
+HcEstetica_update:
+    pattern:  /estetica/{estetica}/Update
+    defaults: { _controller: HcBundle:HcEstetica:update }

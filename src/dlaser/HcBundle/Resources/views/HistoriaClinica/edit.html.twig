@@ -27,7 +27,7 @@
 {% block stylesheets %}
 	{{ parent() }}
 	
-	<link href="{{ asset('bundles/cahis/css/jquery-ui-1.8.23.custom.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('bundles/dlaser/css/jquery-ui-1.8.23.custom.css') }}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 
@@ -234,14 +234,7 @@
 	      		</select>
 	      		
 	      		<a id="add-ex" title="Agregar un examen">Agregar</a>
-	      		
-	      		<!-- <select id="comboExamen" name="comboExamen">
-	      			<option value="">Seleccione un combo</option>
-	       				<option value="1">Completo</option>
-	       				<option value="2">Simple</option>
-	       				<option value="3">Perfil lipidico</option>     
-	      		</select> -->
-				      
+	      						      
 				<table id="examenSolicitado">
 					<thead>
 				    	<tr>
@@ -498,14 +491,20 @@
     	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>    
     {% endif %}
 
-	<a href="{{ path('ctc_OList',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
+	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
+	
+	{% if hcEstetica %}
+		<a href="{{ path('HcEstetica_edit',{'hc':entity.id}) }}" class="button left"><span class="label">Ver Hc-Estetica</span></a>
+	{% else %}
+		<a href="{{ path('HcEstetica_new',{'hc':entity.id}) }}" class="button left"><span class="label">Nueva Hc-Estetica</span></a>
+	{% endif %}
 	
 </form>
 {% endblock %}
 
 {% block javascripts %}
 
-<script src="{{ asset('bundles/cahis/js/jquery-ui-1.8.23.custom.min.js') }}"></script>
+<script src="{{ asset('bundles/dlaser/js/jquery-ui-1.8.23.custom.min.js') }}"></script>
 
 <script type="text/javascript">
 

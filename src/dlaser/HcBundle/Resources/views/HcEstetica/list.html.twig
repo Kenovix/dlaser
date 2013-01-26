@@ -58,7 +58,6 @@
                 <th>Estatura</th>
                 <th>Obesidad</th>
                 <th>Diabetes</th>
-                <th>Hc-Estetica</th>
                 <th>Opciones</th>
             </tr>
         </thead>
@@ -76,11 +75,6 @@
                 <td>{{ entity.estatura }}</td> 
                 <td>{{ entity.obesidad }}</td>
                 <td>{{ entity.diabetes }}</td>
-                {% if entity.hcEstetica %}                	
-                	<td><a href="{{ path('HcEstetica_edit', { 'hc': entity.id }) }}" class="button left"><span class="label">Ver Hc-Estetica.</span></a></td>
-                {% else %}
-                	<td><a href="{{ path('HcEstetica_new', { 'hc': entity.id }) }}" class="button left"><span class="label">Nueva Hc-Estetica.</span></a></td>
-                {% endif %}
                 <td><a href="{{ path('hc_imprime', { 'factura': entity.factura.id }) }}" target="blank" class="button left"><span class="label">Ver info.</span></a></td>
             </tr>
          {% else %}
