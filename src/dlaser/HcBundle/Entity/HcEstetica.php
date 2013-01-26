@@ -7,13 +7,14 @@ use Symfony\Tests\Component\Translation\String;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * dlaser\HcBundle\Entity\HcEstetica
  *
- * @ORM\Table()
+ * @ORM\Table(name="hc_estetica")
  * @ORM\Entity
  */
-class HcEstetica
+class HcEstetica implements \Serializable
 {
     /**
      * @var integer $id
@@ -35,6 +36,8 @@ class HcEstetica
      * @var integer $edad_crono
      *
      * @ORM\Column(name="edad_crono", type="integer")
+     * @Assert\Min(limit = "10", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
+     * @Assert\Max(limit = "150", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
      */
     private $edad_crono;
 
@@ -42,6 +45,8 @@ class HcEstetica
      * @var integer $edad_aparente
      *
      * @ORM\Column(name="edad_aparente", type="integer")
+     * @Assert\Min(limit = "10", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
+     * @Assert\Max(limit = "150", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")     
      */
     private $edad_aparente;
 
@@ -49,6 +54,7 @@ class HcEstetica
      * @var string $piel_color
      *
      * @ORM\Column(name="piel_color", type="string", length=2)
+     * @Assert\Choice(choices = {"N", "P", "R"}, message = "Selecciona una opción valida.")
      */
     private $piel_color;
 
@@ -56,6 +62,7 @@ class HcEstetica
      * @var string $piel_cutis
      *
      * @ORM\Column(name="piel_cutis", type="string", length=2)
+     * @Assert\Choice(choices = {"S", "G", "M"}, message = "Selecciona una opción valida.")
      */
     private $piel_cutis;
 
@@ -63,6 +70,7 @@ class HcEstetica
      * @var string $piel_tacto
      *
      * @ORM\Column(name="piel_tacto", type="string", length=2)
+     * @Assert\Choice(choices = {"LF", "GR"}, message = "Selecciona una opción valida.")
      */
     private $piel_tacto;
 
@@ -91,6 +99,7 @@ class HcEstetica
      * @var string $dentadura
      *
      * @ORM\Column(name="dentadura", type="string", length=2)
+     * @Assert\Choice(choices = {"B", "R", "M", "P"}, message = "Selecciona una opción valida.")
      */
     private $dentadura;
 
@@ -112,6 +121,7 @@ class HcEstetica
      * @var string $nutricion
      *
      * @ORM\Column(name="nutricion", type="string", length=2)
+     * @Assert\Choice(choices = {"OB", "KG", "DE"}, message = "Selecciona una opción valida.")
      */
     private $nutricion;
 
@@ -119,6 +129,8 @@ class HcEstetica
      * @var integer $kgs
      *
      * @ORM\Column(name="kgs", type="integer")
+     * @Assert\Min(limit = "001", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
+     * @Assert\Max(limit = "150", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
      */
     private $kgs;
 
@@ -193,14 +205,14 @@ class HcEstetica
     private $grafico;
 
     /**
-     * @var Factura
+     * @var Hc
      *
-     * @ORM\ManyToOne(targetEntity="dlaser\ParametrizarBundle\Entity\Factura")
+     * @ORM\OneToOne(targetEntity="dlaser\HcBundle\Entity\Hc", inversedBy="hcEstetica")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="factura_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="hc_id", referencedColumnName="id" )
      * })
      */
-    private $factura;
+    private $hc;
 
 
     /**
@@ -694,22 +706,43 @@ class HcEstetica
     }
 
      /**
-     * Set factura
+     * Set hc
      *
-     * @param dlaser\ParametrizarBundle\Entity\Factura $factura
+     * @param dlaser\HcBundle\Entity\Hc $hc
      */
-    public function setFactura(\dlaser\ParametrizarBundle\Entity\Factura $factura)
+    public function setHc(\dlaser\HcBundle\Entity\Hc $hc)
     {
-        $this->factura = $factura;
+        $this->hc = $hc;
     }
 
     /**
-     * Get factura
+     * Get hc
      *
-     * @return dlaser\ParametrizarBundle\Entity\Factura 
+     * @return dlaser\HcBundle\Entity\Hc 
      */
-    public function getFactura()
+    public function getHc()
     {
-        return $this->factura;
+        return $this->hc;
     }
+    
+    public function serialize()
+    {
+    	$this->op = serialize($this->op);
+    	$this->pigmentacion = serialize($this->pigmentacion);
+    	$this->arrugas = serialize($this->arrugas);    	
+    	$this->flacidez = serialize($this->flacidez);
+    	$this->parpado = serialize($this->parpado);
+    	$this->lesiones_cut = serialize($this->lesiones_cut);
+    }
+    
+    public function unserialize($serialize)
+    {
+    	$this->op = unserialize($serialize['op']);
+    	$this->pigmentacion = unserialize($serialize['pigmentacion']);
+    	$this->arrugas = unserialize($serialize['arrugas']);    	
+    	$this->flacidez = unserialize($serialize['flacidez']);
+    	$this->parpado = unserialize($serialize['parpado']);
+    	$this->lesiones_cut = unserialize($serialize['lesiones_cut']);
+    }
+    
 }

@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo cargo{% endblock %}
+{% block titulo %}Editar informacion de la historia de estetica  {% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -26,18 +26,18 @@
 
 
 
+
 {% block cuerpo %}
 
-<form action="{{ path('cargo_save') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('HcEstetica_update', { 'estetica': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     <fieldset>
-    	<legend>Datos del cargo</legend>
-    	{{ form_widget(form) }}
+    	<legend>Datos de la historia de estetica</legend>
+    	{{ form_widget(edit_form) }}
     </fieldset>
     
     <button class="action blue" type="submit">
-        <span class="label">Crear</span>
-    </button>
-    <a href="{{ path('cargo_list') }}" class="button left"><span class="label">Regresar al listado</span></a>
-    
+        <span class="label">Modificar</span>
+    </button>    
 </form>
 {% endblock %}
+

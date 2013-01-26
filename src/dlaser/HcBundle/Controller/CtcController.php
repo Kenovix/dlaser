@@ -66,7 +66,8 @@ class CtcController extends Controller
 		$ctc = $dql->getResult();
 		
 		if(!$ctc){
-			throw $this->createNotFoundException('No hay CTCs para el paciente consultado.....');
+			$this->get('session')->setFlash('error','No hay CTCs para el paciente consultado. ');
+			return $this->redirect($this->generateUrl('hc_edit',array('id' => $factura->getId())));
 		}
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");

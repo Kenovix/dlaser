@@ -30,7 +30,7 @@ class Paciente
      * 
      * @ORM\Column(name="tipo_id", type="string", length=2, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"CC", "RC", "TI", "CE"}, message = "Selecciona una opci��n valida.")
+     * @Assert\Choice(choices = {"CC", "RC", "TI", "CE"}, message = "Selecciona una opción valida.")
      */
     private $tipoId;
 
@@ -49,7 +49,7 @@ class Paciente
      * 
      * @ORM\Column(name="pri_nombre", type="string", length=30, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $priNombre;
 
@@ -57,7 +57,7 @@ class Paciente
      * @var string $segNombre
      * 
      * @ORM\Column(name="seg_nombre", type="string", length=30, nullable=true)
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $segNombre;
 
@@ -66,7 +66,7 @@ class Paciente
      * 
      * @ORM\Column(name="pri_apellido", type="string", length=30, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $priApellido;
 
@@ -74,7 +74,7 @@ class Paciente
      * @var string $segApellido
      *
      * @ORM\Column(name="seg_apellido", type="string", length=30, nullable=true)
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $segApellido;
 
@@ -91,7 +91,7 @@ class Paciente
      * 
      * @ORM\Column(name="sexo", type="string", length=1, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Choice(choices = {"M", "F"}, message = "Selecciona una opci��n valida.")
+     * @Assert\Choice(choices = {"M", "F"}, message = "Selecciona una opción valida.")
      */
     private $sexo;
 

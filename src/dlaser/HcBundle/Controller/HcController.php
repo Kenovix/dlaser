@@ -2,23 +2,25 @@
 
 namespace dlaser\HcBundle\Controller;
 
-use dlaser\HcBundle\Form\MedicamentoType;
-use dlaser\InformeBundle\Form\ThType;
+
 use dlaser\InformeBundle\Entity\Mapa;
 use dlaser\HcBundle\Entity\HcMedicamento;
 use dlaser\HcBundle\Entity\HcExamen;
+use dlaser\ParametrizarBundle\Entity\Factura;
+use dlaser\ParametrizarBundle\Entity\Paciente;
+use dlaser\HcBundle\Entity\Hc;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-use dlaser\HcBundle\Entity\Hc;
+
+use dlaser\HcBundle\Form\MedicamentoType;
+use dlaser\InformeBundle\Form\ThType;
 use dlaser\HcBundle\Form\HcType;
 use dlaser\HcBundle\Form\searchType;
 use dlaser\HcBundle\Form\HcExamenType;
-use dlaser\ParametrizarBundle\Entity\Factura;
-use dlaser\ParametrizarBundle\Entity\Paciente;
 use dlaser\InformeBundle\Form\TeType;
 
 
@@ -264,8 +266,7 @@ class HcController extends Controller
 					}
 				}							
 
-				$this->get('session')->setFlash('info',
-						'¡Enhorabuena! La historia clinica se ha registrado correctamente ');
+				$this->get('session')->setFlash('info','La historia clinica se ha registrado correctamente ');
 				
 				return $this->redirect($this->generateUrl('factura_search'));
 			}
@@ -495,6 +496,12 @@ class HcController extends Controller
 		
 		//-------------------------------------END EXAMENES---------------------------------------------------------
 		
+		//-------------------------------------HC Estetica----------------------------------------------------------
+		
+		$hcEstetica = $em->getRepository('HcBundle:HcEstetica')->findOneBy(array('hc' => $hc->getId()));
+
+		//-------------------------------------End HC Estetica------------------------------------------------------
+		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
 		$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
 		$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_list"));
@@ -519,7 +526,8 @@ class HcController extends Controller
 				'perHcCie' => $hcCie,
 				'signos' => $signos,
 				'factura' => $factura,
-				'paciente' => $paciente,			
+				'paciente' => $paciente,
+				'hcEstetica' =>	$hcEstetica,	
 				'edit_form'   => $editform->createView(),
 				'ex_form'   => $editexform->createView(),
 				'med_form' => $medform->createView()
@@ -549,7 +557,6 @@ class HcController extends Controller
 		if ($editform->isValid()) {
 
 			$factura = $hc->getFactura();
-
 			$em->persist($hc);
 			$em->flush();
 
@@ -668,6 +675,12 @@ class HcController extends Controller
 		$exaGeneral = $em->getRepository('HcBundle:Examen')->findAll();
 		//-------------------------------------END EXAMENES---------------------------------------------------------
 		
+		//-------------------------------------HC Estetica----------------------------------------------------------
+		
+		$hcEstetica = $em->getRepository('HcBundle:HcEstetica')->findOneBy(array('hc' => $hc->getId()));
+		
+		//-------------------------------------End HC Estetica------------------------------------------------------
+		
 		$examenes = $usuario->getExamen();
 		
 		$breadcrumbs = $this->get("white_october_breadcrumbs");
@@ -687,7 +700,8 @@ class HcController extends Controller
 				'list_dx' => $list_dx,
 				'perHcCie' => $hcCie,
 				'factura' => $factura,
-				'paciente' => $paciente,			
+				'paciente' => $paciente,
+				'hcEstetica' =>	$hcEstetica,
 				'edit_form'   => $editform->createView(),
 				'ex_form'   => $editexform->createView(),
 				'med_form' => $medform->createView()
@@ -737,47 +751,49 @@ class HcController extends Controller
 			$identifi = $dql->getResult();
 			
 			
-			if(!$identifi)
+			if($identifi)
 			{
-				throw $this->createNotFoundException('Verifique que la cedula del paciente este correcta.');
+				$identifi = $dql->getSingleResult();				
+				$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($identifi['id']);
+					
+				$dql = $em->createQuery("SELECT hc 
+										 FROM HcBundle:Hc hc 
+										 JOIN hc.factura f 
+										 JOIN f.paciente p
+										 WHERE 
+											f.estado = 'I' AND  
+											p.identificacion = :id AND 
+											p.tipoId = :tipo 
+										 ORDER BY 
+											hc.fecha DESC");
+				
+				$dql->setParameter('id', $idP);
+				$dql->setParameter('tipo', $tipoid);
+				$HC = $paginador->paginate($dql->getResult())->getResult();
+				
+					
+				if($HC)
+				{						
+					return $this->render('HcBundle:HistoriaClinica:list.html.twig', array(
+							'factura' => $HC,
+							'paciente' => $paciente,
+							'form'   => $form->createView()
+					));
+				
+				}else{
+					$this->get('session')->setFlash('info','El paciente no tiene una historia clinica disponible.');
+					return $this->redirect($this->generateUrl('hc_search'));
+				}								
+				
 			}else{
-				$identifi = $dql->getSingleResult();
+				$this->get('session')->setFlash('error','Verifique que la cedula del paciente este correcta.');
+				return $this->redirect($this->generateUrl('hc_search'));
 			}
 							
-			$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($identifi['id']);
 			
-									
-			$dql = $em->createQuery("SELECT hc FROM HcBundle:Hc hc JOIN hc.factura f JOIN f.paciente p
-					WHERE f.estado = 'I' AND  p.identificacion = :id AND p.tipoId = :tipo ORDER BY hc.fecha DESC");				
-		
-			$dql->setParameter('id', $idP);
-			$dql->setParameter('tipo', $tipoid);
-			$HC = $paginador->paginate($dql->getResult())->getResult();
-					
-			if(!$HC)
-			{
-				$this->get('session')->setFlash('error','No hay informacion disponible');
-				
-				return $this->render('HcBundle:HistoriaClinica:list.html.twig', array(
-					'factura' => $HC,
-					'paciente' => $paciente,
-					'form'   => $form->createView()
-			));
-				
-			}
-		
-			return $this->render('HcBundle:HistoriaClinica:list.html.twig', array(
-					'factura' => $HC,
-					'paciente' => $paciente,
-					'form'   => $form->createView()
-			));
 		}else{
 			
-			return $this->render('HcBundle:HistoriaClinica:list.html.twig', array(
-					'factura' => null,
-					'paciente' => null,
-					'form'   => $form->createView()
-			));
+			return $this->redirect($this->generateUrl('hc_search'));
 		}
 	}
 	

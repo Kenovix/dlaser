@@ -15,6 +15,8 @@ $loader->registerNamespaces(array(
 	'Knp\Bundle' 	   => __DIR__.'/../vendor/bundles',
 	'WhiteOctober' 	   => __DIR__.'/../vendor/bundles',
 	'Knp\Menu'   	   => __DIR__.'/../vendor/KnpMenu/src',
+	'Imagine' => __DIR__.'/../vendor/imagine/lib',
+	'Avalanche' => __DIR__.'/../vendor/bundles',
     'Doctrine\\Common' => __DIR__.'/../vendor/doctrine-common/lib',
     'Doctrine\\DBAL'   => __DIR__.'/../vendor/doctrine-dbal/lib',
     'Doctrine'         => __DIR__.'/../vendor/doctrine/lib',

@@ -115,3 +115,10 @@ white_october_breadcrumbs:
     itemClass:          
     locale:             
     translation_domain: 
+    
+avalanche_imagine:
+    source_root:  %kernel.root_dir%/../web
+    web_root:     %kernel.root_dir%/../web
+    cache_prefix: media/cache
+    driver:       gd
+    filters:      []
