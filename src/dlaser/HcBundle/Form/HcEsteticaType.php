@@ -9,7 +9,7 @@ class HcEsteticaType extends AbstractType
 	public function buildForm(FormBuilder $builder, array $options)
 	{
 		$builder
-		->add('fecha',   			'datetime',array('read_only'=>true))
+		->add('fecha',   			'date',array('read_only'=>true))
 		->add('edad_crono', 			'integer', array('label' => 'Edad Crono','attr' => array('autofocus'=>'autofocus')))
 		->add('edad_aparente', 			'integer', array('label' => 'Edad Aparente'))
 		

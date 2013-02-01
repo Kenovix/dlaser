@@ -87,19 +87,26 @@ class UsuarioController extends Controller
 		{
 			$form->bindRequest($request);
 			
-			if ($form->isValid()) {
-
-			    $factory = $this->get('security.encoder_factory');
-			    $codificador = $factory->getEncoder($entity);
-			    $password = $codificador->encodePassword($entity->getPassword(), $entity->getSalt());
-			    $entity->setPassword($password);
-											
-				$em->persist($entity);
-				$em->flush();
+			if ($form->isValid()) {				
 				
-				$this->get('session')->setFlash('ok','El usuario se ha creado éxitosamente');			
-				return $this->redirect($this->generateUrl('usuario_list'));
-
+				if($form->getData()->getPassword()){
+					$factory = $this->get('security.encoder_factory');
+					$codificador = $factory->getEncoder($entity);
+					$password = $codificador->encodePassword($entity->getPassword(), $entity->getSalt());
+					$entity->setPassword($password);
+						
+					$em->persist($entity);
+					$em->flush();
+					
+					$this->get('session')->setFlash('ok','El usuario se ha creado éxitosamente');
+					return $this->redirect($this->generateUrl('usuario_list'));					
+				}else{
+					$this->get('session')->setFlash('error','El usuario debe ingresar una contraseña.');
+					return $this->render('AdminBundle:Usuario:new.html.twig', array(
+							'entity' => $entity,
+							'form'   => $form->createView()
+					));
+				}
 			}
 		}
 				
@@ -171,7 +178,7 @@ class UsuarioController extends Controller
     	
     	$passwdOriginal = $upForm->getData()->getPassword();
     	
-    	$upForm->bindRequest($request);
+    	$upForm->bindRequest($request);    	
     	
     	if ($upForm->isValid()) 
     	{
@@ -197,8 +204,8 @@ class UsuarioController extends Controller
     	$breadcrumbs = $this->get("white_october_breadcrumbs");
     	$breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
     	$breadcrumbs->addItem("Usuario", $this->get("router")->generate("usuario_list"));
-    	$breadcrumbs->addItem("Detalle ", $this->get("router")->generate("usuario_show",array("id" => $usuario->getId())));
-    	$breadcrumbs->addItem("Modificar ".$usuario->getNombre());
+    	$breadcrumbs->addItem("Detalle ", $this->get("router")->generate("usuario_show",array("id" => $entity->getId())));
+    	$breadcrumbs->addItem("Modificar ".$entity->getNombre());
     	
     	return $this->render('AdminBundle:Usuario:edit.html.twig', array(
     			'entity'      => $entity,

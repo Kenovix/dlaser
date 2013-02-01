@@ -89,9 +89,12 @@ class CupoController extends Controller
     
         if (!$cupo) {
             throw $this->createNotFoundException('La reserva solicitada no existe.');
-        }
-        
+        }        
         $usuario = $em->getRepository('UsuarioBundle:Usuario')->find($cupo->getRegistra());
+        
+        if (!$usuario) {
+        	throw $this->createNotFoundException('El usuario relacionado con el cupo no existe.');
+        }
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
@@ -121,7 +124,7 @@ class CupoController extends Controller
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("agenda_list"));
         $breadcrumbs->addItem("Citas", $this->get("router")->generate("cupo_list"));
-        $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("cupo_show",array("id" => $id)));
+        $breadcrumbs->addItem("Detalle ",$this->get("router")->generate("cupo_show",array("id" => $entity->getId())));
         $breadcrumbs->addItem("Modificar reserva");
 
         return $this->render('AgendaBundle:Cupo:edit.html.twig', array(

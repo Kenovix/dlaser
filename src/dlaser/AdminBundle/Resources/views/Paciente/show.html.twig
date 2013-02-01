@@ -128,7 +128,7 @@
         {% for afiliacion in afiliaciones %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td><a href="#">{{ afiliacion.cliente.nit }}</a></td>
+                <td>{{ afiliacion.cliente.nit }}</td>
                 <td>{{ afiliacion.cliente.nombre }}</td>
                 <td><a class="button" href="{{ path('afiliacion_delete', { 'paciente': afiliacion.paciente.id, 'cliente': afiliacion.cliente.id}) }}" title="Eliminar"><span class="icon icon186"></span></a></td>
             </tr>

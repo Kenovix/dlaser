@@ -10,7 +10,7 @@ class ClienteType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-        ->add('nit', 'text', array('required' => true, 'attr' => array('placeholder' => 'Ingrese el nit', 'autofocus'=>'autofocus')))
+        ->add('nit', 'text', array('required' => true, 'attr' => array('placeholder' => 'Ingrese el nit', 'autofocus'=>'autofocus',)))
         ->add('cod_eps', 'text', array('required' => true, 'label' => 'Código de la eps', 'attr' => array('placeholder' => 'Ingrese el código de la eps')))
         ->add('nombre', 'text', array('required' => true, 'attr' => array('placeholder' => 'Ingrese nombre')))
         ->add('razon', 'text', array('required' => false, 'label' => 'Razón social', 'attr' => array('placeholder' => 'razón social')))

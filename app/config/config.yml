@@ -79,8 +79,8 @@ services:
              
 # Parámetros globales del contenedor de dependencias
 parameters:
-    cahis.directorio.imagenes: %kernel.root_dir%/../web/uploads/
-    cahis.directorio.rips: %kernel.root_dir%/../web/rips/
+    dlaser.directorio.imagenes: %kernel.root_dir%/../web/uploads/documents/
+    dlaser.directorio.rips: %kernel.root_dir%/../web/rips/
     pdo.db_options:
         db_table:    session
         db_id_col:   session_id

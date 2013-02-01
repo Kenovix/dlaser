@@ -38,6 +38,8 @@
     <button class="action blue" type="submit">
         <span class="label">Modificar</span>
     </button>    
+    
+    <a href="{{ path('file_showImagens', {'estado': 'A',  'estetica': entity.id}) }}" class="button left"><span class="label">Mostrar imagenes</span></a>
 </form>
 {% endblock %}
 

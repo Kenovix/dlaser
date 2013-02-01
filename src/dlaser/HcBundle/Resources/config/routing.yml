@@ -308,3 +308,25 @@ HcEstetica_edit:
 HcEstetica_update:
     pattern:  /estetica/{estetica}/Update
     defaults: { _controller: HcBundle:HcEstetica:update }
+    
+#****************** Files *********************#
+
+file_upload:
+    pattern:  /file/{estetica}/upload
+    defaults: { _controller: HcBundle:Files:upload }
+    
+file_new:
+    pattern:  /file/{estetica}/newFile
+    defaults: { _controller: HcBundle:Files:new }
+    
+file_edit:
+    pattern:  /file/{file}/editFile
+    defaults: { _controller: HcBundle:Files:edit}
+    
+file_update:
+    pattern:  /file/{file}/saveFile
+    defaults: { _controller: HcBundle:Files:update }
+    
+file_showImagens:
+    pattern:  /file/{estado}/{estetica}/showImagens
+    defaults: { _controller: HcBundle:Files:showImagens }

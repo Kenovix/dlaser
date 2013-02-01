@@ -3,7 +3,6 @@
 namespace dlaser\HcBundle\Entity;
 
 use Symfony\Tests\Component\Translation\String;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -213,6 +212,11 @@ class HcEstetica implements \Serializable
      * })
      */
     private $hc;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="dlaser\HcBundle\Entity\Files", mappedBy="hcEstetica")
+     */
+    private $files;
 
 
     /**
@@ -725,6 +729,27 @@ class HcEstetica implements \Serializable
         return $this->hc;
     }
     
+    /**
+     * Set files
+     *
+     * @param dlaser\HcBundle\Entity\Files $files
+     */
+    
+    public function setFile(\dlaser\HcBundle\Entity\Files $files)
+    {
+    	$this->files = $files;
+    }
+    
+    /**
+     * Get files
+     *
+     * @return dlaser\HcBundle\Entity\Files
+     */
+    public function getFiles()
+    {
+    	return $this->files;
+    }
+    
     public function serialize()
     {
     	$this->op = serialize($this->op);
@@ -744,5 +769,7 @@ class HcEstetica implements \Serializable
     	$this->parpado = unserialize($serialize['parpado']);
     	$this->lesiones_cut = unserialize($serialize['lesiones_cut']);
     }
+    
+    
     
 }

@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo cliente{% endblock %}
+{% block titulo %}Nuevo formato NO POS{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -25,18 +25,18 @@
 {% endblock %}
 
 
+
+
 {% block cuerpo %}
 
-<form action="{{ path('cliente_save') }}" method="post" {{ form_enctype(form) }}>
+<form action="{{ path('file_upload',{'estetica': estetica.id}) }}" method="post" {{ form_enctype(form) }}>
     <fieldset>
-    	<legend>Datos del cliente</legend>
-    	{{ form_widget(form) }}
+    	<legend>Datos del File</legend>		
+		{{ form_widget(form) }}
     </fieldset>
     
     <button class="action blue" type="submit">
         <span class="label">Crear</span>
-    </button>
-    <a href="{{ path('cliente_list') }}" class="button left"><span class="label">Regresar al listado</span></a>
-    
+    </button>    
 </form>
 {% endblock %}

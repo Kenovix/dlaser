@@ -36,8 +36,8 @@ class Cliente
      * 
      * @ORM\Column(name="nit", type="string", length=12, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Min(limit = "1000000", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n��mero v��lido")
-     * @Assert\MaxLength(limit=12, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\Min(limit = "1000000", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
+     * @Assert\MaxLength(limit=12, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $nit;
 
@@ -46,7 +46,7 @@ class Cliente
      * 
      * @ORM\Column(name="nombre", type="string", length=60, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=60, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=60, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $nombre;
     

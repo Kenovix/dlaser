@@ -21,6 +21,7 @@ class HcEsteticaController extends Controller{
 		
 		if($HC and !$estetica){
 			$HcEstetica = new HcEstetica();
+			$HcEstetica->setFecha(new \DateTime('now'));
 			$form   = $this->createForm(new HcEsteticaType(), $HcEstetica);				
 			
 			$breadcrumbs = $this->get("white_october_breadcrumbs");
@@ -131,8 +132,7 @@ class HcEsteticaController extends Controller{
 					'parpado' => $HcEstetica->getParpado(),
 					'lesiones_cut' => $HcEstetica->getLesionesCut()
 					);			
-			$HcEstetica->unserialize($serialize);
-				
+			$HcEstetica->unserialize($serialize);			
 			$request = $this->getRequest();
 			$form   = $this->createForm(new HcEsteticaType(), $HcEstetica);			
 			$form->bindRequest($request);
