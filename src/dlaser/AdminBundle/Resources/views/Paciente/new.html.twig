@@ -37,7 +37,7 @@
     <button class="action blue" type="submit">
         <span class="label">Crear</span>
     </button>
-    <a href="{{ path('paciente_list',{'char':'A'}) }}" class="button left"><span class="label">Regresar al listado</span></a>
+    <a href="#" class="button left"><span class="label">Regresar al listado</span></a>
     
 </form>
 {% endblock %}
@@ -46,7 +46,7 @@
     <script src="{{ asset('bundles/dlaser/js/jquery.chained.remote.js') }}"></script>
     
     <script type="text/javascript" charset="utf-8">
-    	$(function() {    
+    	$(function() {
             $("#newPaciente_mupio").remoteChained("#newPaciente_depto", "{{ path('municipios', {'id': 1010 }) }}");
         });     
     </script>

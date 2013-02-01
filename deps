@@ -4,7 +4,7 @@
 
 [twig]
     git=http://github.com/fabpot/Twig.git
-    version=v1.10.3
+    version=v1.12.1
 
 [monolog]
     git=http://github.com/Seldaek/monolog.git
@@ -84,13 +84,8 @@
 
 [KnpMenuBundle]
     git=https://github.com/KnpLabs/KnpMenuBundle.git
-    target=bundles/Knp/Bundle/MenuBundle
-
-[Imagine]
-    git=http://github.com/avalanche123/Imagine.git
-    target=imagine
-
-[AvalancheImagineBundle]
-    git=http://github.com/avalanche123/AvalancheImagineBundle.git
-    target=bundles/Avalanche/Bundle/ImagineBundle
-
+    target=/bundles/Knp/Bundle/MenuBundle
+    
+[IdeupSimplePaginatorBundle]
+    git=https://github.com/javiacei/IdeupSimplePaginatorBundle.git
+    target=/bundles/Ideup/SimplePaginatorBundle

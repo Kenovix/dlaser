@@ -24,14 +24,7 @@ class PacienteController extends Controller
 						WHERE p.priNombre LIKE :nombre ORDER BY p.priNombre, p.priApellido ASC");
     	
     	$dql->setParameter('nombre', $char.'%');
-    	$pacientes = $paginador->paginate($respusta = $dql->getResult())->getResult();    
-    	
-    
-    	if(!$pacientes)
-    	{
-    		$this->get('session')->setFlash('error', 'La informacion solicitada no existe');
-    		return $this->redirect($this->generateUrl('paciente_search'));
-    	}
+    	$pacientes = $paginador->paginate($respusta = $dql->getResult())->getResult();
         
         $breadcrumbs = $this->get("white_october_breadcrumbs");
         $breadcrumbs->addItem("Inicio", $this->get("router")->generate("empresa_list"));
