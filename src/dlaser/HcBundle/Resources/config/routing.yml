@@ -133,7 +133,7 @@ hc_list:
     defaults: { _controller: HcBundle:Hc:list }
     
 hc_imprime:
-    pattern:  /imprimir/{factura}
+    pattern:  /Impresion/{factura}
     defaults: { _controller: HcBundle:Hc:imprimir }
 
 hc_ajaxupdate:

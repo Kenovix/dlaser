@@ -937,7 +937,7 @@ class HcController extends Controller
 		{
 			throw $this->createNotFoundException('La informacion de la historia no esta disponible.');
 		}
-		$factura = $hc->getFactura();
+		$factura = $hc->getFactura();		
 		$cliente = $factura->getCliente();
 		$sede = $factura->getSede();
 		$paciente = $factura->getPaciente();
