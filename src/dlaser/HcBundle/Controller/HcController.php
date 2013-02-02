@@ -279,9 +279,9 @@ class HcController extends Controller
 				$entity->setObesidad('no');
 				$entity->setAnteFamiliar('no');
 				$entity->setSedentarismo('no');
-				$entity->setEnfermedad('Requerido');
-				$entity->setRevCardiovascular('Disnea no, ortopnea no, disnea nocturna paroxistica no, precordalgia no, palpitaciones no.');
-				$entity->setExaFisico('Buen estado general,  corazón en ritmo regular  en dos tiempos, sin soplos, sin congestión pulmonar, sin congestión sistémica');
+				$entity->setEnfermedad();
+				$entity->setRevCardiovascular();
+				$entity->setExaFisico();
 				$entity->setFactura($factura);
 
 				$em->persist($entity);
@@ -1095,18 +1095,5 @@ class HcController extends Controller
 		$this->get('io_tcpdf')->empresa = $sede->getEmpresa()->getNombre();
     	
     	return $this->get('io_tcpdf')->quick_pdf($html, 'informe.pdf', 'I');
-	}
-	
-	function ajaxupdateAction($id)
-	{
-		$em = $this->getDoctrine()->getEntityManager();
-		$entity = $em->getRepository('InformeBundle:Mapa')->find($id);
-		
-		if ($request->getMethod() == 'POST')
-		{
-			
-		}
-		
-		
 	}
 }

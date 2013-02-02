@@ -12,7 +12,7 @@
 	{% if app.session.flash('ok') %}
 	    <div class="success mensajes">
 	        <span>{{ app.session.flash('ok') }}</span>
-	    </div>{% block titulo %}Listado de actividades realizadas{% endblock %}
+	    </div>
 	{% elseif app.session.flash('info') %}
 		<div class="info">
 	        <span>{{ app.session.flash('info') }}</span>
@@ -23,9 +23,6 @@
 	    </div>
 	{% endif %}
 {% endblock %}
-
-
-
 
 {% block cuerpo %}
 	<strong>Sede:</strong>
