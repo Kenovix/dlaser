@@ -214,12 +214,6 @@ class HcEstetica implements \Serializable
     private $hc;
     
     /**
-     * @ORM\OneToOne(targetEntity="dlaser\HcBundle\Entity\Files", mappedBy="hcEstetica")
-     */
-    private $files;
-
-
-    /**
      * Get id
      *
      * @return integer 
@@ -735,20 +729,6 @@ class HcEstetica implements \Serializable
      * @param dlaser\HcBundle\Entity\Files $files
      */
     
-    public function setFile(\dlaser\HcBundle\Entity\Files $files)
-    {
-    	$this->files = $files;
-    }
-    
-    /**
-     * Get files
-     *
-     * @return dlaser\HcBundle\Entity\Files
-     */
-    public function getFiles()
-    {
-    	return $this->files;
-    }
     
     public function serialize()
     {

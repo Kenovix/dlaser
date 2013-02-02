@@ -15,7 +15,7 @@ class AdmisionType extends AbstractType
         ->add('valor', 'integer', array('required' => true))
         ->add('copago', 'integer', array('required' => true))
         ->add('descuento', 'integer', array('required' => false))
-        ->add('cliente', 'entity', array('class' => 'dlaser\ParametrizarBundle\Entity\Cliente', 'empty_value' => 'Elige una aseguradora', 'required' => true))
+        ->add('cliente', 'entity', array('required' => true,'class' => 'dlaser\ParametrizarBundle\Entity\Cliente', 'empty_value' => 'Elige una aseguradora'))
         ->add('cargo', 'entity', array('required' => true, 'class' => 'dlaser\ParametrizarBundle\Entity\Cargo', 'empty_value' => 'Elige una sede'))
         ->add('sede', 'entity', array('required' => true, 'class' => 'dlaser\ParametrizarBundle\Entity\Sede', 'empty_value' => 'Elige una sede'))
         ->add('estado', 'choice', array('choices' => array('I' => 'Informado', 'P' => 'Pendiente', 'X' => 'Anulado'), 'required' => true))

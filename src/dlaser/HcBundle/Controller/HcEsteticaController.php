@@ -65,7 +65,7 @@ class HcEsteticaController extends Controller{
 				$em->flush();
 				
 				$this->get('session')->setFlash('ok', 'La historia de estetica ha sido creado éxitosamente.');
-				return $this->redirect($this->generateUrl('HcEstetica_edit',array('hc'=>$hc)));				
+				return $this->redirect($this->generateUrl('HcEstetica_edit',array('hc'=>$hc->getId())));				
 			}else{
 				$this->get('session')->setFlash('error', 'La historia clinica no existe.');
 				return $this->redirect($this->generateUrl('hc_search'));

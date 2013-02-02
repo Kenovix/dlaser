@@ -491,9 +491,6 @@
     	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>    
     {% endif %}
 
-<<<<<<< HEAD
-	
-=======
 	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
 	
 	{% if hcEstetica %}
@@ -501,7 +498,6 @@
 	{% else %}
 		<a href="{{ path('HcEstetica_new',{'hc':entity.id}) }}" class="button left"><span class="label">Nueva Hc-Estetica</span></a>
 	{% endif %}
->>>>>>> 7d05c8786c75f3a87411dd52ceba1db4fcd39b22
 	
 </form>
 {% endblock %}

@@ -45,7 +45,7 @@ class Files
     /**
      * @var integer $hcEstetica
      *
-     * @ORM\OneToOne(targetEntity="dlaser\HcBundle\Entity\HcEstetica", inversedBy="files")
+     * @ORM\ManyToOne(targetEntity="dlaser\HcBundle\Entity\HcEstetica")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="hcEstetica_id", referencedColumnName="id" )
      * })

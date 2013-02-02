@@ -34,7 +34,7 @@ class Restriccion
     /**
      * @var Cargo
      *
-     * @ORM\ManyToOne(targetEntity="cahis\ParametrizarBundle\Entity\Cargo")
+     * @ORM\ManyToOne(targetEntity="dlaser\ParametrizarBundle\Entity\Cargo")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="cargo_id", referencedColumnName="id")
      * })
@@ -44,7 +44,7 @@ class Restriccion
     /**
      * @var Sede
      *
-     * @ORM\ManyToOne(targetEntity="cahis\ParametrizarBundle\Entity\Sede")
+     * @ORM\ManyToOne(targetEntity="dlaser\ParametrizarBundle\Entity\Sede")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="sede_id", referencedColumnName="id")
      * })
@@ -54,7 +54,7 @@ class Restriccion
     /**
      * @var Cliente
      *
-     * @ORM\ManyToOne(targetEntity="cahis\ParametrizarBundle\Entity\Cliente")
+     * @ORM\ManyToOne(targetEntity="dlaser\ParametrizarBundle\Entity\Cliente")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
      * })
@@ -64,7 +64,7 @@ class Restriccion
     /**
      * @var Agenda
      *
-     * @ORM\ManyToOne(targetEntity="cahis\AgendaBundle\Entity\Agenda", inversedBy="restricciones")
+     * @ORM\ManyToOne(targetEntity="dlaser\AgendaBundle\Entity\Agenda", inversedBy="restricciones")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="agenda_id", referencedColumnName="id")
      * })
@@ -118,7 +118,7 @@ class Restriccion
      *
      * @param dlaser\ParametrizarBundle\Entity\Cargo $cargo
      */
-    public function setCargo(\cahis\ParametrizarBundle\Entity\Cargo $cargo)
+    public function setCargo(\dlaser\ParametrizarBundle\Entity\Cargo $cargo)
     {
         $this->cargo = $cargo;
     }
@@ -138,7 +138,7 @@ class Restriccion
      *
      * @param dlaser\ParametrizarBundle\Entity\Sede $sede
      */
-    public function setSede(\cahis\ParametrizarBundle\Entity\Sede $sede)
+    public function setSede(\dlaser\ParametrizarBundle\Entity\Sede $sede)
     {
         $this->sede = $sede;
     }
@@ -158,7 +158,7 @@ class Restriccion
      *
      * @param dlaser\ParametrizarBundle\Entity\Cliente $cliente
      */
-    public function setCliente(\cahis\ParametrizarBundle\Entity\Cliente $cliente)
+    public function setCliente(\dlaser\ParametrizarBundle\Entity\Cliente $cliente)
     {
         $this->cliente = $cliente;
     }
@@ -178,7 +178,7 @@ class Restriccion
      *
      * @param dlaser\AgendaBundle\Entity\Agenda $agenda
      */
-    public function setAgenda(\cahis\AgendaBundle\Entity\Agenda $agenda)
+    public function setAgenda(\dlaser\AgendaBundle\Entity\Agenda $agenda)
     {
         $this->agenda = $agenda;
     }

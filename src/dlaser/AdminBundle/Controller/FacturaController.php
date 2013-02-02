@@ -191,7 +191,7 @@ class FacturaController extends Controller
     	}
     	$user = $this->get('security.context')->getToken()->getUser();
     	    
-    	if ($user->getPerfil() == 'ROLE_AUX') {
+    	if ($user->getPerfil() == 'ROLE_AMIND') {
     		$editForm = $this->createForm(new AdmisionType(), $entity);
     	}
     	else{
@@ -211,40 +211,36 @@ class FacturaController extends Controller
     }
     
     public function updateAction($id)
-    {
-    	$em = $this->getDoctrine()->getEntityManager();
-    
+        {
+    	$em = $this->getDoctrine()->getEntityManager();    
     	$entity = $em->getRepository('ParametrizarBundle:Factura')->find($id);
-    
+    	
     	if (!$entity) {
     		throw $this->createNotFoundException('La factura solicitada no existe.');
     	}
-    
-    	if($this->get('security.context')->isGranted('ROLE_ADMIN')){
-    		$editForm = $this->createForm(new AdmisionType(), $entity);
-    	}else{
-    		$editForm = $this->createForm(new FacturaType(), $entity);
-    	}
-    
     	$request = $this->getRequest();
-    
+    	$user = $this->get('security.context')->getToken()->getUser();
+    	if($user->getPerfil() == 'ROLE_ADMIN'){    		
+    		$editForm = $this->createForm(new AdmisionType(), $entity);    		
+    	}else{
+    		$editForm = $this->createForm(new AdmisionAuxType(), $entity);
+    	}    	
     	$editForm->bindRequest($request);
+    	
     
     	if ($editForm->isValid()) {
     		
-    		$cliente = $em->getRepository('ParametrizarBundle:Cliente')->find($entity->getCliente()->getId());
-    	
+    		$cliente = $em->getRepository('ParametrizarBundle:Cliente')->find($entity->getCliente()->getId());    	
     		$contrato = $em->getRepository('ParametrizarBundle:Contrato')->findOneBy(array('sede' => $entity->getSede()->getId(), 'cliente' => $cliente->getId()));
     		
     		if(!$contrato){
     			$this->get('session')->setFlash('info', 'El cliente seleccionado no tiene contrato con la sede, por favor verifique y vuelva a intentarlo.');
     			return $this->redirect($this->generateUrl('factura_edit', array('id' => $id)));
-    		}
-    		
+    		} 		
     		
     		$actividad = $em->getRepository('ParametrizarBundle:Actividad')->findOneBy(array('cargo' => $entity->getCargo()->getId(), 'contrato' => $contrato->getId()));
     		
-    		if(!$this->get('security.context')->isGranted('ROLE_ADMIN')){    		
+    		if(!$user->getPerfil() == 'ROLE_ADMIN'){    		
 	    		if($actividad->getPrecio()){
 	    			$valor = $actividad->getPrecio();
 	    		}else{
@@ -252,19 +248,15 @@ class FacturaController extends Controller
 	    		}
 	    		
 	    		$entity->setValor($valor);
-    		}
-
-    		
+    		}    		
     		$entity->setCliente($cliente);
     
     		$em->persist($entity);
     		$em->flush();
     
-    		$this->get('session')->setFlash('info', 'La información de la admisión ha sido modificada éxitosamente.');
-    
+    		$this->get('session')->setFlash('info', 'La información de la admisión ha sido modificada éxitosamente.');    
     		return $this->redirect($this->generateUrl('factura_edit', array('id' => $id)));
-    	}
-    
+    	}    
     	return $this->render('AdminBundle:Factura:edit.html.twig', array(
     			'entity'      => $entity,
     			'edit_form'   => $editForm->createView(),
