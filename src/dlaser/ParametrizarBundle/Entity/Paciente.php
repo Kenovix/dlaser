@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 
 /**
+ * @ORM\Entity(repositoryClass="dlaser\ParametrizarBundle\Entity\Repository\PacienteRepository")
  * dlaser\ParametrizarBundle\Entity\Paciente
  *
  * @ORM\Table(name="paciente")

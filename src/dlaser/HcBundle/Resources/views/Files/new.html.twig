@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo formato NO POS{% endblock %}
+{% block titulo %}Subir nueva imagen{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -38,5 +38,7 @@
     <button class="action blue" type="submit">
         <span class="label">Crear</span>
     </button>    
+    
+    <a href="{{ path('HcEstetica_edit', {'hc': hc.id}) }}" class="button left"><span class="label">Detalle H-Estetica</span></a>
 </form>
 {% endblock %}

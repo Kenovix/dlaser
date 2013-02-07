@@ -37,7 +37,7 @@
 	      <option>Seleccione el diagnostico</option>
 	       {% for campo in cies %} 
 	         <option value="{{ campo.id }}" data-url="{{ path('dx_saveUserDx', { 'usuario': entity.id, 'cie': campo.id }) }}"> 
-	            {{ loop.index }} - {{ campo.nombre }} - {{ campo.codigo }}        
+	           {{ campo.nombre }} - {{ campo.codigo }}        
 	          </option>
 	       {% endfor %}       
 	      </select>

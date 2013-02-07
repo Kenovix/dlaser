@@ -17,12 +17,20 @@ class FilesController extends Controller{
 	{
 		$file = new Files();		 
 		$em = $this->getDoctrine()->getEntityManager();
-		$hcEstetica = $em->getRepository('HcBundle:HcEstetica')->find($estetica);
-		if($hcEstetica){
+		$hcEstetica = $em->getRepository('HcBundle:HcEstetica')->find($estetica);		
+		$hc = $hcEstetica->getHc();
+		if($hcEstetica and $hc){
 			$form   = $this->createForm(new FileType(), $file);
 					
+			$breadcrumbs = $this->get("white_october_breadcrumbs");
+			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+			$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_edit",array('id'=>$hc->getFactura()->getId())));
+			$breadcrumbs->addItem("Historia Estetica", $this->get("router")->generate("HcEstetica_edit",array('hc'=>$hc->getFactura()->getId())));
+			$breadcrumbs->addItem("Subir imagen");
+			
 			return $this->render('HcBundle:Files:new.html.twig', array(
 					'estetica' => $hcEstetica,
+					'hc' => $hc,
 					'form'   => $form->createView()
 			));
 		}else{
@@ -67,12 +75,21 @@ class FilesController extends Controller{
 				
 		$em = $this->getDoctrine()->getEntityManager();
 		$files = $em->getRepository('HcBundle:Files')->find($file);
-				
-		if($files){			
+		$hcEstetica = $files->getHcEstetica();
+		
+		if($files and $hcEstetica){			
 			$form   = $this->createForm(new FileType(), $files);
 				
+			$hc = $hcEstetica->getHc();
+			$breadcrumbs = $this->get("white_october_breadcrumbs");
+			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
+			$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_edit",array('id'=>$hc->getFactura()->getId())));
+			$breadcrumbs->addItem("Historia Estetica", $this->get("router")->generate("HcEstetica_edit",array('hc'=>$hc->getFactura()->getId())));
+			$breadcrumbs->addItem("Subir imagen");
+			
 			return $this->render('HcBundle:Files:edit.html.twig', array(	
-					'file' => $files,				
+					'file' => $files,
+					'hc' => $hc,					
 					'form'   => $form->createView()
 			));
 		}else{

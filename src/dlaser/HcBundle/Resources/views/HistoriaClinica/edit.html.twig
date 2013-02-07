@@ -98,37 +98,7 @@
 		        </tbody>
 		    </table>  		
 		</div>
-    	
-    	<div id="antecedentes">
-    		{{ form_label(edit_form.hta) }}
-			{{ form_errors(edit_form.hta) }}
-			{{ form_widget(edit_form.hta) }}
-			
-			{{ form_label(edit_form.diabetes) }}
-			{{ form_errors(edit_form.diabetes) }}
-			{{ form_widget(edit_form.diabetes) }}
-			
-			{{ form_label(edit_form.dislipidemia) }}
-			{{ form_errors(edit_form.dislipidemia) }}
-			{{ form_widget(edit_form.dislipidemia) }}
-			
-			{{ form_label(edit_form.tabaquismo) }}
-			{{ form_errors(edit_form.tabaquismo) }}
-			{{ form_widget(edit_form.tabaquismo) }}
-			
-			{{ form_label(edit_form.obesidad) }}
-			{{ form_errors(edit_form.obesidad) }}
-			{{ form_widget(edit_form.obesidad) }}
-			
-			{{ form_label(edit_form.ante_familiar) }}
-			{{ form_errors(edit_form.ante_familiar) }}
-			{{ form_widget(edit_form.ante_familiar) }}
-			
-			{{ form_label(edit_form.sedentarismo) }}
-			{{ form_errors(edit_form.sedentarismo) }}
-			{{ form_widget(edit_form.sedentarismo) }}
-    	</div>
-    	
+    	    	
     	<div>
     		{{ form_label(edit_form.enfermedad) }}
 			{{ form_errors(edit_form.enfermedad) }}
@@ -136,9 +106,9 @@
     	</div>
     	
     	<div>
-    		{{ form_label(edit_form.rev_cardiovascular) }}
-			{{ form_errors(edit_form.rev_cardiovascular) }}
-			{{ form_widget(edit_form.rev_cardiovascular) }}
+    		{{ form_label(edit_form.rev_sistema) }}
+			{{ form_errors(edit_form.rev_sistema) }}
+			{{ form_widget(edit_form.rev_sistema) }}
     	</div>
     	
     	<div>
@@ -292,9 +262,9 @@
     	</div>
     	
     	<div>
-    		{{ form_label(edit_form.motivo_inter) }}
-			{{ form_errors(edit_form.motivo_inter) }}
-			{{ form_widget(edit_form.motivo_inter) }}
+    		{{ form_label(edit_form.motivo) }}
+			{{ form_errors(edit_form.motivo) }}
+			{{ form_widget(edit_form.motivo) }}
     	</div>
     	
     	<div>
@@ -490,7 +460,7 @@
     {% if factura.estado == 'I' %}
     	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>    
     {% endif %}
-
+	<a href="#"  class="button left"><span class="label">Impresos</span></a>
 	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
 	
 	{% if hcEstetica %}

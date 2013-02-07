@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="examen")
  * @ORM\Entity
+ * 
+ * @ORM\Entity(repositoryClass="dlaser\HcBundle\Entity\Repository\ExamenRepository")
  */
 class Examen
 {

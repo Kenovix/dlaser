@@ -16,18 +16,18 @@ class HcEsteticaController extends Controller{
 	function newAction($hc){
 		
 		$em = $this->getDoctrine()->getEntityManager();
-		$HC = $em->getRepository('HcBundle:Hc')->find($hc);
-		$estetica = $HC->getHcEstetica();
+		$hc = $em->getRepository('HcBundle:Hc')->find($hc);
+		$estetica = $hc->getHcEstetica();
 		
-		if($HC and !$estetica){
+		if($hc and !$estetica){
 			$HcEstetica = new HcEstetica();
 			$HcEstetica->setFecha(new \DateTime('now'));
 			$form   = $this->createForm(new HcEsteticaType(), $HcEstetica);				
 			
 			$breadcrumbs = $this->get("white_october_breadcrumbs");
 			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-			$breadcrumbs->addItem("Historia Estetica", $this->get("router")->generate("HcEstetica_new",array('hc'=>$hc)));
-			$breadcrumbs->addItem("Nueva");
+			$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_edit",array('id'=>$hc->getFactura()->getId())));
+			$breadcrumbs->addItem("HCEstetica Nueva");
 			
 			return $this->render("HcBundle:HcEstetica:new.html.twig", array(
 					'entity' => $HcEstetica,
@@ -84,6 +84,7 @@ class HcEsteticaController extends Controller{
 	{
 		$em = $this->getDoctrine()->getEntityManager();
 		$hcEstetica = $em->getRepository('HcBundle:HcEstetica')->findOneBy(array('hc' => $hc));		
+		$hc = $em->getRepository('HcBundle:Hc')->find($hc);
 				
 		if($hcEstetica)
 		{
@@ -101,9 +102,9 @@ class HcEsteticaController extends Controller{
 			$editform   = $this->createForm(new HcEsteticaType(), $hcEstetica);		
 			
 			$breadcrumbs = $this->get("white_october_breadcrumbs");
-			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
-			$breadcrumbs->addItem("Historia Estetica", $this->get("router")->generate("HcEstetica_new",array('hc'=>$hc)));
-			$breadcrumbs->addItem("Modificar");
+			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));			
+			$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_edit",array('id'=>$hc->getFactura()->getId())));
+			$breadcrumbs->addItem("HCEstetica Modificar");
 			
 			return $this->render('HcBundle:HcEstetica:edit.html.twig', array(
 					'entity' => $hcEstetica,

@@ -330,3 +330,13 @@ file_update:
 file_showImagens:
     pattern:  /file/{estado}/{estetica}/showImagens
     defaults: { _controller: HcBundle:Files:showImagens }
+    
+#****************** Impresos *********************#
+
+impreso_firma:
+    pattern:  /impresion/{hc}/certificado
+    defaults: { _controller: HcBundle:Impresos:impresion }
+    
+impreso_list:
+    pattern:  /impresion/{hc}/certificados
+    defaults: { _controller: HcBundle:Impresos:list }

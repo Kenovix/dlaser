@@ -1,0 +1,52 @@
+{% extends "::simple.html.twig" %}
+
+{% block stylesheets %}
+<style>
+		
+	div p{
+    	text-align: justify;
+    	font-size: 10pt;
+    }
+    h1{
+    	text-align: center;
+    }
+</style>  
+{% endblock %}
+
+{% block space %}
+<h4 align="center">NIT. 900.260.604-8</h4><br />
+<h5 align="center">I.V.A RÉGIMEN COMÚN</h5><br /><br />
+{% endblock %}
+
+{% block body %}
+<div>
+<h1>CLAUSULAS PARA INGRESAR A LA SESION DE LASER</h1>
+
+<p>
+NO SE REASIGNARAN CITAS Y SE PERDERAN DEL PAQUETE  CUANDO:   
+  <ul>
+    <li>El paciente viene con alguna de las zonas a tratar bronceadas.</li>
+    <li>La cita esta confirmada  y el paciente no asiste.</li>
+  </ul>
+</p>
+<p>
+LA CITA SERA APLAZADA:
+  <ul>
+    <li>Siempre y cuando se avise con dos días de antelación.</li>
+    <li>Cuando el paciente este en su periodo de menstruación.</li>
+  </ul>
+</p>
+
+<p>NOTA: Si el paciente cancela la cita este estará pendiente de su asignación y deberá llamar a reprogramarla.</p>
+<p>Si por algún motivo Dermolaser cancela la cita la clínica será responsable de reasignarle otra, esta no se perderá.</p>
+
+<p>	Firma;<br/><br/><br/>
+	
+	
+	______________________________________<br/>
+	PACIENTE:	<strong>{{ paciente.priNombre }} {{ paciente.segNombre }} {{ paciente.priApellido }} {{ paciente.segApellido }}</strong> <br/>
+	C.C.	<strong>{{ paciente.identificacion }}</strong> <br/>
+	Fecha: <strong> {{ fecha|date('d/m/Y') }}</strong>
+</p>
+</div>
+{% endblock %}

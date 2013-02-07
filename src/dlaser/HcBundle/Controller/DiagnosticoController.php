@@ -211,17 +211,16 @@ class DiagnosticoController extends Controller
 			
 		$permisos = $usuario->getCie();// genero problemas para paginar 
 			
-		if($permisos){
-		
+		if($permisos){	
 						
 			$dql = $em->createQuery('SELECT c FROM HcBundle:Cie c
-					WHERE c.id NOT IN (SELECT C FROM HcBundle:Cie C JOIN C.usuario u JOIN u.sede s WHERE u.id = :id)');
+					WHERE c.id NOT IN (SELECT C FROM HcBundle:Cie C JOIN C.usuario u JOIN u.sede s WHERE u.id = :id ORDER BY c.nombre ASC)');
 		
 			$dql->setParameter('id', $id);
-			$consulta = $dql->getResult();
-			
+			$consulta = $dql->getResult();			
+					
 		}else{
-			$consulta = $em->getRepository('HcBundle:Cie')->findAll();			
+			$consulta = $em->getRepository('HcBundle:Cie')->findAll(array('nombre'=>'ASC'));			
 			$permisos = 0;
 		}
 		

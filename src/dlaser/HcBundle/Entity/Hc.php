@@ -3,15 +3,18 @@
 namespace dlaser\HcBundle\Entity;
 
 use Symfony\Tests\Component\Translation\String;
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
+ *  
  * dlaser\HcBundle\Entity\Hc
  *
- * @ORM\Table(name="hc")
+ * @ORM\Table(name="hc_general")
  * @ORM\Entity
+ * 
+ * @ORM\Entity(repositoryClass="dlaser\HcBundle\Entity\Repository\HcRepository")
  */
 class Hc
 {
@@ -74,67 +77,32 @@ class Hc
     private $estatura;
 
     /**
-     * @var string $hta
+     * @var text $motivo
      *
-     * @ORM\Column(name="hta", type="string", length=2, nullable=true)
+     * @ORM\Column(name="motivo", type="text")
      */
-    private $hta;
-
-    /**
-     * @var string $diabetes
-     *
-     * @ORM\Column(name="diabetes", type="string", length=2, nullable=true)
-     */
-    private $diabetes;
-
-    /**
-     * @var string $dislipidemia
-     *
-     * @ORM\Column(name="dislipidemia", type="string", length=2, nullable=true)
-     */
-    private $dislipidemia;
-
-    /**
-     * @var string $tabaquismo
-     *
-     * @ORM\Column(name="tabaquismo", type="string", length=2, nullable=true)
-     */
-    private $tabaquismo;
-
-    /**
-     * @var string $obesidad
-     *
-     * @ORM\Column(name="obesidad", type="string", length=2, nullable=true)
-     */
-    private $obesidad;
-
-    /**
-     * @var string $anteFamiliar
-     *
-     * @ORM\Column(name="ante_familiar", type="string", length=2, nullable=true)
-     */
-    private $anteFamiliar;
-
-    /**
-     * @var string $sedentarismo
-     *
-     * @ORM\Column(name="sedentarismo", type="string", length=2, nullable=true)
-     */
-    private $sedentarismo;
+    private $motivo;
 
     /**
      * @var text $enfermedad
      *
-     * @ORM\Column(name="enfermedad", type="text", nullable=true)
+     * @ORM\Column(name="enfermedad", type="text")
      */
     private $enfermedad;
 
     /**
-     * @var text $revCardiovascular
+     * @var text $antecedentes
      *
-     * @ORM\Column(name="rev_cardiovascular", type="text", nullable=true)
+     * @ORM\Column(name="antecedentes", type="text")
      */
-    private $revCardiovascular;
+    private $antecedentes;
+
+    /**
+     * @var text $revSistema
+     *
+     * @ORM\Column(name="rev_sistema", type="text")
+     */
+    private $revSistema;
 
     /**
      * @var text $exaFisico
@@ -142,14 +110,21 @@ class Hc
      * @ORM\Column(name="exa_fisico", type="text", nullable=true)
      */
     private $exaFisico;
-    
+
+    /**
+     * @var text $dxPresunto
+     *
+     * @ORM\Column(name="dx_presunto", type="text", nullable=true)
+     */
+    private $dxPresunto;
+
     /**
      * @var text $exaPresentado
      *
      * @ORM\Column(name="exa_presentado", type="text", nullable=true)
      */
     private $exaPresentado;
-    
+
     /**
      * @var text $notaExaSoli
      *
@@ -158,25 +133,11 @@ class Hc
     private $notaExaSoli;
 
     /**
-     * @var string $interconsulta
+     * @var text $interconsulta
      *
      * @ORM\Column(name="interconsulta", type="text", nullable=true)
      */
     private $interconsulta;
-
-    /**
-     * @var text $motivoInter
-     *
-     * @ORM\Column(name="motivo_inter", type="text", nullable=true)
-     */
-    private $motivoInter;
-    
-    /**
-     * @var text $dxPresunto
-     *
-     * @ORM\Column(name="dx_presunto", type="text", nullable=true)
-     */
-    private $dxPresunto;
 
     /**
      * @var text $manejo
@@ -207,6 +168,27 @@ class Hc
     private $postfecha;
 
     /**
+     * @var date $inicioInca
+     *
+     * @ORM\Column(name="inicio_inca", type="date")
+     */
+    private $inicioInca;
+
+    /**
+     * @var integer $duracionInca
+     *
+     * @ORM\Column(name="duracion_inca", type="integer")
+     */
+    private $duracionInca;
+
+    /**
+     * @var string $notaInca
+     *
+     * @ORM\Column(name="nota_inca", type="string", length=255)
+     */
+    private $notaInca;
+
+    /**
      * @var Cie
      *
      * @ORM\ManyToMany(targetEntity="Cie", inversedBy="hc")
@@ -235,13 +217,12 @@ class Hc
      * @ORM\OneToOne(targetEntity="dlaser\HcBundle\Entity\HcEstetica", mappedBy="hc")
      */
     private $hcEstetica;
-    
-    
 
+    
     public function __construct()
     {
-        $this->cie = new \Doctrine\Common\Collections\ArrayCollection();        
-    }    
+    	$this->cie = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -394,143 +375,23 @@ class Hc
     }
 
     /**
-     * Set hta
+     * Set motivo
      *
-     * @param string $hta
+     * @param text $motivo
      */
-    public function setHta($hta)
+    public function setMotivo($motivo)
     {
-        $this->hta = $hta;
+        $this->motivo = $motivo;
     }
 
     /**
-     * Get hta
+     * Get motivo
      *
-     * @return string 
+     * @return text 
      */
-    public function getHta()
+    public function getMotivo()
     {
-        return $this->hta;
-    }
-
-    /**
-     * Set diabetes
-     *
-     * @param string $diabetes
-     */
-    public function setDiabetes($diabetes)
-    {
-        $this->diabetes = $diabetes;
-    }
-
-    /**
-     * Get diabetes
-     *
-     * @return string 
-     */
-    public function getDiabetes()
-    {
-        return $this->diabetes;
-    }
-
-    /**
-     * Set dislipidemia
-     *
-     * @param string $dislipidemia
-     */
-    public function setDislipidemia($dislipidemia)
-    {
-        $this->dislipidemia = $dislipidemia;
-    }
-
-    /**
-     * Get dislipidemia
-     *
-     * @return string 
-     */
-    public function getDislipidemia()
-    {
-        return $this->dislipidemia;
-    }
-
-    /**
-     * Set tabaquismo
-     *
-     * @param string $tabaquismo
-     */
-    public function setTabaquismo($tabaquismo)
-    {
-        $this->tabaquismo = $tabaquismo;
-    }
-
-    /**
-     * Get tabaquismo
-     *
-     * @return string 
-     */
-    public function getTabaquismo()
-    {
-        return $this->tabaquismo;
-    }
-
-    /**
-     * Set obesidad
-     *
-     * @param string $obesidad
-     */
-    public function setObesidad($obesidad)
-    {
-        $this->obesidad = $obesidad;
-    }
-
-    /**
-     * Get obesidad
-     *
-     * @return string 
-     */
-    public function getObesidad()
-    {
-        return $this->obesidad;
-    }
-
-    /**
-     * Set anteFamiliar
-     *
-     * @param string $anteFamiliar
-     */
-    public function setAnteFamiliar($anteFamiliar)
-    {
-        $this->anteFamiliar = $anteFamiliar;
-    }
-
-    /**
-     * Get anteFamiliar
-     *
-     * @return string 
-     */
-    public function getAnteFamiliar()
-    {
-        return $this->anteFamiliar;
-    }
-
-    /**
-     * Set sedentarismo
-     *
-     * @param string $sedentarismo
-     */
-    public function setSedentarismo($sedentarismo)
-    {
-        $this->sedentarismo = $sedentarismo;
-    }
-
-    /**
-     * Get sedentarismo
-     *
-     * @return string 
-     */
-    public function getSedentarismo()
-    {
-        return $this->sedentarismo;
+        return $this->motivo;
     }
 
     /**
@@ -554,23 +415,43 @@ class Hc
     }
 
     /**
-     * Set revCardiovascular
+     * Set antecedentes
      *
-     * @param text $revCardiovascular
+     * @param text $antecedentes
      */
-    public function setRevCardiovascular($revCardiovascular)
+    public function setAntecedentes($antecedentes)
     {
-        $this->revCardiovascular = $revCardiovascular;
+        $this->antecedentes = $antecedentes;
     }
 
     /**
-     * Get revCardiovascular
+     * Get antecedentes
      *
      * @return text 
      */
-    public function getRevCardiovascular()
+    public function getAntecedentes()
     {
-        return $this->revCardiovascular;
+        return $this->antecedentes;
+    }
+
+    /**
+     * Set revSistema
+     *
+     * @param text $revSistema
+     */
+    public function setRevSistema($revSistema)
+    {
+        $this->revSistema = $revSistema;
+    }
+
+    /**
+     * Get revSistema
+     *
+     * @return text 
+     */
+    public function getRevSistema()
+    {
+        return $this->revSistema;
     }
 
     /**
@@ -592,7 +473,27 @@ class Hc
     {
         return $this->exaFisico;
     }
-    
+
+    /**
+     * Set dxPresunto
+     *
+     * @param text $dxPresunto
+     */
+    public function setDxPresunto($dxPresunto)
+    {
+        $this->dxPresunto = $dxPresunto;
+    }
+
+    /**
+     * Get dxPresunto
+     *
+     * @return text 
+     */
+    public function getDxPresunto()
+    {
+        return $this->dxPresunto;
+    }
+
     /**
      * Set exaPresentado
      *
@@ -600,19 +501,19 @@ class Hc
      */
     public function setExaPresentado($exaPresentado)
     {
-    	$this->exaPresentado = $exaPresentado;
+        $this->exaPresentado = $exaPresentado;
     }
-    
+
     /**
      * Get exaPresentado
      *
-     * @return text
+     * @return text 
      */
     public function getExaPresentado()
     {
-    	return $this->exaPresentado;
+        return $this->exaPresentado;
     }
-    
+
     /**
      * Set notaExaSoli
      *
@@ -620,23 +521,23 @@ class Hc
      */
     public function setNotaExaSoli($notaExaSoli)
     {
-    	$this->notaExaSoli = $notaExaSoli;
+        $this->notaExaSoli = $notaExaSoli;
     }
-    
+
     /**
      * Get notaExaSoli
      *
-     * @return text
+     * @return text 
      */
     public function getNotaExaSoli()
     {
-    	return $this->notaExaSoli;
+        return $this->notaExaSoli;
     }
 
     /**
      * Set interconsulta
      *
-     * @param string $interconsulta
+     * @param text $interconsulta
      */
     public function setInterconsulta($interconsulta)
     {
@@ -646,51 +547,11 @@ class Hc
     /**
      * Get interconsulta
      *
-     * @return string 
+     * @return text 
      */
     public function getInterconsulta()
     {
         return $this->interconsulta;
-    }
-
-    /**
-     * Set motivoInter
-     *
-     * @param text $motivoInter
-     */
-    public function setMotivoInter($motivoInter)
-    {
-        $this->motivoInter = $motivoInter;
-    }
-
-    /**
-     * Get motivoInter
-     *
-     * @return text 
-     */
-    public function getMotivoInter()
-    {
-        return $this->motivoInter;
-    }
-    
-    /**
-     * Set dxPresunto
-     *
-     * @param text $dxPresunto
-     */
-    public function setDxPresunto($dxPresunto)
-    {
-    	$this->dxPresunto = $dxPresunto;
-    }
-    
-    /**
-     * Get dxPresunto
-     *
-     * @return text
-     */
-    public function getDxPresunto()
-    {
-    	return $this->dxPresunto;
     }
 
     /**
@@ -716,7 +577,7 @@ class Hc
     /**
      * Set control
      *
-     * @param integer $control
+     * @param string $control
      */
     public function setControl($control)
     {
@@ -726,7 +587,7 @@ class Hc
     /**
      * Get control
      *
-     * @return integer 
+     * @return string 
      */
     public function getControl()
     {
@@ -771,6 +632,66 @@ class Hc
     public function getPostfecha()
     {
         return $this->postfecha;
+    }
+
+    /**
+     * Set inicioInca
+     *
+     * @param date $inicioInca
+     */
+    public function setInicioInca($inicioInca)
+    {
+        $this->inicioInca = $inicioInca;
+    }
+
+    /**
+     * Get inicio_inca
+     *
+     * @return date 
+     */
+    public function getInicioInca()
+    {
+        return $this->inicioInca;
+    }
+
+    /**
+     * Set duracionInca
+     *
+     * @param integer $duracionInca
+     */
+    public function setDuracionInca($duracionInca)
+    {
+        $this->duracionInca = $duracionInca;
+    }
+
+    /**
+     * Get duracionInca
+     *
+     * @return integer 
+     */
+    public function getDuracionInca()
+    {
+        return $this->duracionInca;
+    }
+
+    /**
+     * Set notaInca
+     *
+     * @param string $notaInca
+     */
+    public function setNotaInca($notaInca)
+    {
+        $this->notaInca = $notaInca;
+    }
+
+    /**
+     * Get notaInca
+     *
+     * @return string 
+     */
+    public function getNotaInca()
+    {
+        return $this->notaInca;
     }
 
     /**
@@ -823,7 +744,6 @@ class Hc
     {
         return $this->factura;
     }
-    
     
     /**
      * Set hcEstetica

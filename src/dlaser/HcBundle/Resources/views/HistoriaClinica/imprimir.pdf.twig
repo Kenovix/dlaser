@@ -1,4 +1,4 @@
-{% extends "AdminBundle::admin_layout.html.twig" %}
+{% extends "::simple.html.twig" %}
 
 {% block stylesheets %}
 <style>
@@ -61,24 +61,11 @@
 		
 		<br />
 		<br />
-
-
-		<b>ANTECEDENTES DE RIESGO</b><br />  
-		
-		<b>hta: </b>{{ entity.hta }} &nbsp;&nbsp;
-		<b>Diabetes: </b>{{ entity.diabetes }} &nbsp;&nbsp;  
-		<b>Dislipidemia: </b>{{ entity.dislipidemia }} &nbsp;&nbsp;
-		<b>Tabaquismo: </b>{{ entity.tabaquismo }} &nbsp;&nbsp; 
-		<b>Obesidad: </b>{{ entity.obesidad }} &nbsp;&nbsp; 
-		<b>Ante Familiar: </b>{{ entity.anteFamiliar }} &nbsp;&nbsp;
-		<b>Sedentarismo: </b>{{ entity.sedentarismo }} &nbsp;&nbsp;  
-		
-		<br />
 		<br />
 		 
 		<b>ENFERMEDAD ACTUAL: </b>{{ entity.enfermedad }}<br /><br />
 		
-		<b>REVISIÓN SISTEMICA: </b>{{ entity.revCardiovascular }}<br /><br />
+		<b>REVISIÓN SISTEMICA: </b>{{ entity.revSistema }}<br /><br />
 		
 		<b>EXÁMEN FISICO: </b>{{ entity.exaFisico }}<br /><br />
 		
@@ -136,9 +123,9 @@
 			{% endif %}
 		<br /><br />
 		
-		{% if entity.motivoInter  %}
+		{% if entity.motivo  %}
 			<b>INTERCONSULTA 2: </b>
-				{{ entity.motivoInter }}
+				{{ entity.motivo }}
 		{% endif %}
 		<br /><br />
 		
@@ -303,7 +290,7 @@
 {% endif %}
 
 
-{% if entity.motivoInter %}
+{% if entity.motivo %}
 	
 	{% set i = i+1 %}
 
@@ -332,7 +319,7 @@
 			    
 			    <br /><br /><br /><br />
 			    
-			    <span>{{ entity.motivoInter }}</span>
+			    <span>{{ entity.motivo }}</span>
 			
 				<br /><br /><br /><br />
 			

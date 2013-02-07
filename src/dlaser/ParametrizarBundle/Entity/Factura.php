@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="factura")
  * @ORM\Entity
+ * 
+ * @ORM\Entity(repositoryClass="dlaser\ParametrizarBundle\Entity\Repository\FacturaRepository")
  */
 class Factura
 {

@@ -24,8 +24,7 @@ use dlaser\HcBundle\Form\HcExamenType;
 use dlaser\InformeBundle\Form\TeType;
 
 
-class HcController extends Controller
-{
+class HcController extends Controller{
 	/* este metodo se establece para la creacion de la Historia clinica justo despues de hacer la facturacion 
 	 * asi que el id que le llega a esta es el id de la factura 
 	 */
@@ -34,8 +33,7 @@ class HcController extends Controller
 		$entity  = new Hc();		
 						
 			$em = $this->getDoctrine()->getEntityManager();
-			$factura = $em->getRepository('ParametrizarBundle:Factura')->find($id);
-			
+			$factura = $em->getRepository('ParametrizarBundle:Factura')->find($id);			
 			$existe = $em->getRepository('HcBundle:Hc')->findByFactura($id);
 			
 			if(!$factura || $existe)
@@ -46,30 +44,17 @@ class HcController extends Controller
 			$paciente = $factura->getPaciente();
 			$cargo = $factura->getCargo();
 		
-			$dql = $em->createQuery("SELECT hc FROM HcBundle:Hc hc JOIN hc.factura f JOIN f.paciente p
-					WHERE p.identificacion = :id ORDER BY hc.fecha DESC");			
-			
-			$dql->setParameter('id', $paciente->getIdentificacion());
-			$dql->setMaxResults(1);			
-			$HC = $dql->getResult();
+			// buscar la ultima hc del paciente y relacionar los datos principales a la nueva hc si no tiene hc esta se generara automaticamente.
+			$HC = $em->getRepository('HcBundle:Hc')->findLastHc($paciente->getIdentificacion());			
 			
 			//----- asignar los datos de la ultima historia clinica si el paciente aun no tiene hc entonces se le creare una nueva.	
 			if($HC)
-			{
-				$HC = $dql->getSingleResult();				
-								
-				$entity->setHta($HC->getHta());
-				$entity->setDiabetes($HC->getDiabetes());
-				$entity->setDislipidemia($HC->getDislipidemia());
-				$entity->setTabaquismo($HC->getTabaquismo());
-				$entity->setObesidad($HC->getObesidad());
-				$entity->setAnteFamiliar($HC->getAnteFamiliar());
-				$entity->setSedentarismo($HC->getSedentarismo());
+			{					
 				$entity->setEnfermedad($HC->getEnfermedad());
 				$entity->setExaFisico($HC->getExaFisico());
-				$entity->setRevCardiovascular($HC->getRevCardiovascular());
+				$entity->setRevSistema($HC->getRevSistema());
 				$entity->setManejo($HC->getManejo());
-				$entity->setMotivoInter($HC->getMotivoInter());
+				$entity->setMotivo($HC->getMotivo());
 				$entity->setControl($HC->getControl());
 				$entity->setCtrlPrioritario($HC->getCtrlPrioritario());
 				$entity->setPostfecha($HC->getPostfecha());					
@@ -80,44 +65,17 @@ class HcController extends Controller
 				$em->persist($entity);
 				$em->flush();
 				
-				// Verifica si de los examenes solicitados alguno fue hecho en ccv y trae conclusión
-				$ultimaCx = $em->createQuery('SELECT
-												f.id,
-												f.fecha
-											FROM
-												ParametrizarBundle:Factura f
-											WHERE
-												f.paciente = :paciente AND
-												f.cargo = :cargo
-											ORDER BY 
-												f.fecha DESC');
+				// Verifica si de los examenes solicitados alguno fue hecho en ccv(empresa) y trae conclusión
+				$cxAnt = $em->getRepository('ParametrizarBundle:Factura')->findCheckExm($paciente,$cargo);
 				
-				$ultimaCx->setParameter('paciente', $paciente);
-				$ultimaCx->setParameter('cargo', $cargo);
-				
-				$cxAnt = $ultimaCx->getArrayResult();
 				
 				if(count($cxAnt) > 1){
+					// trae la informacion de la hc con respecto al id de la factura de la consulta anterior
 					$hc_ant = $em->getRepository('HcBundle:Hc')->findOneBy(array('factura' => $cxAnt[1]['id']));
 						
-					$dql = $em->createQuery('SELECT
-												he.id,
-												he.fecha,
-												he.resultado,
-												he.fecha_r,
-												he.estado,
-												e.nombre,
-												e.codigo
-											FROM
-												HcBundle:HcExamen he
-											JOIN
-												he.examen e
-											WHERE
-												he.hc = :hc');
-						
-					$dql->setParameter('hc', $hc_ant->getId());
-						
-					$exaPresentados = $dql->getResult();
+					// trae la informacion de los examenes que tienen $hc_ant asociado genera los examenes presentados.
+					$exaPresentados = $em->getRepository('HcBundle:HcExamen')->findHcExamPresent($hc_ant->getId());
+					
 						
 					if($exaPresentados){
 				
@@ -126,20 +84,9 @@ class HcController extends Controller
 						foreach ($exaPresentados as $examen){
 							if(in_array($examen['codigo'], $exa_ccv)){
 								
-								$dql = $em->createQuery('SELECT
-															f.id
-														FROM
-															ParametrizarBundle:Factura f
-														JOIN
-															f.cargo c
-														WHERE
-															f.fecha > :fecha AND
-															c.cups = :codigo');
+								// listar todos los examenes realizados en la empresa
+								$exa_in_ccv = $em->getRepository('ParametrizarBundle:Factura')->findExaInCcv($examen);
 								
-								$dql->setParameter('codigo', $examen['codigo']);
-								$dql->setParameter('fecha', $examen['fecha']);
-								
-								$exa_in_ccv = $dql->getArrayResult();
 								
 								if ($exa_in_ccv){
 									switch($examen['codigo']){
@@ -238,14 +185,7 @@ class HcController extends Controller
 				$medi_hc = $em->getRepository('HcBundle:HcMedicamento')->findByHc($HC->getId());
 				$cie_hc = $HC->getCie();
 				
-				$dql = $em->createQuery("SELECT hc FROM HcBundle:Hc hc JOIN hc.factura f JOIN f.paciente p
-						WHERE p.identificacion = :id ORDER BY hc.fecha DESC");
-					
-				$dql->setParameter('id', $paciente->getIdentificacion());
-				$dql->setMaxResults(1);
-				$HC = $dql->getSingleResult();											
-																
-				
+							
 				foreach ($medi_hc as $medicamentos){
 						
 					$entity  = new HcMedicamento();			
@@ -271,16 +211,9 @@ class HcController extends Controller
 				return $this->redirect($this->generateUrl('factura_search'));
 			}
 			else{
-				$entity->setFecha(new \DateTime('now'));
-				$entity->setHta('no');
-				$entity->setDiabetes('no');
-				$entity->setDislipidemia('no');
-				$entity->setTabaquismo('no');
-				$entity->setObesidad('no');
-				$entity->setAnteFamiliar('no');
-				$entity->setSedentarismo('no');
+				$entity->setFecha(new \DateTime('now'));				
 				$entity->setEnfermedad();
-				$entity->setRevCardiovascular();
+				$entity->setRevSistema();
 				$entity->setExaFisico();
 				$entity->setFactura($factura);
 
@@ -314,86 +247,22 @@ class HcController extends Controller
 		$paciente = $factura->getPaciente();
 		$cargo = $factura->getCargo();
 	
-		//-----------------------consultas de usuario con su respectiva relacion -----------------------------
+		//-----------------------consultas de usuario con su respectiva relacion de sus signos -----------------------------
 		$usuario = $this->get('security.context')->getToken()->getUser();	
 
-		$dql = $em->createQuery("SELECT 
-									hc 
-								FROM 
-									HcBundle:Hc hc 
-								JOIN 
-									hc.factura f 
-								JOIN 
-									f.paciente p
-								WHERE  
-									p.id = :id 
-								ORDER BY 
-									hc.fecha DESC");
+		$signos = $em->getRepository('HcBundle:Hc')->findSignos($paciente->getId());
+			
+		//------------------------------------- MEDICAMENTO relacionados con el usuario--------------------------------------------------------
 		
-		$dql->setParameter('id', $paciente->getId());
+		$medicamento = $em->getRepository('HcBundle:Medicamento')->findMedicamento($usuario->getId());
 		
-		$signos = $dql->getResult();
-	
-		//------------------------------------- MEDICAMENTO --------------------------------------------------------
+		$hcMe = $em->getRepository('HcBundle:HcMedicamento')->findHcMedicamento($hc->getId());	
 		
-		$dql = $em->createQuery('SELECT m
-								 FROM 
-									HcBundle:Medicamento m
-								 WHERE 
-									m.usuario = :usuario AND
-									m.estado = :estado
-								 ORDER BY
-									m.principioActivo, 
-									m.concentracion, 
-									m.tiempo ASC');
-		
-		$dql->setParameter('usuario', $usuario->getId());
-		$dql->setParameter('estado', 'A');
-		$medicamento = $dql->getResult();
-	
-		$dql = $em->createQuery('SELECT 
-									hm.estado,
-									hm.id,
-									m.principioActivo,
-									m.concentracion,
-									m.dosisDia,
-									m.tiempo,
-									m.pos
-								FROM 
-									HcBundle:HcMedicamento hm 
-								JOIN 
-									hm.medicamento m
-								WHERE 
-									hm.hc = :id');
-		
-		$dql->setParameter('id', $hc->getId());
-		$hcMe = $dql->getResult();
 		//------------------------------------- END MEDICAMENTO-----------------------------------------------------
 	
 		//-------------------------------------DIAGNOSTICOS---------------------------------------------------------
-		$dql = $em->createQuery('SELECT 
-									c 
-								 FROM 
-									HcBundle:Cie c 
-								JOIN 
-									c.usuario u
-								WHERE 
-									u.id = :id AND 
-									c.id NOT IN (
-										SELECT 
-											C 
-										FROM 
-											HcBundle:Cie C 
-										JOIN 
-											C.hc h 
-										WHERE 
-											h.id = :hc)
-								ORDER BY
-									c.nombre ASC');
 		
-		$dql->setParameter('id', $usuario->getId());
-		$dql->setParameter('hc', $hc->getId());
-		$cie = $dql->getResult();
+		$cie = $em->getRepository('HcBundle:Cie')->findCie($usuario->getId(),$hc->getId());		
 			
 		$hcCie = $hc->getCie();
 		
@@ -402,96 +271,27 @@ class HcController extends Controller
 	
 		//-------------------------------------EXAMENES---------------------------------------------------------
 		
-		$ultimaCx = $em->createQuery('SELECT
-										f.id,
-										f.fecha
-									FROM
-										ParametrizarBundle:Factura f
-									WHERE
-										f.paciente = :paciente AND
-										f.cargo = :cargo
-									ORDER BY f.fecha DESC');
-		
-		$ultimaCx->setParameter('paciente', $paciente);
-		$ultimaCx->setParameter('cargo', $cargo);
-		
-		$cxAnt = $ultimaCx->getArrayResult();
-		
+		$cxAnt = $em->getRepository('ParametrizarBundle:Factura')->findCxAnt($paciente,$cargo);
+						
 		if(count($cxAnt) > 1){
 			$hc_ant = $em->getRepository('HcBundle:Hc')->findOneBy(array('factura' => $cxAnt[1]['id']));
 			
-			$dql = $em->createQuery('SELECT
-										he.id,					
-										he.fecha,
-										he.resultado,
-										he.fecha_r,
-										he.estado,
-										e.nombre,
-										e.codigo
-									FROM
-										HcBundle:HcExamen he
-									JOIN
-										he.examen e
-									WHERE
-										he.hc = :hc
-									ORDER BY
-										he.fecha DESC');
-			
-			$dql->setParameter('hc', $hc_ant->getId());			
-			$exaPresentados = $dql->getResult();
+			$exaPresentados = $em->getRepository('HcBundle:HcExamen')->findHcExamPresent($hc_ant->getId());		
 			
 		}else {
 			$exaPresentados = null;
 		}
 		
-		$dql = $em->createQuery('SELECT
-				he.id,
-				he.fecha,
-				he.resultado,
-				he.fecha_r,
-				he.estado,
-				e.nombre,
-				e.codigo
-				FROM
-				HcBundle:HcExamen he
-				JOIN
-				he.examen e
-				WHERE
-				he.hc = :hc AND
-				he.resultado != :resultado');
-			
-		$dql->setParameter('hc', $hc->getId());
-		$dql->setParameter('resultado', 'NULL');
-			
-		$exaPresenPrimerVez = $dql->getResult();
+		// examenes presentados por primer vez
+		$exaPresenPrimerVez = $em->getRepository('HcBundle:HcExamen')->findHcExamPresentPriVez($hc->getId());
 		
 		if(!$exaPresenPrimerVez){
 			$exaPresenPrimerVez = null;		
 		}
 		
-		$dql = $em->createQuery('SELECT
-					he.fecha,
-					he.fecha_r,
-					he.resultado,
-					he.id,
-					he.estado,
-					e.nombre,
-					e.codigo
-				FROM
-					HcBundle:HcExamen he
-				JOIN
-					he.examen e
-				WHERE
-					he.estado = :estado AND
-					he.hc = :id');
-		
-		$dql->setParameter('estado', 'P');
-		$dql->setParameter('id', $hc->getId());
-		
-		$exa_solicitado = $dql->getResult();		
-		
-		$examenes = $usuario->getExamen(); // examenes del usuario
-		
+		// examenes solicitados
+		$exa_solicitado = $em->getRepository('HcBundle:HcExamen')->findHcExaSolicitado($hc->getId());			
+		$examenes = $usuario->getExamen(); // examenes del usuario		
 		$exaGeneral = $em->getRepository('HcBundle:Examen')->findAll();
 		
 		//-------------------------------------END EXAMENES---------------------------------------------------------
@@ -550,8 +350,7 @@ class HcController extends Controller
 		$editexform = $this->createForm(new HcExamenType());
 		$medform = $this->createForm(new MedicamentoType());
 		
-		$request = $this->getRequest();
-		
+		$request = $this->getRequest();		
 		$editform->bindRequest($request);
 	
 		if ($editform->isValid()) {
@@ -564,8 +363,7 @@ class HcController extends Controller
 			$em->persist($factura);
 			$em->flush();
 				
-			$this->get('session')->setFlash('info', 'La historia clinica ha sido modificada éxitosamente.');
-			
+			$this->get('session')->setFlash('info', 'La historia clinica ha sido modificada éxitosamente.');			
 			return $this->redirect($this->generateUrl('hc_edit', array('id' => $factura->getId())));
 		}
 		
@@ -574,105 +372,43 @@ class HcController extends Controller
 		
 		$usuario = $this->get('security.context')->getToken()->getUser();
 		
+		$medicamento = $em->getRepository('HcBundle:Medicamento')->findMedicamento($usuario->getId());
 		
-		$dql = $em->createQuery('SELECT m
-				FROM
-					HcBundle:Medicamento m
-				WHERE
-					m.usuario = :usuario
-				ORDER BY
-					m.principioActivo ASC');
+		$hcMe = $em->getRepository('HcBundle:HcMedicamento')->findHcMedicamento($hc->getId());
 		
-		$dql->setParameter('usuario', $usuario->getId());
-		$medicamento = $dql->getResult();
-		
-		$dql = $em->createQuery('SELECT hm.estado,hm.id,m.principioActivo,m.concentracion,m.dosisDia,m.tiempo,m.pos
-				FROM HcBundle:HcMedicamento hm JOIN hm.medicamento m
-				WHERE hm.hc = :id');
-		$dql->setParameter('id', $hc->getId());
-		$hcMe = $dql->getResult();
 		//------------------------------------- END MEDICAMENTO-----------------------------------------------------
 		
 		//-------------------------------------DIAGNOSTICOS---------------------------------------------------------
-		$dql = $em->createQuery('SELECT c FROM HcBundle:Cie c JOIN c.usuario u
-				WHERE u.id = :id AND c.id NOT IN (SELECT C FROM HcBundle:Cie C JOIN C.hc h WHERE h.id = :hc)');
-		$dql->setParameter('id', $usuario->getId());
-		$dql->setParameter('hc', $hc->getId());
-		$cie = $dql->getResult();
-			
-		$hcCie = $hc->getCie();
 		
+		$cie = $em->getRepository('HcBundle:Cie')->findCie($usuario->getId(),$hc->getId());			
+		$hcCie = $hc->getCie();		
 		$list_dx = $em->getRepository("HcBundle:Cie")->findAll();
 		
 		//-------------------------------------END DIAGNOSTICOS-----------------------------------------------------
 		
 		//-------------------------------------EXAMENES---------------------------------------------------------
 		
-		$ultimaCx = $em->createQuery('SELECT
-										f.id,
-										f.fecha
-									FROM
-										ParametrizarBundle:Factura f
-									WHERE
-										f.paciente = :paciente AND
-										f.cargo = :cargo
-									ORDER BY f.fecha DESC');
+		// examenes de la ultima consulta
+		$cxAnt = $em->getRepository('ParametrizarBundle:Factura')->findCheckExm($paciente,$cargo);
 		
-		$ultimaCx->setParameter('paciente', $paciente);
-		$ultimaCx->setParameter('cargo', $cargo);
-		
-		$cxAnt = $ultimaCx->getArrayResult();
 		
 		if(count($cxAnt) > 1){
 			$hc_ant = $em->getRepository('HcBundle:Hc')->findOneBy(array('factura' => $cxAnt[1]['id']));
 			
-			$dql = $em->createQuery('SELECT
-										he.id,					
-										he.fecha,
-										he.resultado,
-										he.fecha_r,
-										he.estado,
-										e.nombre
-									FROM
-										HcBundle:HcExamen he
-									JOIN
-										he.examen e
-									WHERE
-										he.hc = :hc');
+			$exaPresentados = $em->getRepository('HcBundle:HcExamen')->findHcExamPresent($hc_ant->getId());
 			
-			$dql->setParameter('hc', $hc_ant->getId());
-			
-			$exaPresentados = $dql->getResult();
 		}else {
 			$exaPresentados = null;
 		}
 		
-		$dql = $em->createQuery('SELECT
-				he.id,
-				he.fecha,
-				he.resultado,
-				he.fecha_r,
-				he.estado,
-				e.nombre,
-				e.codigo
-				FROM
-				HcBundle:HcExamen he
-				JOIN
-				he.examen e
-				WHERE
-				he.hc = :hc AND
-				he.resultado != :resultado');
-			
-		$dql->setParameter('hc', $hc->getId());
-		$dql->setParameter('resultado', 'NULL');
-			
-		$exaPresenPrimerVez = $dql->getResult();
-		
+		// examenes presentados por primera vez
+		$exaPresenPrimerVez = $em->getRepository('HcBundle:HcExamen')->findHcExamPresentPriVez($hc->getId());
+				
 		if(!$exaPresenPrimerVez){
 			$exaPresenPrimerVez = null;
-		}
-		
+		}		
 		$exaGeneral = $em->getRepository('HcBundle:Examen')->findAll();
+		
 		//-------------------------------------END EXAMENES---------------------------------------------------------
 		
 		//-------------------------------------HC Estetica----------------------------------------------------------
@@ -755,23 +491,9 @@ class HcController extends Controller
 			{
 				$identifi = $dql->getSingleResult();				
 				$paciente = $em->getRepository('ParametrizarBundle:Paciente')->find($identifi['id']);
-					
-				$dql = $em->createQuery("SELECT hc 
-										 FROM HcBundle:Hc hc 
-										 JOIN hc.factura f 
-										 JOIN f.paciente p
-										 WHERE 
-											f.estado = 'I' AND  
-											p.identificacion = :id AND 
-											p.tipoId = :tipo 
-										 ORDER BY 
-											hc.fecha DESC");
-				
-				$dql->setParameter('id', $idP);
-				$dql->setParameter('tipo', $tipoid);
-				$HC = $paginador->paginate($dql->getResult())->getResult();
-				
-					
+
+				$HC = $paginador->paginate($em->getRepository('HcBundle:Hc')->findListHc($idP,$tipoid))->getResult();
+									
 				if($HC)
 				{						
 					return $this->render('HcBundle:HistoriaClinica:list.html.twig', array(
@@ -816,15 +538,10 @@ class HcController extends Controller
 			{
 				throw $this->createNotFoundException('No hay pacientes disponibles.');
 			}
+			
+			$HC = $paginador->paginate($em->getRepository('HcBundle:Hc')->findPaginadorHc($paciente->getId()))->getResult();
 				
-			$dql = $em->createQuery("SELECT hc FROM HcBundle:Hc hc JOIN hc.factura f JOIN f.paciente p
-					WHERE f.estado = 'I' AND  p.id = :id ORDER BY hc.fecha DESC");	
 										
-			$dql->setParameter('id', $paciente->getId());			
-			$HC = $paginador->paginate($dql->getResult())->getResult();
-			
-			
-								
 			if(!$HC)
 			{
 				$this->get('session')->setFlash('warning','No hay informacion disponible');
@@ -950,125 +667,38 @@ class HcController extends Controller
 		//------------------------------------- MEDICAMENTO --------------------------------------------------------
 		$medicamento = $em->getRepository('HcBundle:Medicamento')->findByUsuario($usuario->getId());
 		
-		$dql = $em->createQuery('SELECT 
-									hm.id,
-									hm.estado,
-									m.principioActivo,
-									m.presentacion,
-									m.concentracion,
-									m.dosisDia,
-									m.tiempo,
-									m.diasTratamiento,
-									m.pos
-								FROM 
-									HcBundle:HcMedicamento hm 
-								JOIN 
-									hm.medicamento m
-								WHERE 
-									hm.hc = :id');
+		$hcMe = $em->getRepository('HcBundle:HcMedicamento')->findHcMedicamento($hc->getId());
 		
-		$dql->setParameter('id', $hc->getId());
-		$hcMe = $dql->getResult();
 		//------------------------------------- END MEDICAMENTO-----------------------------------------------------
 		
 		//-------------------------------------DIAGNOSTICOS---------------------------------------------------------
-		$dql = $em->createQuery('SELECT c FROM HcBundle:Cie c JOIN c.usuario u
-				WHERE u.id = :id AND c.id NOT IN (SELECT C FROM HcBundle:Cie C JOIN C.hc h WHERE h.id = :hc)');
-		$dql->setParameter('id', $usuario->getId());
-		$dql->setParameter('hc', $hc->getId());
-		$cie = $dql->getResult();
-			
+		
+		$cie = $em->getRepository('HcBundle:HcMedicamento')->findHcMedicamento($usuario->getId(),$hc->getId());			
 		$hcCie = $hc->getCie();
 		//-------------------------------------END DIAGNOSTICOS-----------------------------------------------------
 		
 		//-------------------------------------EXAMENES---------------------------------------------------------
 		
-		$ultimaCx = $em->createQuery('SELECT
-										f.id,
-										f.fecha
-									FROM
-										ParametrizarBundle:Factura f
-									WHERE
-										f.paciente = :paciente AND
-										f.cargo = :cargo
-									ORDER BY f.fecha DESC');
-		
-		$ultimaCx->setParameter('paciente', $paciente);
-		$ultimaCx->setParameter('cargo', $cargo);
-		
-		$cxAnt = $ultimaCx->getArrayResult();
-		
+		$cxAnt = $em->getRepository('ParametrizarBundle:Factura')->findCheckExm($paciente,$cargo);		
 		
 		if(count($cxAnt) > 1){
 			$hc_ant = $em->getRepository('HcBundle:Hc')->findOneBy(array('factura' => $cxAnt[1]['id']));
 			
-			$dql = $em->createQuery('SELECT
-										he.id,					
-										he.fecha,
-										he.resultado,
-										he.fecha_r,
-										he.estado,
-										e.nombre
-									FROM
-										HcBundle:HcExamen he
-									JOIN
-										he.examen e
-									WHERE
-										he.hc = :hc');
+			$exa_presentado = $em->getRepository('HcBundle:HcExamen')->findHcExamPresent($hc_ant->getId());			
 			
-			$dql->setParameter('hc', $hc_ant->getId());
-			
-			$exa_presentado = $dql->getResult();
 		}else {
 			$exa_presentado = null;
 		}
 		
-		$dql = $em->createQuery('SELECT
-				he.id,
-				he.fecha,
-				he.resultado,
-				he.fecha_r,
-				he.estado,
-				e.nombre,
-				e.codigo
-				FROM
-				HcBundle:HcExamen he
-				JOIN
-				he.examen e
-				WHERE
-				he.hc = :hc AND
-				he.resultado != :resultado');
-			
-		$dql->setParameter('hc', $hc->getId());
-		$dql->setParameter('resultado', 'NULL');
-			
-		$exaPresenPrimerVez = $dql->getResult();
+		$exaPresenPrimerVez = $em->getRepository('HcBundle:HcExamen')->findHcExamPresentPriVez($hc->getId());	
 		
 		if(!$exaPresenPrimerVez){
 			$exaPresenPrimerVez = null;
 		}
 		
-		$dql = $em->createQuery('SELECT 
-									he.fecha, 
-									he.fecha_r, 
-									he.resultado,
-									he.id,
-									he.estado, 
-									e.nombre, 
-									e.codigo 
-								FROM 
-									HcBundle:HcExamen he 
-								JOIN 
-									he.examen e
-								WHERE
-									he.hc = :id AND
-									he.estado = :estado');
+		$exa_solicitado = $em->getRepository('HcBundle:HcExamen')->findHcExaSolicitado($hc->getId());
 		
-		$dql->setParameter('id', $hc->getId());
-		$dql->setParameter('estado', 'P');
-		
-		$exa_solicitado = $dql->getResult();
-		
+				
 		$date = new \DateTime();
 		
 		$html = $this->renderView('HcBundle:HistoriaClinica:imprimir.pdf.twig', array(

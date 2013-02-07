@@ -55,9 +55,7 @@
                 <th>Id</th>
                 <th>Fecha</th>
                 <th>Peso</th>
-                <th>Estatura</th>
-                <th>Obesidad</th>
-                <th>Diabetes</th>
+                <th>Estatura</th>                
                 <th>Hc-Estetica</th>
                 <th>Opciones</th>
             </tr>
@@ -73,9 +71,7 @@
                 {% endif %}
                 
                 <td><strong>{{ entity.peso }}</strong></td>
-                <td>{{ entity.estatura }}</td> 
-                <td>{{ entity.obesidad }}</td>
-                <td>{{ entity.diabetes }}</td>
+                <td>{{ entity.estatura }}</td>                
                 {% if entity.hcEstetica %}                	
                 	<td><a href="{{ path('HcEstetica_edit', { 'hc': entity.id }) }}" class="button left"><span class="label">Ver Hc-Estetica.</span></a></td>
                 {% else %}

@@ -1,4 +1,4 @@
-	#newHcEstetica_op input {
+#newHcEstetica_op input {
 	-webkit-appearance: none;
 	background-color: #fafafa;
 	border: 1px solid #cacece;
@@ -7,20 +7,20 @@
 	border-radius: 3px;
 	display: inline-block;
 	position: relative;
-    }
+}
     
-	#newHcEstetica_op input:active, .#newHcEstetica_op input:checked:active {
+#newHcEstetica_op input:active, .#newHcEstetica_op input:checked:active {
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
-    }
+}
     
-    #newHcEstetica_op input:checked {
+#newHcEstetica_op input:checked {
 	background-color: #e9ecee;
 	border: 1px solid #adb8c0;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
 	color: #99a1a7;
 	}
 	
-    #newHcEstetica_op input:checked:after {
+#newHcEstetica_op input:checked:after {
 	content: '\2714';
 	font-size: 14px;
 	position: absolute;
@@ -28,17 +28,17 @@
 	left: 3px;
 	color: #99a1a7;
     }
-    label {      
-      display: inline;
+label{      
+     display: inline;
     
     }
-    #newHcEstetica_op input{    
+#newHcEstetica_op input{    
     display: none;
     
     }
     
     
-    #newHcEstetica_op input + label {
+#newHcEstetica_op input + label {
     background-color: #fafafa;
     border: 1px solid #cacece;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
@@ -47,7 +47,7 @@
     position: relative;    
     }
     
-    #newHcEstetica_op input:checked + label {
+#newHcEstetica_op input:checked + label {
     background-color: #e9ecee;
     border: 1px solid #adb8c0;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
@@ -64,6 +64,379 @@
 }
 
 #newHcEstetica_op input + label {
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 15px;    
+    padding-right: 5px;  
+    
+}
+
+/*-----------------------------PIGMENTACION-----------------------------------------------*/
+
+#newHcEstetica_pigmentacion input {
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+    
+#newHcEstetica_pigmentacion input:active, .#newHcEstetica_pigmentacion input:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+    
+#newHcEstetica_pigmentacion input:checked {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+	}
+	
+#newHcEstetica_pigmentacion input:checked:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: #99a1a7;
+    }
+label{      
+     display: inline;
+    
+    }
+#newHcEstetica_pigmentacion input{    
+    display: none;
+    
+    }
+    
+    
+#newHcEstetica_pigmentacion input + label {
+    background-color: #fafafa;
+    border: 1px solid #cacece;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+    padding: 9px;
+    border-radius: 5px;    
+    position: relative;    
+    }
+    
+#newHcEstetica_pigmentacion input:checked + label {
+    background-color: #e9ecee;
+    border: 1px solid #adb8c0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: #99a1a7;    
+}
+ 
+#newHcEstetica_pigmentacion input:checked + label:after {
+    content: '\2714';
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    color: #99a1a7;
+}
+
+#newHcEstetica_pigmentacion input + label {
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 15px;    
+    padding-right: 5px;  
+    
+}
+
+/*--------------------------ARRUGAS--------------------------*/
+
+#newHcEstetica_arrugas input {
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+    
+#newHcEstetica_arrugas input:active, .#newHcEstetica_arrugas input:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+    
+#newHcEstetica_arrugas input:checked {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+	}
+	
+#newHcEstetica_arrugas input:checked:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: #99a1a7;
+    }
+label{      
+     display: inline;
+    
+    }
+#newHcEstetica_arrugas input{    
+    display: none;
+    
+    }
+    
+    
+#newHcEstetica_arrugas input + label {
+    background-color: #fafafa;
+    border: 1px solid #cacece;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+    padding: 9px;
+    border-radius: 5px;    
+    position: relative;    
+    }
+    
+#newHcEstetica_arrugas input:checked + label {
+    background-color: #e9ecee;
+    border: 1px solid #adb8c0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: #99a1a7;    
+}
+ 
+#newHcEstetica_arrugas input:checked + label:after {
+    content: '\2714';
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    color: #99a1a7;
+}
+
+#newHcEstetica_arrugas input + label {
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 15px;    
+    padding-right: 5px;      
+}
+
+/*----------------------FLACIDEZ---------------------------------------*/
+
+#newHcEstetica_flacidez input {
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+    
+#newHcEstetica_flacidez input:active, .#newHcEstetica_flacidez input:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+    
+#newHcEstetica_flacidez input:checked {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+	}
+	
+#newHcEstetica_flacidez input:checked:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: #99a1a7;
+    }
+label{      
+     display: inline;
+    
+    }
+#newHcEstetica_flacidez input{    
+    display: none;
+    
+    }
+    
+    
+#newHcEstetica_flacidez input + label {
+    background-color: #fafafa;
+    border: 1px solid #cacece;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+    padding: 9px;
+    border-radius: 5px;    
+    position: relative;    
+    }
+    
+#newHcEstetica_flacidez input:checked + label {
+    background-color: #e9ecee;
+    border: 1px solid #adb8c0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: #99a1a7;    
+}
+ 
+#newHcEstetica_flacidez input:checked + label:after {
+    content: '\2714';
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    color: #99a1a7;
+}
+
+#newHcEstetica_flacidez input + label {
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 15px;    
+    padding-right: 5px;  
+}
+
+/*----------------------PARPADO---------------------------------------*/
+
+#newHcEstetica_parpado input {
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+    
+#newHcEstetica_parpado input:active, .#newHcEstetica_parpado input:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+    
+#newHcEstetica_parpado input:checked {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+	}
+	
+#newHcEstetica_parpado input:checked:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: #99a1a7;
+    }
+label{      
+     display: inline;
+    
+    }
+#newHcEstetica_parpado input{    
+    display: none;
+    
+    }
+    
+    
+#newHcEstetica_parpado input + label {
+    background-color: #fafafa;
+    border: 1px solid #cacece;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+    padding: 9px;
+    border-radius: 5px;    
+    position: relative;    
+    }
+    
+#newHcEstetica_parpado input:checked + label {
+    background-color: #e9ecee;
+    border: 1px solid #adb8c0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: #99a1a7;    
+}
+ 
+#newHcEstetica_parpado input:checked + label:after {
+    content: '\2714';
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    color: #99a1a7;
+}
+
+#newHcEstetica_parpado input + label {
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 15px;    
+    padding-right: 5px;  
+    
+}
+
+/*----------------------LESIONES_CUT---------------------------------------*/
+
+#newHcEstetica_lesiones_cut input {
+	-webkit-appearance: none;
+	background-color: #fafafa;
+	border: 1px solid #cacece;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+	padding: 9px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+}
+    
+#newHcEstetica_lesiones_cut input:active, .#newHcEstetica_lesiones_cut input:checked:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+}
+    
+#newHcEstetica_lesiones_cut input:checked {
+	background-color: #e9ecee;
+	border: 1px solid #adb8c0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+	color: #99a1a7;
+	}
+	
+#newHcEstetica_lesiones_cut input:checked:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: #99a1a7;
+    }
+label{      
+     display: inline;
+    
+    }
+#newHcEstetica_lesiones_cut input{    
+    display: none;
+    
+    }
+    
+    
+#newHcEstetica_lesiones_cut input + label {
+    background-color: #fafafa;
+    border: 1px solid #cacece;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+    padding: 9px;
+    border-radius: 5px;    
+    position: relative;    
+    }
+    
+#newHcEstetica_lesiones_cut input:checked + label {
+    background-color: #e9ecee;
+    border: 1px solid #adb8c0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
+    color: #99a1a7;    
+}
+ 
+#newHcEstetica_lesiones_cut input:checked + label:after {
+    content: '\2714';
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+    left: 3px;
+    color: #99a1a7;
+}
+
+#newHcEstetica_lesiones_cut input + label {
     padding: 0px;
     padding-top: 10px;
     padding-left: 15px;    

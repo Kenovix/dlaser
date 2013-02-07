@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Subir imagen{% endblock %}
+{% block titulo %}Editar la imagen{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -60,5 +60,6 @@
         <span class="label">Modificar</span>
     </button>    
     <a href="{{ path('file_new', {'estetica': file.hcEstetica.id}) }}" class="button left"><span class="label">Subir nueva</span></a>
+    <a href="{{ path('HcEstetica_edit', {'hc': hc.id}) }}" class="button left"><span class="label">Detalle H-Estetica</span></a>
 </form>
 {% endblock %}
