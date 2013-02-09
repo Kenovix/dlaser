@@ -18,15 +18,15 @@ class ImpresosController extends Controller{
 		 * encuesta satisfaccion....................................=> ES x
 		 * FINALIZACION TRATAMIENTO LASER...........................=> FTL
 		 * HORA DE LLEGADA..........................................=> TH x
-		 * PAGARE...................................................=> P *
+		 * PAGARE...................................................=> P 
 		 * PROGRAMA DE NUTRICION....................................=> PN
 		 * RECOMENDACIONES NUEVO....................................=> RN
-		 * SESIONES LASER FIRMAS....................................=> SLF
+		 * SESIONES LASER FIRMAS....................................=> SLF -
 		 */
 		$em = $this->getDoctrine()->getEntityManager();
 		$hc = $em->getRepository('HcBundle:Hc')->find($hc);
 		$pagina = null;
-		$option = 'RN';
+		$option = 'PN';
 		
 		if($hc){
 			
@@ -104,6 +104,8 @@ class ImpresosController extends Controller{
 		
 		if($hc){
 				
+			$fecha = new \DateTime('now');
+			
 			$sede = $hc->getFactura()->getSede();
 			$paciente = $hc->getFactura()->getPaciente();
 			$user = $this->get('security.context')->getToken()->getUser();

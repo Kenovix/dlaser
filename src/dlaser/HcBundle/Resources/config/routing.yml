@@ -334,7 +334,7 @@ file_showImagens:
 #****************** Impresos *********************#
 
 impreso_firma:
-    pattern:  /impresion/{hc}/certificado
+    pattern:  /impresion/{hc}/certi
     defaults: { _controller: HcBundle:Impresos:impresion }
     
 impreso_list:

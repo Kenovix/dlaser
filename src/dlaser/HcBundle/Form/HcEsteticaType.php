@@ -78,7 +78,39 @@ class HcEsteticaType extends AbstractType
 				),
 				'multiple'=>true,
 				'expanded' => true
+		))		
+		->add('lipodistrofia', 'choice', array(
+				'choices' => array(
+						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
+						'brazo' => 'Brazo', 'muslo' => 'Muslo'
+				),
+				'multiple'=>true,
+				'expanded' => true
+		))		
+		->add('tatuaje', 'choice', array(
+				'choices' => array(
+						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
+						'brazo' => 'Brazo', 'muslo' => 'Muslo'
+				),
+				'multiple'=>true,
+				'expanded' => true
 		))
+		->add('cicatrizes', 'choice', array(
+				'choices' => array(
+						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
+						'brazo' => 'Brazo', 'muslo' => 'Muslo'
+				),
+				'multiple'=>true,
+				'expanded' => true
+		))
+		->add('estrias', 'choice', array(
+				'choices' => array(
+						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
+						'brazo' => 'Brazo', 'muslo' => 'Muslo'
+				),
+				'multiple'=>true,
+				'expanded' => true
+		))		
 		->add('medicacion', 			'textarea', array('label' => 'Medicacion'))
 		->add('dx_cut', 		'textarea', array('required' => false,'label' => 'Diagnostico cutaneo'))
 		->add('e_uno', 			'textarea', array('required' => false,'label' => 'Escala uno'))

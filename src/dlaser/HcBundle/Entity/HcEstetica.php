@@ -143,9 +143,37 @@ class HcEstetica implements \Serializable
     /**
      * @var string $lesiones_cut
      *
-     * @ORM\Column(name="lesiones_cut", type="string", length=80)
+     * @ORM\Column(name="lesiones_cut", type="text")
      */
     private $lesiones_cut;
+    
+    /**
+     * @var string $lipodistrofia
+     *
+     * @ORM\Column(name="lipodistrofia", type="text")
+     */
+    private $lipodistrofia;
+    
+    /**
+     * @var string $tatuaje
+     *
+     * @ORM\Column(name="tatuaje", type="text")
+     */
+    private $tatuaje;
+    
+    /**
+     * @var string $cictrizes
+     *
+     * @ORM\Column(name="cictrizes", type="text")
+     */
+    private $cictrizes;
+    
+    /**
+     * @var string $estrias
+     *
+     * @ORM\Column(name="estrias",type="text")
+     */
+    private $estrias;
 
     /**
      * @var string $dx_cut
@@ -542,6 +570,88 @@ class HcEstetica implements \Serializable
     {
         return $this->lesiones_cut;
     }
+    
+    /**
+     * Set lipodistrofia
+     *
+     * @param text $lipodistrofia
+     */
+    public function setLipodistrofian($lipodistrofia)
+    {
+    	$this->lipodistrofia = $lipodistrofia;
+    }
+    
+    /**
+     * Get lipodistrofia
+     *
+     * @return text
+     */
+    public function getLipodistrofia()
+    {
+    	return $this->lipodistrofia;
+    }
+    
+    /**
+     * Set tatuaje
+     *
+     * @param text $tatuaje
+     */
+    public function setTatuaje($tatuaje)
+    {
+    	$this->tatuaje = $tatuaje;
+    }
+    
+    /**
+     * Get tatuaje
+     *
+     * @return text
+     */
+    public function getTatuaje()
+    {
+    	return $this->tatuaje;
+    }
+    
+    /**
+     * Set cictrizes
+     *
+     * @param text $cictrizes
+     */
+    public function setCictrizes($cictrizes)
+    {
+    	$this->cictrizes = $cictrizes;
+    }
+    
+    /**
+     * Get cictrizes
+     *
+     * @return text
+     */
+    public function getCictrizes()
+    {
+    	return $this->cictrizes;
+    }
+    
+    
+    /**
+     * Set estrias
+     *
+     * @param text $estrias
+     */
+    public function setEstrias($estrias)
+    {
+    	$this->estrias = $estrias;
+    }
+    
+    /**
+     * Get estrias
+     *
+     * @return text
+     */
+    public function getEstrias()
+    {
+    	return $this->estrias;
+    }
+    
 
     /**
      * Set dx_cut
@@ -737,7 +847,11 @@ class HcEstetica implements \Serializable
     	$this->arrugas = serialize($this->arrugas);    	
     	$this->flacidez = serialize($this->flacidez);
     	$this->parpado = serialize($this->parpado);
-    	$this->lesiones_cut = serialize($this->lesiones_cut);
+    	$this->lesiones_cut = serialize($this->lesiones_cut);    	
+    	$this->lipodistrofia = serialize($this->lipodistrofia);
+    	$this->tatuaje = serialize($this->tatuaje);
+    	$this->cictrizes = serialize($this->cictrizes);
+    	$this->estrias = serialize($this->estrias);
     }
     
     public function unserialize($serialize)
@@ -747,7 +861,11 @@ class HcEstetica implements \Serializable
     	$this->arrugas = unserialize($serialize['arrugas']);    	
     	$this->flacidez = unserialize($serialize['flacidez']);
     	$this->parpado = unserialize($serialize['parpado']);
-    	$this->lesiones_cut = unserialize($serialize['lesiones_cut']);
+    	$this->lesiones_cut = unserialize($serialize['lesiones_cut']);    	
+    	$this->lipodistrofia = unserialize($serialize["lipodistrofia"]);
+    	$this->tatuaje = unserialize($serialize["tatuaje"]);
+    	$this->cictrizes = unserialize($serialize["cictrizes"]);
+    	$this->estrias = unserialize($serialize["estrias"]);
     }
     
     

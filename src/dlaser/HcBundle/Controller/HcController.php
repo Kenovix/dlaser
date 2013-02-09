@@ -47,6 +47,7 @@ class HcController extends Controller{
 			// buscar la ultima hc del paciente y relacionar los datos principales a la nueva hc si no tiene hc esta se generara automaticamente.
 			$HC = $em->getRepository('HcBundle:Hc')->findLastHc($paciente->getIdentificacion());			
 			
+			
 			//----- asignar los datos de la ultima historia clinica si el paciente aun no tiene hc entonces se le creare una nueva.	
 			if($HC)
 			{					
@@ -212,9 +213,9 @@ class HcController extends Controller{
 			}
 			else{
 				$entity->setFecha(new \DateTime('now'));				
-				$entity->setEnfermedad();
+				/*$entity->setEnfermedad();
 				$entity->setRevSistema();
-				$entity->setExaFisico();
+				$entity->setExaFisico();*/
 				$entity->setFactura($factura);
 
 				$em->persist($entity);
