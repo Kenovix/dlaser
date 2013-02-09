@@ -98,11 +98,23 @@
 		        </tbody>
 		    </table>  		
 		</div>
+		
+		<div>
+    		{{ form_label(edit_form.motivo) }}
+			{{ form_errors(edit_form.motivo) }}
+			{{ form_widget(edit_form.motivo) }}
+    	</div>
     	    	
     	<div>
     		{{ form_label(edit_form.enfermedad) }}
 			{{ form_errors(edit_form.enfermedad) }}
 			{{ form_widget(edit_form.enfermedad) }}
+    	</div>
+    	
+    	<div>
+    		{{ form_label(edit_form.antecedentes) }}
+			{{ form_errors(edit_form.antecedentes) }}
+			{{ form_widget(edit_form.antecedentes) }}
     	</div>
     	
     	<div>
@@ -119,18 +131,83 @@
     	
     	<div>
     		<fieldset>
-    			<legend>Historial examenes presentados</legend>
-    		
-	    		<select id="examenes" name="examenes">
-	      			<option value="">Seleccione un examen</option>
-	       				{% for examen in examenes %} 
-	         				<option value="{{ examen.id }}">{{ examen.codigo }} - {{ examen.nombre }}</option>
-	       				{% endfor %}       
-	      		</select>
-	      		
-	      		<div id="historial"></div>
-	      		
-			</fieldset>
+    			<legend>Diagnosticos actuales</legend>
+		    	     
+	   			<table>
+	    	 		<thead>
+	            		<tr>
+	                		<th>Id</th>
+	                		<th>nombre</th>
+	                		<th>codigo</th>
+	                		<th>Opcion</th>                
+	            		</tr>
+	        		</thead>
+	        		<tbody> 
+	        		{% for permiso in perHcCie %}            
+			            <tr id='cie{{ permiso.id }}'>
+			                <td>{{ permiso.nombre}}</td>
+			                <td>{{ permiso.codigo}}</td>
+			                <td>                			               
+			    			<a onClick='delCie({{ permiso.id}}); return false;' href='#' class="button left"><span class="label"><span class='icon icon186'></span></span></a>
+			    			</td>
+			            </tr>
+	        		{% endfor %} 
+	      			</tbody>
+	    		</table>
+	    	</fieldset>
+    	</div>
+
+    	<div>
+    		<fieldset>
+    			<legend>Diagnosticos nuevos</legend>
+    			
+    			<div id="ajaxMsgCie"></div>
+    			
+    			<select id="cie" name="cie">
+					<option value="">Seleccione un diagnostico</option>
+					{% for cie in cies %}
+					<option value="{{ cie.id }}" data-url="{{ path('hc_hcCie', {'hc':entity.id, 'cie':cie.id}) }}">
+					{{ cie.nombre }} - {{ cie.codigo }}
+					</option>
+					{% endfor %}
+				</select>
+				
+				<a id="add-dx" title="Agregar un diagnostico">Agregar</a>
+				      
+				<table id="CieSolicitado">
+					<thead>
+	            		<tr>
+	                		<th>nombre</th>
+	                		<th>codigo</th>
+	                		<th>Opcion</th>                
+	            		</tr>
+	        		</thead>
+				    <tbody>   
+				    
+				    </tbody>
+				</table>    			
+    		</fieldset>
+    	</div>
+    	
+    	<div id="dx-add" title="Agregar diagnostico">    	
+			<fieldset>			
+				<legend>Agregar al listado</legend>
+				
+					<div id="msgAddDx"></div>
+	    			
+	    			<select id="list-dx" name="list-dx">
+		      			<option value="">Seleccione un examen</option>
+		       				{% for dxGen in list_dx %} 
+		         				<option value="{{ dxGen.id }}">{{ dxGen.codigo }} - {{ dxGen.nombre }}</option>
+		       				{% endfor %}       
+		      		</select>
+			</fieldset>			
+		</div>
+		
+		<div>
+    		{{ form_label(edit_form.dx_presunto) }}
+			{{ form_errors(edit_form.dx_presunto) }}
+			{{ form_widget(edit_form.dx_presunto) }}
     	</div>
     	
     	<div>
@@ -260,93 +337,8 @@
 			{{ form_errors(edit_form.interconsulta) }}
 			{{ form_widget(edit_form.interconsulta) }}
     	</div>
+
     	
-    	<div>
-    		{{ form_label(edit_form.motivo) }}
-			{{ form_errors(edit_form.motivo) }}
-			{{ form_widget(edit_form.motivo) }}
-    	</div>
-    	
-    	<div>
-    		<fieldset>
-    			<legend>Diagnosticos actuales</legend>
-		    	     
-	   			<table>
-	    	 		<thead>
-	            		<tr>
-	                		<th>Id</th>
-	                		<th>nombre</th>
-	                		<th>codigo</th>
-	                		<th>Opcion</th>                
-	            		</tr>
-	        		</thead>
-	        		<tbody> 
-	        		{% for permiso in perHcCie %}            
-			            <tr id='cie{{ permiso.id }}'>
-			                <td>{{ permiso.nombre}}</td>
-			                <td>{{ permiso.codigo}}</td>
-			                <td>                			               
-			    			<a onClick='delCie({{ permiso.id}}); return false;' href='#' class="button left"><span class="label"><span class='icon icon186'></span></span></a>
-			    			</td>
-			            </tr>
-	        		{% endfor %} 
-	      			</tbody>
-	    		</table>
-	    	</fieldset>
-    	</div>
-    	
-    	<div>
-    		<fieldset>
-    			<legend>Diagnosticos nuevos</legend>
-    			
-    			<div id="ajaxMsgCie"></div>
-    			
-    			<select id="cie" name="cie">
-					<option value="">Seleccione un diagnostico</option>
-					{% for cie in cies %}
-					<option value="{{ cie.id }}" data-url="{{ path('hc_hcCie', {'hc':entity.id, 'cie':cie.id}) }}">
-					{{ cie.nombre }} - {{ cie.codigo }}
-					</option>
-					{% endfor %}
-				</select>
-				
-				<a id="add-dx" title="Agregar un diagnostico">Agregar</a>
-				      
-				<table id="CieSolicitado">
-					<thead>
-	            		<tr>
-	                		<th>nombre</th>
-	                		<th>codigo</th>
-	                		<th>Opcion</th>                
-	            		</tr>
-	        		</thead>
-				    <tbody>   
-				    
-				    </tbody>
-				</table>    			
-    		</fieldset>
-    	</div>
-    	
-    	<div id="dx-add" title="Agregar diagnostico">    	
-			<fieldset>			
-				<legend>Agregar al listado</legend>
-				
-					<div id="msgAddDx"></div>
-	    			
-	    			<select id="list-dx" name="list-dx">
-		      			<option value="">Seleccione un examen</option>
-		       				{% for dxGen in list_dx %} 
-		         				<option value="{{ dxGen.id }}">{{ dxGen.codigo }} - {{ dxGen.nombre }}</option>
-		       				{% endfor %}       
-		      		</select>
-			</fieldset>			
-		</div>
-		
-		<div>
-    		{{ form_label(edit_form.dx_presunto) }}
-			{{ form_errors(edit_form.dx_presunto) }}
-			{{ form_widget(edit_form.dx_presunto) }}
-    	</div>
     	
     	<div>
     		<fieldset>

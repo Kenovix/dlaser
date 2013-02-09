@@ -54,6 +54,7 @@ class HcController extends Controller{
 				$entity->setEnfermedad($HC->getEnfermedad());
 				$entity->setExaFisico($HC->getExaFisico());
 				$entity->setRevSistema($HC->getRevSistema());
+				$entity->setAntecedentes($HC->getAntecedentes());
 				$entity->setManejo($HC->getManejo());
 				$entity->setMotivo($HC->getMotivo());
 				$entity->setControl($HC->getControl());
@@ -76,109 +77,7 @@ class HcController extends Controller{
 						
 					// trae la informacion de los examenes que tienen $hc_ant asociado genera los examenes presentados.
 					$exaPresentados = $em->getRepository('HcBundle:HcExamen')->findHcExamPresent($hc_ant->getId());
-					
-						
-					if($exaPresentados){
-				
-						$exa_ccv = array("881234", "894102", "895001", "895101", "881236", "896100", "893805");
-							
-						foreach ($exaPresentados as $examen){
-							if(in_array($examen['codigo'], $exa_ccv)){
-								
-								// listar todos los examenes realizados en la empresa
-								$exa_in_ccv = $em->getRepository('ParametrizarBundle:Factura')->findExaInCcv($examen);
-								
-								
-								if ($exa_in_ccv){
-									switch($examen['codigo']){
-										case "881234":
-											$eco = $em->getRepository('InformeBundle:Eco')->findOneBy(array('factura' => $exa_in_ccv[0]['id']));
-											$hc_examen = $em->getRepository('HcBundle:HcExamen')->find($examen['id']);
-												
-											$hc_examen->setFechaR($eco->getFecha());
-											$hc_examen->setResultado($eco->getConclusion());
-											$hc_examen->setEstado('R');
-											
-											$em->persist($hc_examen);
-											$em->flush();											
-											break;
-											
-										case "894102":
-											$esfuerzo = $em->getRepository('InformeBundle:TE')->findOneBy(array('factura' => $exa_in_ccv[0]['id']));
-											$hc_examen = $em->getRepository('HcBundle:HcExamen')->find($examen['id']);
-										
-											$hc_examen->setFechaR($esfuerzo->getFecha());
-											$hc_examen->setResultado($esfuerzo->getConclusion());
-											$hc_examen->setEstado('R');
-										
-											$em->persist($hc_examen);
-											$em->flush();
-											break;
-											
-										case "895001":
-											$holter = $em->getRepository('InformeBundle:TH')->findOneBy(array('factura' => $exa_in_ccv[0]['id']));
-											$hc_examen = $em->getRepository('HcBundle:HcExamen')->find($examen['id']);
-										
-											$hc_examen->setFechaR($holter->getFecha());
-											$hc_examen->setResultado($holter->getConclusion());
-											$hc_examen->setEstado('R');
-												
-											$em->persist($hc_examen);
-											$em->flush();
-											break;
-										
-										case "895101":
-											$ekg = $em->getRepository('InformeBundle:Electrocardiograma')->findOneBy(array('factura' => $exa_in_ccv[0]['id']));
-											$hc_examen = $em->getRepository('HcBundle:HcExamen')->find($examen['id']);
 
-											$hc_examen->setFechaR($ekg->getFecha());
-											$hc_examen->setResultado($ekg->getObservacion());
-											$hc_examen->setEstado('R');
-
-											$em->persist($hc_examen);
-											$em->flush();
-											break;
-											
-										case "881236":
-											$ecostres = $em->getRepository('InformeBundle:Ecostres')->findOneBy(array('factura' => $exa_in_ccv[0]['id']));
-											$hc_examen = $em->getRepository('HcBundle:HcExamen')->find($examen['id']);
-										
-											$hc_examen->setFechaR($ecostres->getFecha());
-											$hc_examen->setResultado($ecostres->getContenido());
-											$hc_examen->setEstado('R');
-										
-											$em->persist($hc_examen);
-											$em->flush();
-											break;
-											
-										case "896100":
-											$mapa = $em->getRepository('InformeBundle:Mapa')->findOneBy(array('factura' => $exa_in_ccv[0]['id']));
-											$hc_examen = $em->getRepository('HcBundle:HcExamen')->find($examen['id']);
-										
-											$hc_examen->setFechaR($mapa->getFecha());
-											$hc_examen->setResultado($mapa->getConclusiones());
-											$hc_examen->setEstado('R');
-										
-											$em->persist($hc_examen);
-											$em->flush();
-											break;
-											
-										case "893805":
-											$espiro = $em->getRepository('InformeBundle:Espirometria')->findOneBy(array('factura' => $exa_in_ccv[0]['id']));
-											$hc_examen = $em->getRepository('HcBundle:HcExamen')->find($examen['id']);
-										
-											$hc_examen->setFechaR($espiro->getFecha());
-											$hc_examen->setResultado($espiro->getObservacion());
-											$hc_examen->setEstado('R');
-										
-											$em->persist($hc_examen);
-											$em->flush();
-											break;
-									}
-								}
-							}
-						}
-					}
 				}else {
 					$exaPresentados = null;
 				}
@@ -186,6 +85,7 @@ class HcController extends Controller{
 				$medi_hc = $em->getRepository('HcBundle:HcMedicamento')->findByHc($HC->getId());
 				$cie_hc = $HC->getCie();
 				
+				$HC = $em->getRepository('HcBundle:Hc')->findLastHc($paciente->getIdentificacion());
 							
 				foreach ($medi_hc as $medicamentos){
 						
@@ -212,10 +112,14 @@ class HcController extends Controller{
 				return $this->redirect($this->generateUrl('factura_search'));
 			}
 			else{
+<<<<<<< HEAD
 				$entity->setFecha(new \DateTime('now'));				
 				/*$entity->setEnfermedad();
 				$entity->setRevSistema();
 				$entity->setExaFisico();*/
+=======
+				$entity->setFecha(new \DateTime('now'));
+>>>>>>> 684e61f3cab92e202c087523231c921da7e3cb8a
 				$entity->setFactura($factura);
 
 				$em->persist($entity);
@@ -266,6 +170,7 @@ class HcController extends Controller{
 		$cie = $em->getRepository('HcBundle:Cie')->findCie($usuario->getId(),$hc->getId());		
 			
 		$hcCie = $hc->getCie();
+		
 		
 		$list_dx = $em->getRepository("HcBundle:Cie")->findAll();
 		//-------------------------------------END DIAGNOSTICOS-----------------------------------------------------

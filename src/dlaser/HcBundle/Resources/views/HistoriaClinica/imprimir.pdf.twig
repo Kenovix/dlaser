@@ -41,7 +41,7 @@
 	 </table>
 {% endblock %}
 
-{% block space %}
+{% block head %}
 	<h1>Historia Clinica</h1>
 {% endblock %}
 
@@ -61,16 +61,30 @@
 		
 		<br />
 		<br />
-		<br />
+		
+		<b>MOTIVO DE CONSULTA: </b>{{ entity.motivo }}<br /><br />
 		 
 		<b>ENFERMEDAD ACTUAL: </b>{{ entity.enfermedad }}<br /><br />
+		
+		<b>ANTECEDENTES: </b>{{ entity.antecedentes }}<br /><br />
 		
 		<b>REVISIÓN SISTEMICA: </b>{{ entity.revSistema }}<br /><br />
 		
 		<b>EXÁMEN FISICO: </b>{{ entity.exaFisico }}<br /><br />
 		
+		{% if perHcCie%}
+			<b>DIAGNOSTICOS: </b>
+		    <span>
+				{% for permiso in perHcCie %}            
+		        	{{ permiso.codigo}} - {{ permiso.nombre}},&nbsp;&nbsp;&nbsp;			        
+		        {% endfor %} 
+			</span>
+			<span>{{ entity.dxPresunto }}</span>
+			<br /><br />
+		{% endif %}
+		
 		{% if exa_solicitado %}
-			<b>Examenes presentados</b>			    
+			<b>EXAMENES PRESENTADOS: </b>			    
 		    	<span>
 				{% for exa_pre in exa_presentado %}            
 					{{ exa_pre.fecha_r}} - {{ exa_pre.nombre}}:{{ exa_pre.resultado}},&nbsp;&nbsp;
@@ -86,7 +100,7 @@
 		{% endif %}
 
 		{% if exa_solicitado %}
-			<b>Examenes solicitados</b>			    
+			<b>EXAMENES SOLICITADOS: </b>			    
 		    	<span>
 				{% for exa_sol in exa_solicitado %}            
 		        	{{ exa_sol.nombre}},&nbsp;&nbsp;
@@ -96,42 +110,26 @@
 		    	<br /><br />
 		{% endif %}
 		
-		{% if perHcCie%}
-			<b>Diagnosticos</b>
-		    <span>
-				{% for permiso in perHcCie %}            
-		        	{{ permiso.codigo}} - {{ permiso.nombre}},&nbsp;&nbsp;&nbsp;			        
-		        {% endfor %} 
-			</span>
-			<span>{{ entity.dxPresunto }}</span>
-			<br /><br />
-		{% endif %}
-		
-		{% if perHcMe %}
-			<b>Recetario</b>  
-				{% for permiso in  perHcMe%}            
-		        	{{ permiso.principioActivo}} {{ permiso.presentacion}} {{ permiso.concentracion}} tomar {{ permiso.dosisDia }} cada {{ permiso.tiempo }} horas por {{ permiso.diasTratamiento }} dias # {{ ((24 /  permiso.tiempo ) * (permiso.dosisDia * permiso.diasTratamiento)) }}<br />
-		        {% endfor %} 				
-			<br />
-		{% endif %}
-		
 		<b>INTERCONSULTA: </b>
 			{% if entity.interconsulta  %} 
 				{{ entity.interconsulta }}
 			{% else %}
-				No aplca.
+				No aplica.
 			{% endif %}
 		<br /><br />
 		
-		{% if entity.motivo  %}
-			<b>INTERCONSULTA 2: </b>
-				{{ entity.motivo }}
-		{% endif %}
-		<br /><br />
+		{% if perHcMe %}
+			<b>RECETARIO:</b>  
+				{% for permiso in  perHcMe%}            
+		        	{{ permiso.principioActivo}} {{ permiso.presentacion}} {{ permiso.concentracion}} tomar {{ permiso.dosisDia }} cada {{ permiso.tiempo }} horas por {{ permiso.diasTratamiento }} dias # {{ ((24 /  permiso.tiempo ) * (permiso.dosisDia * permiso.diasTratamiento)) }}<br />
+		        {% endfor %} 				
+			<br />
+		{% endif %}		
 		
-		<b>PLAN DE MANEJO </b>{{ entity.manejo }}<br /><br />
 		
-		<b>CONTROL </b>{{ entity.control }}. 
+		<b>PLAN DE MANEJO: </b>{{ entity.manejo }}<br /><br />
+		
+		<b>CONTROL: </b>{{ entity.control }}. 
 		{% if entity.ctrlPrioritario  %}
 			<b>Prioritario</b>
 		{% endif %}
@@ -179,7 +177,7 @@
 			
 				<br /><br /><br /><br />
 			
-				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+				
 			</td>
 		</tr>
 		
@@ -230,7 +228,7 @@
 			
 				<br /><br /><br /><br />
 			
-				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+				
 			</td>
 		</tr>
 		{% if(i is odd) %}
@@ -279,7 +277,7 @@
 			
 				<br /><br /><br /><br />
 			
-				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+				
 			</td>
 		</tr>
 		{% if(i is odd) %}
@@ -323,7 +321,7 @@
 			
 				<br /><br /><br /><br />
 			
-				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+				
 			</td>
 		</tr>		
 		{% if(i is odd) %}
@@ -371,7 +369,7 @@
 			
 				<br /><br />
 			
-				<b>Documento con firma digital de:</b> Dr. Oscar narvaez moreno - Cardiólogo Internista - Reg. 1623488. (Certifirma).
+				
 			</td>
 		</tr>		
 		{% if(i is odd) %}
