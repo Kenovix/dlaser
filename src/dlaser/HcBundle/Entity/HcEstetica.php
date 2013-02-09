@@ -164,9 +164,9 @@ class HcEstetica implements \Serializable
     /**
      * @var string $cictrizes
      *
-     * @ORM\Column(name="cictrizes", type="text")
+     * @ORM\Column(name="cicatrizes", type="text")
      */
-    private $cictrizes;
+    private $cicatrizes;
     
     /**
      * @var string $estrias
@@ -576,7 +576,7 @@ class HcEstetica implements \Serializable
      *
      * @param text $lipodistrofia
      */
-    public function setLipodistrofian($lipodistrofia)
+    public function setLipodistrofia($lipodistrofia)
     {
     	$this->lipodistrofia = $lipodistrofia;
     }
@@ -612,23 +612,23 @@ class HcEstetica implements \Serializable
     }
     
     /**
-     * Set cictrizes
+     * Set cicatrizes
      *
-     * @param text $cictrizes
+     * @param text $cicatrizes
      */
-    public function setCictrizes($cictrizes)
+    public function setCicatrizes($cicatrizes)
     {
-    	$this->cictrizes = $cictrizes;
+    	$this->cicatrizes = $cicatrizes;
     }
     
     /**
-     * Get cictrizes
+     * Get cicatrizes
      *
      * @return text
      */
-    public function getCictrizes()
+    public function getCicatrizes()
     {
-    	return $this->cictrizes;
+    	return $this->cicatrizes;
     }
     
     
@@ -850,7 +850,7 @@ class HcEstetica implements \Serializable
     	$this->lesiones_cut = serialize($this->lesiones_cut);    	
     	$this->lipodistrofia = serialize($this->lipodistrofia);
     	$this->tatuaje = serialize($this->tatuaje);
-    	$this->cictrizes = serialize($this->cictrizes);
+    	$this->cicatrizes = serialize($this->cicatrizes);
     	$this->estrias = serialize($this->estrias);
     }
     
@@ -864,7 +864,7 @@ class HcEstetica implements \Serializable
     	$this->lesiones_cut = unserialize($serialize['lesiones_cut']);    	
     	$this->lipodistrofia = unserialize($serialize["lipodistrofia"]);
     	$this->tatuaje = unserialize($serialize["tatuaje"]);
-    	$this->cictrizes = unserialize($serialize["cictrizes"]);
+    	$this->cicatrizes = unserialize($serialize["cicatrizes"]);
     	$this->estrias = unserialize($serialize["estrias"]);
     }
     

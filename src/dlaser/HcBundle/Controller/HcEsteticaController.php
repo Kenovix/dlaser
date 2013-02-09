@@ -136,10 +136,10 @@ class HcEsteticaController extends Controller{
 					'flacidez' => $HcEstetica->getFlacidez(),
 					'parpado' => $HcEstetica->getParpado(),
 					'lesiones_cut' => $HcEstetica->getLesionesCut(),
-					'lipodistrofia' => $hcEstetica->getLipodistrofia(),
-					'tatuaje' => $hcEstetica->getTatuaje(),
-					'cicatrizes' => $hcEstetica->getCicatrizes(),
-					'estrias' => $hcEstetica->getEstrias(),
+					'lipodistrofia' => $HcEstetica->getLipodistrofia(),
+					'tatuaje' => $HcEstetica->getTatuaje(),
+					'cicatrizes' => $HcEstetica->getCicatrizes(),
+					'estrias' => $HcEstetica->getEstrias(),
 					);			
 			$HcEstetica->unserialize($serialize);			
 			$request = $this->getRequest();

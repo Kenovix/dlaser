@@ -112,16 +112,8 @@ class HcController extends Controller{
 				return $this->redirect($this->generateUrl('factura_search'));
 			}
 			else{
-<<<<<<< HEAD
-				$entity->setFecha(new \DateTime('now'));				
-				/*$entity->setEnfermedad();
-				$entity->setRevSistema();
-				$entity->setExaFisico();*/
-=======
-				$entity->setFecha(new \DateTime('now'));
->>>>>>> 684e61f3cab92e202c087523231c921da7e3cb8a
 				$entity->setFactura($factura);
-
+				$entity->setFecha(new \DateTime('now'));
 				$em->persist($entity);
 				$em->flush();
 								

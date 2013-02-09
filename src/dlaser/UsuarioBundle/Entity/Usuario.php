@@ -95,7 +95,7 @@ class Usuario implements UserInterface, \Serializable
      * @var string $perfil
      * @ORM\Column(name="perfil", type="string", length=13, nullable=false)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=15, message="El valor perfil debe tener como maximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=13, message="El valor perfil debe tener como maximo {{ limit }} caracteres.")
      * 
      */
     private $perfil;

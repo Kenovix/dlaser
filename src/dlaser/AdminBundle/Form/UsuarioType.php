@@ -17,14 +17,13 @@ class UsuarioType extends AbstractType
 				  'choices' => array(
 				  		'ROLE_ADMIN'=> 'Admin',
 				  		'ROLE_MEDICO'=> 'Medico',
-				  		'ROLE_AUX'=> 'Auxiliar',
-				  		'ROLE_FACTURADOR'=>'Facturador',),
+				  		'ROLE_AUX'=> 'Auxiliar',),
 					'multiple'=>false,
 					))
         
         ->add('telefono', 	'text',array('label'=>'Telefono*','attr' => array('placeholder' => 'Movil o Fijo')))
         ->add('direccion', 	'text', array('required' => false))
-        ->add('tp', 		'text', array('required' => false,'attr' => array('placeholder' => 'Numero targeta profecional')))
+        ->add('tp', 		'text', array('required' => false,'attr' => array('placeholder' => 'Numero tarjeta profesional')))
         ->add('especialidad', 	'text', array('required' => false))
         ->add('password',  	'repeated', array('type'=>'password',
 						       'invalid_message'=>'Las contraseñas deben coincidir',
