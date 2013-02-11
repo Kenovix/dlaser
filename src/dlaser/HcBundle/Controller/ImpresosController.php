@@ -11,22 +11,22 @@ class ImpresosController extends Controller{
 	function impresionAction($hc){
 		
 		/*
-		 * CALUSULAS PARA INGRESAS A LA SECCION DE LASER............=> CISL
-		 * CONSENTIMIENTO INFORMADO HILOS DE LEVANTAMIENTO GLUTEO...=> CIHLG
-		 * CONSENTIMIENTO INFORMADO LASER...........................=> CIL
-		 * CONSENTIMIENTO INFORMADO LASERLIPOLISIS..................=> CILL
+		 * CALUSULAS PARA INGRESAS A LA SECCION DE LASER............=> CISL <-
+		 * CONSENTIMIENTO INFORMADO HILOS DE LEVANTAMIENTO GLUTEO...=> CIHLG  -> verificar observaciones
+		 * CONSENTIMIENTO INFORMADO LASER...........................=> CIL 
+		 * CONSENTIMIENTO INFORMADO LASERLIPOLISIS..................=> CILL   -> verificar observaciones
 		 * encuesta satisfaccion....................................=> ES x
-		 * FINALIZACION TRATAMIENTO LASER...........................=> FTL
+		 * FINALIZACION TRATAMIENTO LASER...........................=> FTL	  -> verificar recomendaciones
 		 * HORA DE LLEGADA..........................................=> TH x
-		 * PAGARE...................................................=> P 
-		 * PROGRAMA DE NUTRICION....................................=> PN
-		 * RECOMENDACIONES NUEVO....................................=> RN
+		 * PAGARE...................................................=> P 	  -> verificar info
+		 * PROGRAMA DE NUTRICION....................................=> PN <-
+		 * RECOMENDACIONES NUEVO....................................=> RN <-
 		 * SESIONES LASER FIRMAS....................................=> SLF -
 		 */
 		$em = $this->getDoctrine()->getEntityManager();
 		$hc = $em->getRepository('HcBundle:Hc')->find($hc);
 		$pagina = null;
-		$option = 'PN';
+		$option = 'RN';
 		
 		if($hc){
 			
