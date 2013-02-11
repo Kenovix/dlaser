@@ -113,7 +113,7 @@ class HcEsteticaController extends Controller{
 			return $this->render('HcBundle:HcEstetica:edit.html.twig', array(
 					'entity' => $hcEstetica,
 					'hc' => $hc,
-					'edit_form'   => $editform->createView()
+					'form'   => $editform->createView()
 			));			
 			
 		}else{

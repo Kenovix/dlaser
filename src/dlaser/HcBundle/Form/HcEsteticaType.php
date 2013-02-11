@@ -9,9 +9,9 @@ class HcEsteticaType extends AbstractType
 	public function buildForm(FormBuilder $builder, array $options)
 	{
 		$builder
-		->add('fecha',   			'date',array('read_only'=>true))
-		->add('edad_crono', 			'integer', array('label' => 'Edad Crono','attr' => array('autofocus'=>'autofocus')))
-		->add('edad_aparente', 			'integer', array('label' => 'Edad Aparente'))
+		->add('fecha', 'date',array('read_only'=>true))
+		->add('edad_crono', 'integer', array('label' => 'Edad cronológica','attr' => array('autofocus'=>'autofocus')))
+		->add('edad_aparente', 'integer', array('label' => 'Edad aparente'))
 		
 		->add('piel_color', 'choice', array(
 				'choices' => array('N' => 'Normal', 'P' => 'Palida', 'R' => 'Rojiza')))
@@ -21,9 +21,12 @@ class HcEsteticaType extends AbstractType
 				'choices' => array('LF' => 'Lisa y Fina', 'GR' => 'Gruesa y Rugosa')))
 		->add('dentadura', 'choice', array(
 				'choices' => array('B' => 'Buena', 'R' => 'Regular', 'M' => 'Mala', 'P' => 'Protesis')))
+		
 		->add('nutricion', 'choice', array(
-				'choices' => array('OB' => 'Obesidad', 'KG ' => 'KGS de exceso', 'DE' => 'Desnutricion')))
-		->add('kgs', 		'integer', array('label' => 'K.G.S'))
+				'choices' => array('OB' => 'Obesidad', 'KG ' => 'KGS de exceso', 'DE' => 'Desnutricion'),
+				'label' => 'Nutrición'))
+		
+		->add('kgs', 'integer', array('label' => 'K.G.S'))
 				
 		->add('op', 'choice', array(
 				'choices' => array(
@@ -32,7 +35,8 @@ class HcEsteticaType extends AbstractType
 						'pustulas' => 'Pustulas', 'miliun' => 'Miliun', 'foliculitis' => 'Foliculitis', 'secuela_acne' => 'Secuela acne'
 						),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Orificios pilocebaceos'
 		))
 		->add('pigmentacion', 'choice', array(
 				'choices' => array(
@@ -40,7 +44,8 @@ class HcEsteticaType extends AbstractType
 						'melasma' => 'Melasma', 'cosmetica' => 'Cosmetica', 'maquillajes' => 'Maquillajes'
 						),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Pigmentación'
 		))
 		->add('arrugas', 'choice', array(
 				'choices' => array(
@@ -50,7 +55,8 @@ class HcEsteticaType extends AbstractType
 						'peribucales' => 'Peribucales', 'cuello' => 'Cuello', 'nasales' => 'Nasales', 'pliegues_cicatrizales' => 'Pliegues cicatrizales',
 						),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Arrugas'
 		))
 		
 		->add('flacidez', 'choice', array(
@@ -60,7 +66,8 @@ class HcEsteticaType extends AbstractType
 						'parpados' => 'Parpados'
 				),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Flacidez'
 		))
 		->add('parpado', 'choice', array(
 				'choices' => array(
@@ -68,7 +75,8 @@ class HcEsteticaType extends AbstractType
 						'bolsas_superiores' => 'Bolsas superiores', 'xantelasma' => 'Xantelasma', 'bolsas_inferiores' => 'Bolsas inferiores'
 				),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Parpado'
 		))		
 		->add('lesiones_cut', 'choice', array(
 				'choices' => array(
@@ -77,7 +85,8 @@ class HcEsteticaType extends AbstractType
 						'melanoma' => 'Melanoma', 'epit_basocelular' => 'Epit. Basocelular', 'epit_espinocelular' => 'Epit. Espinocelular'						
 				),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Lesiones cutáneas'
 		))		
 		->add('lipodistrofia', 'choice', array(
 				'choices' => array(
@@ -85,7 +94,8 @@ class HcEsteticaType extends AbstractType
 						'brazo' => 'Brazo', 'muslo' => 'Muslo'
 				),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Lipodistrofia'
 		))		
 		->add('tatuaje', 'choice', array(
 				'choices' => array(
@@ -93,7 +103,8 @@ class HcEsteticaType extends AbstractType
 						'brazo' => 'Brazo', 'muslo' => 'Muslo'
 				),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Tatuajes'
 		))
 		->add('cicatrizes', 'choice', array(
 				'choices' => array(
@@ -101,7 +112,8 @@ class HcEsteticaType extends AbstractType
 						'brazo' => 'Brazo', 'muslo' => 'Muslo'
 				),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Cicatrices'
 		))
 		->add('estrias', 'choice', array(
 				'choices' => array(
@@ -109,16 +121,18 @@ class HcEsteticaType extends AbstractType
 						'brazo' => 'Brazo', 'muslo' => 'Muslo'
 				),
 				'multiple'=>true,
-				'expanded' => true
+				'expanded' => true,
+				'label' => 'Estrias'
 		))		
-		->add('medicacion', 			'textarea', array('label' => 'Medicacion'))
+		->add('medicacion', 	'textarea', array('label' => 'Medicacion'))
 		->add('dx_cut', 		'textarea', array('required' => false,'label' => 'Diagnostico cutaneo'))
-		->add('e_uno', 			'textarea', array('required' => false,'label' => 'Escala uno'))
-		->add('e_dos', 			'textarea', array('required' => false,'label' => 'Escala dos'))
-		->add('e_tres', 		'textarea', array('required' => false,'label' => 'Escala tres'))
-		->add('e_cuatro', 		'textarea', array('required' => false,'label' => 'Escala cuatro'))
-		->add('e_cinco', 		'textarea', array('required' => false,'label' => 'Escala cinco'))
-		->add('e_seis', 		'textarea', array('required' => false,'label' => 'Escala seis'))
+		->add('e_uno', 			'text', array('required' => false,'label' => 'Fototipo 1'))
+		->add('e_dos', 			'text', array('required' => false,'label' => 'Fototipo 2'))
+		->add('e_tres', 		'text', array('required' => false,'label' => 'Fototipo 3'))
+		->add('e_cuatro', 		'text', array('required' => false,'label' => 'Fototipo 4'))
+		->add('e_cinco', 		'text', array('required' => false,'label' => 'Fototipo 5'))
+		->add('e_seis', 		'text', array('required' => false,'label' => 'Fototipo 6'))
+		->add('grafico', 		'textarea', array('required' => false, 'label' => 'grafico'))
 		
 		;		
 	}

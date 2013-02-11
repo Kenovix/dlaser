@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Nuevo Hc Estetica{% endblock %}
+{% block titulo %}Historia Clínica Estetica{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -29,10 +29,197 @@
 
 {% block cuerpo %}
 
-<form action="{{ path('HcEstetica_save', {'hc': hc.id}) }}" method="post" {{ form_enctype(form) }}>
+<style>
+	#clr div{
+	    cursor:pointer;
+	    width:20px;
+	    height:20px;
+	    float:left;
+	}
+</style>
+
+<form action="{{ path('HcEstetica_save', {'hc': hc.id}) }}" id="estetica" method="post" {{ form_enctype(form) }}>
     <fieldset>
     	<legend>Datos de la estetica</legend>
-    	{{ form_widget(form) }}
+    	
+    	<div style="display: none;">
+    		{{ form_label(form.fecha) }}
+			{{ form_errors(form.fecha) }}
+			{{ form_widget(form.fecha) }}
+		</div>
+    	
+    	<div>
+    		{{ form_label(form.edad_crono) }}
+			{{ form_errors(form.edad_crono) }}
+			{{ form_widget(form.edad_crono) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.edad_aparente) }}
+			{{ form_errors(form.edad_aparente) }}
+			{{ form_widget(form.edad_aparente) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.piel_color) }}
+			{{ form_errors(form.piel_color) }}
+			{{ form_widget(form.piel_color) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.piel_cutis) }}
+			{{ form_errors(form.piel_cutis) }}
+			{{ form_widget(form.piel_cutis) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.piel_tacto) }}
+			{{ form_errors(form.piel_tacto) }}
+			{{ form_widget(form.piel_tacto) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.dentadura) }}
+			{{ form_errors(form.dentadura) }}
+			{{ form_widget(form.dentadura) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.nutricion) }}
+			{{ form_errors(form.nutricion) }}
+			{{ form_widget(form.nutricion) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.kgs) }}
+			{{ form_errors(form.kgs) }}
+			{{ form_widget(form.kgs) }}
+		</div>    	
+    	
+    	<div id="check_item">
+    		<div>
+	    		{{ form_label(form.op) }}
+				{{ form_errors(form.op) }}
+				{{ form_widget(form.op) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.pigmentacion) }}
+				{{ form_errors(form.pigmentacion) }}
+				{{ form_widget(form.pigmentacion) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.arrugas) }}
+				{{ form_errors(form.arrugas) }}
+				{{ form_widget(form.arrugas) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.flacidez) }}
+				{{ form_errors(form.flacidez) }}
+				{{ form_widget(form.flacidez) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.parpado) }}
+				{{ form_errors(form.parpado) }}
+				{{ form_widget(form.parpado) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.lesiones_cut) }}
+				{{ form_errors(form.lesiones_cut) }}
+				{{ form_widget(form.lesiones_cut) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.lipodistrofia) }}
+				{{ form_errors(form.lipodistrofia) }}
+				{{ form_widget(form.lipodistrofia) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.tatuaje) }}
+				{{ form_errors(form.tatuaje) }}
+				{{ form_widget(form.tatuaje) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.cicatrizes) }}
+				{{ form_errors(form.cicatrizes) }}
+				{{ form_widget(form.cicatrizes) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.estrias) }}
+				{{ form_errors(form.estrias) }}
+				{{ form_widget(form.estrias) }}
+			</div>
+    	</div>
+    	
+    	<div>
+    		{{ form_label(form.medicacion) }}
+			{{ form_errors(form.medicacion) }}
+			{{ form_widget(form.medicacion) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.dx_cut) }}
+			{{ form_errors(form.dx_cut) }}
+			{{ form_widget(form.dx_cut) }}
+		</div>
+		
+		<div style="display: none;">
+    		{{ form_label(form.grafico) }}
+			{{ form_errors(form.grafico) }}
+			{{ form_widget(form.grafico) }}
+		</div>
+		
+		<fieldset>
+    		<legend>Escala de Fitzpatrick</legend>
+    		
+    		{{ form_rest(form) }}
+    		
+    	</fieldset>
+    	
+    	
+    	
+    	<canvas id="can" width="575" height="548" ></canvas>
+    	
+    	<div id="clr"> 
+        <div style="background-color:black;"></div>
+        <div style="background-color:red;"></div>
+        <div style="background-color:green;"></div>
+        <div style="background-color:orange;"></div>
+        <div style="background-color:#FFFF00;"></div>
+        <div style="background-color:#F43059;"></div>
+        <div style="background-color:#ff00ff;"></div>
+        <div style="background-color:#9ecc3b;"></div>
+        <div style="background-color:#fbd;"></div>
+        <div style="background-color:#fff460;"></div>
+        <div style="background-color:#F43059;"></div>
+        <div style="background-color:#82B82C;"></div>
+        <div style="background-color:#0099FF;"></div>
+        <div style="background-color:#ff00ff;"></div>
+        <div style="background-color:rgb(128,0,255);"></div>
+        <div style="background-color:rgb(255,128,0);"></div>
+        <div style="background-color:rgb(153,254,0);"></div>
+        <div style="background-color:rgb(18,0,255);"></div>
+        <div style="background-color:rgb(255,28,0);"></div>
+        <div style="background-color:rgb(13,54,0);"></div> 
+    </div> 
+    
+    <a id="limpiar" class="button">
+    	<span class="icon icon83"></span>
+    	<span class="label">Limpiar</span>
+    </a>
+    
+    <a id="view" class="button">
+    	<span class="icon icon84"></span>
+    	<span class="label">Ver</span>
+    </a>
+    	
     </fieldset>
     
     <button class="action blue" type="submit">
@@ -40,4 +227,69 @@
     </button>   
     <a href="{{ path('hc_edit', {'id': hc.factura.id}) }}" class="button left"><span class="label">Detalle H-Clinica</span></a>
 </form>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+	$(document).ready(function(){
+        
+    	var xCoord,yCoord="";         
+
+        var canvas=document.getElementById("can");
+        var cntx=canvas.getContext("2d");
+            
+        cntx.fillStyle="red";
+            
+        var img = new Image();
+		img.src = '{{ asset('bundles/dlaser/images/biotipo.jpg') }}';
+						
+		img.onload = function() {
+			cntx.drawImage(img,0,0);
+		};					
+
+		function dibujar(x,y){
+
+			cntx.save();
+			cntx.beginPath();
+			
+			cntx.arc(x,y,6,0,Math.PI*2,true);
+			
+			cntx.closePath();
+			cntx.fill();
+		}
+					
+		$("#can").click(function(canvas){						
+			xCoord=canvas.pageX-this.offsetLeft;
+			yCoord=canvas.pageY-this.offsetTop;
+
+			dibujar(xCoord,yCoord);						
+		});     
+
+        $("#limpiar").click(function(){
+        	
+        	var img = new Image();
+        	img.src = '{{ asset('bundles/dlaser/images/biotipo.jpg') }}';
+					
+			img.onload = function() {
+				cntx.drawImage(img,0,0);
+			};
+		});
+          
+        $("#clr > div").click(function(){
+        	cntx.fillStyle=$(this).css("background-color");
+        });
+
+		$("#view").click(function(){
+        	
+			var dataUrl = canvas.toDataURL();
+			
+        	window.open(dataUrl, "toDataURL() image", "width=600, height=200");
+		});
+
+		$('#estetica').submit(function() {
+			var dataUrl = canvas.toDataURL();
+
+			$('#newHcEstetica_grafico').val(dataUrl);
+		});
+	});
+</script>
 {% endblock %}
