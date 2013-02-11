@@ -29,10 +29,188 @@
 
 {% block cuerpo %}
 
-<form action="{{ path('HcEstetica_update', { 'estetica': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+<form action="{{ path('HcEstetica_update', { 'estetica': entity.id }) }}" method="post" {{ form_enctype(form) }}>
     <fieldset>
-    	<legend>Datos de la historia de estetica</legend>
-    	{{ form_widget(edit_form) }}
+    	<legend>Datos de la estetica</legend>
+    	
+    	<div style="display: none;">
+    		{{ form_label(form.fecha) }}
+			{{ form_errors(form.fecha) }}
+			{{ form_widget(form.fecha) }}
+		</div>
+    	
+    	<div>
+    		{{ form_label(form.edad_crono) }}
+			{{ form_errors(form.edad_crono) }}
+			{{ form_widget(form.edad_crono) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.edad_aparente) }}
+			{{ form_errors(form.edad_aparente) }}
+			{{ form_widget(form.edad_aparente) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.piel_color) }}
+			{{ form_errors(form.piel_color) }}
+			{{ form_widget(form.piel_color) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.piel_cutis) }}
+			{{ form_errors(form.piel_cutis) }}
+			{{ form_widget(form.piel_cutis) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.piel_tacto) }}
+			{{ form_errors(form.piel_tacto) }}
+			{{ form_widget(form.piel_tacto) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.dentadura) }}
+			{{ form_errors(form.dentadura) }}
+			{{ form_widget(form.dentadura) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.nutricion) }}
+			{{ form_errors(form.nutricion) }}
+			{{ form_widget(form.nutricion) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.kgs) }}
+			{{ form_errors(form.kgs) }}
+			{{ form_widget(form.kgs) }}
+		</div>    	
+    	
+    	<div id="check_item">
+    		<div>
+	    		{{ form_label(form.op) }}
+				{{ form_errors(form.op) }}
+				{{ form_widget(form.op) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.pigmentacion) }}
+				{{ form_errors(form.pigmentacion) }}
+				{{ form_widget(form.pigmentacion) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.arrugas) }}
+				{{ form_errors(form.arrugas) }}
+				{{ form_widget(form.arrugas) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.flacidez) }}
+				{{ form_errors(form.flacidez) }}
+				{{ form_widget(form.flacidez) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.parpado) }}
+				{{ form_errors(form.parpado) }}
+				{{ form_widget(form.parpado) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.lesiones_cut) }}
+				{{ form_errors(form.lesiones_cut) }}
+				{{ form_widget(form.lesiones_cut) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.lipodistrofia) }}
+				{{ form_errors(form.lipodistrofia) }}
+				{{ form_widget(form.lipodistrofia) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.tatuaje) }}
+				{{ form_errors(form.tatuaje) }}
+				{{ form_widget(form.tatuaje) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.cicatrizes) }}
+				{{ form_errors(form.cicatrizes) }}
+				{{ form_widget(form.cicatrizes) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.estrias) }}
+				{{ form_errors(form.estrias) }}
+				{{ form_widget(form.estrias) }}
+			</div>
+    	</div>
+    	
+    	<div>
+    		{{ form_label(form.medicacion) }}
+			{{ form_errors(form.medicacion) }}
+			{{ form_widget(form.medicacion) }}
+		</div>
+		
+		<div>
+    		{{ form_label(form.dx_cut) }}
+			{{ form_errors(form.dx_cut) }}
+			{{ form_widget(form.dx_cut) }}
+		</div>
+		
+		<div style="display: none;">
+    		{{ form_label(form.grafico) }}
+			{{ form_errors(form.grafico) }}
+			{{ form_widget(form.grafico) }}
+		</div>
+		
+		<fieldset>
+    		<legend>Escala de Fitzpatrick</legend>
+    		
+    		{{ form_rest(form) }}
+    		
+    	</fieldset>
+    	
+    	
+    	
+    	<canvas id="can" width="575" height="548"></canvas>
+    	
+    	<div id="clr"> 
+        <div style="background-color:black;"></div>
+        <div style="background-color:red;"></div>
+        <div style="background-color:green;"></div>
+        <div style="background-color:orange;"></div>
+        <div style="background-color:#FFFF00;"></div>
+        <div style="background-color:#F43059;"></div>
+        <div style="background-color:#ff00ff;"></div>
+        <div style="background-color:#9ecc3b;"></div>
+        <div style="background-color:#fbd;"></div>
+        <div style="background-color:#fff460;"></div>
+        <div style="background-color:#F43059;"></div>
+        <div style="background-color:#82B82C;"></div>
+        <div style="background-color:#0099FF;"></div>
+        <div style="background-color:#ff00ff;"></div>
+        <div style="background-color:rgb(128,0,255);"></div>
+        <div style="background-color:rgb(255,128,0);"></div>
+        <div style="background-color:rgb(153,254,0);"></div>
+        <div style="background-color:rgb(18,0,255);"></div>
+        <div style="background-color:rgb(255,28,0);"></div>
+        <div style="background-color:rgb(13,54,0);"></div> 
+    </div> 
+    
+    <a id="limpiar" class="button">
+    	<span class="icon icon83"></span>
+    	<span class="label">Limpiar</span>
+    </a>
+    
+    <a id="view" class="button">
+    	<span class="icon icon84"></span>
+    	<span class="label">Ver</span>
+    </a>
+    	
     </fieldset>
     
     <button class="action blue" type="submit">
@@ -44,3 +222,88 @@
 </form>
 {% endblock %}
 
+{% block javascripts %}
+<script type="text/javascript">
+	$(document).ready(function(){
+        
+    	var xCoord, yCoord, grafico="";         
+
+        var canvas=document.getElementById("can");
+        var cntx=canvas.getContext("2d");
+            
+        cntx.fillStyle="red";
+
+        grafico = $('#newHcEstetica_grafico').val();
+
+        if (grafico){
+        	/*var img = new Image();
+            img.onload = function () {
+            	cntx.drawImage(this, 0, 0, canvas.width, canvas.height);
+            }
+            img.src = grafico;*/
+
+            alert(grafico);
+
+            var img = new Image();
+            img.onload = function () {
+            	cntx.drawImage(this, 0, 0);
+            }
+            img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAj8AAAIkCAYAAADxvUpvAAAgAElEQVR4nOy953eUaXqvW5IAQZMbgVDOOeecc84555xQrBxVUilLoJwRGRropsMk93hmPDMOY+9te3udfc46/8t1PqirBnrG9lr2YTNNvx+uRZUE4tW9Vj3r99zhd4vkcjkCAgICAgL/p1EoFMhkMmQyGQqF4t99L5VKUalUyOVylEolcrkcmUxmei2VSk3fM/594/cEBP4cog/9AAICAgICP07+M/GjVCqRSqUm3v6+RCIxiRyVSmUSPQqFApVKJYgfgf8QQfwICAgICPxFIpFITCJIoVAgl/8xy6PVat95b/z+2//2Qz+/wF8ugvgR+G9hvIX9e3zo5xMQEPhho1QqmZqaQi6XmzI9U1NTSKVS1Gr1O2eNUQgJmR+B/wxB/AgICAgI/MViFDFKpdJU4pLLTzM9YrEYuVyOWq3+kxKZUTAJCPw5BPEjICAgIPAXi0QiQaVSIZVKkclkTE1NoVAoTCUxiURiEjoajcYkloxlMQGBP4cgfgQEBAQEPgj/2ZSXTqczvTe+np2dZW5uDq1Wi1arZWZmxiSOjNmg8fFxoewu8B8iiB+B/xZvp5n/HB/6+QQEBP5y+c/Ez+joKFKplOHhYfr6+vDz88Pf3x8PDw8CAwNxdXWloaEBmUyGWCxGpVIxNzeHTqcTxI/Af4ggfgSQy/84ciqRSEwHkPFPqVSKRCZFrlSg0qiZFE8hU8iRKeTodDoMBgMGgwGdTodOp0Or1TI7O8v09DTz8/PI5XJTnd6Yqn5bGCmVyne+rlarkUimkMulfzLBYTwY5XK5cLgJCPxAMGZkjH07xnPm7fF1hUKGVqtGp9OQm5tNcHAgVy5d5txZCzzcXfH19CA7PYWstGTSkxMoLcglNiIUq2uXOWNhhpubG0UlxaRnZtDd3Yler2N6Rs+keAqNRoNEIjn9/+UKxJNTKOWKd84ejUbD+Pj4O6PzHzpuAu8PQfwImDB+2N8WGAqFArVajVx+muURSyVI5TJUGjXziwtkZ2djZ2eHl5cX0dHReHp6EhQUZLqhubm50dPTg0QiYXZ2Fq1Wy9TU6WFk/PkymQy1Wm2q3xsPo7efS5ggExD44WG8zMjlcpPYkUgkqNVq02deLj+9FOl0GqqqKnB3c8HTw42c7EwK8nOJjAjDz8uTsKBA6qrK6etqRzo5xuhQPwrxBDqVnMqKMiLCwrGzsyMxMZ6AAD/CQoNJSkpCq9UiFotN2SHjs6mVpwLHeBYZX7/tI/Sh4yfw/hDEjwByudzUTGj00zCKDGNz4du3tLm5Wbq6OoiICCM+LgZXFyccHewIDwuhtqaK8rISCvJzKS4qINDXB2cnBy5+cp601GTq6upMGaLTnysxmZW9fdsyHlhvP+P3BdD3s0ICAgJ/eRg/pxqNxlSaksvlTE5OIlcqmJ0zIJfLsbGxxsHeluSkOJrqqikryqe9uYH25gZqK8tobawjJMCX3MwMSgsLyMvKJDcjhazURCpLiyjIycbN1Zn4uBjS05KIDA2iqKgAV1dnBgf7WV1dNk2BSaVSpPJ3zRLl8lMR9v3nFPg4EcSPwJ/U29++9RhvZ1KplNlZPXK5lOrqSgIC/EhPS6Gvq507g3001FSSlhSPv7cHDTWVKKVTDPf30NvRyuToMHVV5bi7uWBhLsLBwQFfX19GRkZRKGRMT2tRKk/LX8bU+OTkJCqVypSF+n65S8gACQj85aNSqZiamjKVu94eR1er1ag1OuLj47l+/Tq5OVk01NdSX11BVVkxDbUVNNdVIR4bZlarYmSgF4VkEhcHe8xEIpIS42mrq6a+qoy6ylKaaqvobG2ipCAXPy93muqqCQ7yw9/Pi08unMXb2xOlUo5hfg6ZQo5YcnrO6fV6U0nMeAEziqAPHT+B94cgfgRMGEXF21kgsViMWCxGr9dTWVlOTHQkvj5eNDXWM9DfS097Cx3NDcgmx5gYGaSvs420xDjSk+KRjN9BIxczeWeQyTtDSCfHGOjpxtvLA8uz5zA3NyczI432thbm5w1IJFOmQ0gslaDRaf9sKe7tZ/3QMRMQEPj3eXvHljGLbDxXpqeniY+P5+LFi9hY38bby4OwoECiwoLpbm9BMj6CQjxOWWEumSmJxEaEEujrxXB/H7ubG8TFRvPgcJf7+9vc39/m4dEeTx8coVPKyElP4dWzxyhlk+i1Ctqa6rltfQMHBzsqKsrQz86gUJ2KsYmJiXdKc29fAj90/ATeH4L4+ZHz/QmLtx1SjV9bWloiPT2VMxZmZGWmI54ao7O1iZ6OVoZ6uxCPjTA21I94bAS1TIx8apz8rHRiwkOorShBp5SxMj+LfGocnUrOomGWgZ5uigrz+eSCJb4+XtjaWNPX14PBYECt1TA+OcGU+N3Jse+Xu4TDSUDgLxtjpuf7lxeDwUB0dDR+vt5kZaZTWVFGcnwckaFBpCTEEuDjifWNa/h5ulKUm0VOegozGiV3lxdYWTCwvb5GS0MtVaVFPDjcZevuMsfbGzzc30GnlJGRnMDe1iYbq4tsrC6xsbaMRiHFzdWRkuJC0lKTmZwcf8cc0ZhxNrpGf+jYCbxfBPHzI+dtszDj5INSqUStVjMxMcHCwgKpqamYm4koKy3G08ON1MQ4JkeHGR3qN4ke2eQYCvEEMxolBp2ajdUl5qY1VJYUEhsRSllhHo+OD9hZX2PJoOdge4N7ywusriyQmpJEUKA/Fy5Y4uvrS1tHOwuLy2i00+9sbX57h49wMxMQ+MtHKpWi1f4xgzs5Ocn8/DyhoaF4enqSm5lGXlY6pYV51FdXMNzfh3RyAm93N1wc7PH1dGNarWB9dYlZrQqDTs3dpTkOdzaYVslIT07gmzev2du8y8nuFkdb67x69pjK4mIGe3s43ttmfWWRvc17jA31k5YYx+HuFsX5OQT7+9DW1sbCwgLj4+MoFAr0er2pL0jo+fm4EcTPjxyVSoVYLDaJn7fr8wMDAzg7O3PlyhVqa6ro6mxnuL+HtKR4MlISmRodQiWdQjw2gl6tYFarYlolZ3luhuW5GdZXFjne22b73ip3BnpxsrVmsKcTvVqBn6cbiTERhIcFkZyUQFpqMmfPWmBmZsb5Ty7g5OxKZ1cP09PT70ybyeVC5kdA4IeGUUzo9XoiIiLw9vYmJSWFzJQECrLTqSwppK2pnqy0VJzsbKmtqeLu2gp5WZnkZaVzb2WRuWkNS4Zp1lcW2F5d4nh7g4KcbAzTGj5/8ZQHh7u8eHDMN1+8oraygr6ubj57eMLG0gLH25tMjQ6TGBPJ3uY9ZrUqJOMjxMTEEBwczPz8PJOTk38ynfah4ybw/hDEz0fO903D3i4fyeWnTX8qtRaFQsHExARKpZLFxUW6urpwcHDA1uYmJQW5dLY20dnSSG9HK0rJJFlpyfh6ujE21M/dpXlmtSp0Shn3lhdYmZ9hb/MuhzsbPH/8gHsri3R1tpOYEMeVyxcpLMjjaG+b5flZ1hfnWJzWYFAruL+/TWJMBO3NDQT7++Bsb4OPlzcdbe0YZmZNAs14OL39+xlHaI3CTSaTCTc3AYH3zJ8bQni7vGW8sKjVanQ6HTExMbi5OpOakkR6Wgo52ZmUFBfS2tJAamIccVHh9He1Mz48wPjwALNaFWmJcXS3NbOxusTK/CzrK4usryzyxWfPGB8ZpKGmki9fveDp8SHPT4759qdfU1FSiFw8wecvnrB9b4XjvS1mNArSEmOZ0SjQKiSoZVPIJkdxsLlFS3MjBoMBsUT2J9vjBT5OBPHzkfP2gfTnDiiVWsvklMTUgCiRSPDz88PX1xcPDw9CQwLoaGmkqa6artYm+jrbGBvqR6OQolPJiY0IJSY8hJ31NdZXFlmZn+XF4xM2VhcRjw0TERxAfnYG9dUV/PLbX5Cbk8Xd5QWeP37A80cnPDrY5eH+Die7WxzvbTE21EdRXjaP7h8yo1WRl5vNjU+vERwUwEBfP3K5/J2dPsa9P28LHaMY+v6ovICAwPvhz2VJjBcQY89PcHAwLi4uRISHEh0VQVxsNAX5uZQUF2JvZ01CTCSDvV0M9XZxZ6CXyTtDyKfGmRodJiU+hs21ZbburrC7cZeTg10Otjf46vOXpCbG8fr5E149e8ybl8/54rNnHOxsUlKQy5OTQ473tthYXeTVs0dUFOfT29HCxuoi8qkxtAoJ7s4OBAb40dbWZnreqakpdDrdB4+rwPtDED8fOX/uUPp+86HRyFCpVOLr64ujoyMJ8bEE+PvSUF9NVVkxLQ21jPT3MDbUz+SdISQTo+hUcub1Wvq72k9r6TubPL5/SGdLA+lJcVQU57Oxusj9/R2++vwlX3/xOSkJ8awsGHj59BFHu5s82NvmcPMe++tr7KyvcndpjqiwYDbvrmCY1rC6OIdcPMHo0CAe7q5ERUQyPT2NVCpHqdK8I4KMv4sx+yP4AAkIfBjeNjRcXFyktLQUc3Nzblp9itWN69jcvoWjgx0+3p7Y2lhTVJhLa2Md3e0tDPf3mM4ajVzC+soiOekpdLY0cnKwy/7WOtv3Vnn64Jivv3hFRUkhi7PT/NVPvuLzF095+fQRP/nyc5LjYzg52OHF4xMOttd5+fQheZmptDXWsrO+ilo2hUIySbC/Dy3Njbi7uZj6kzQazakP0V9ALAXeD4L4+RHw/bHwt1PVYrEYiUSCVqvFw8MDJycn4mKjMROJyEhPpbamgvbmBrrbW+jvamd0sA/Z5Bhy8QR6jZJ5vZbjvW2mVXL8vdyJCQ+hvqqM/a17vH7+mM+fPuLkYJf7+zu8fPoItUxMdVkxnz15yOPDPe7vbHK0tc7JwQ4bq4uszM+QFBvFyoKB+Rkdc9NqVNJJDNMaaisrMBOJmJiYQKudPi3ZvbXt2Zjxefv1h469gMCPkbfFj0Qiwd7eHmcnB9JSk8nOyiAnO5Oiwnx8vD2xvmVFY20VXW3N9HS00tPRymBvF7LJMaZGh5nXa1HLxGSnJbO+ssjuxl0eHR/w5OSIN69e8OTkiKLcLP75D3/H3//21/z9b3/Nv/7TP5CdnsKXr17w4vEDdjfu8vr5E8oK8+jrbGNzbZnF2Wk0Cil+Xu4M9HSSlBhPTnYmOp3OlK360HEUeH8I4udHwvczQN8fcff29sbKygoPd1csz53B388Hfz8fCvKzaWuqp6utmYHuDtNtTDY1jl6jZH1lEb1aQXdbMw63b1JVWsQvvnnD8d5pGevRwS7PT454eLTPs4f3eXi0T2pCLK+fPOTB3jYPDnc53tvicGeDB4e7HO5s0FxXTWlBLnub9zCoFafiR6emvbmBmOhIggICGR8fR6PRMTk5abqpGRu23063f+i4Cwh8zPx7TcHG80Wv11NdXc2VyxeJCA8lIjyUuNhosjLTCQr0x9/Ph8rSElwcbGlrqqejpZGutmYkE6OMfnfWaBVSdjfuohBPkBQbxS9/9g2Pjg/4+vOX/OoXP2VuWkNCdAT52RmMDvXT29HK+PAATrbWrC3O8ftf/5I3L5/zq1/8lLrKMga6O3hwuMe0Ss6MVoWPhytDfd0M9nbh7eVBU2O9yfjwQ8dX4P0hiJ8fGW83PSsUCmZmZmhpacHS0hJ7OxsiI8IIDQkiPCyE8rIS/P28KMjJpKutmdHBPoZ6u5BOjCKbGmdOr2VaJSc1IZae9hbuDPRSVVrEq2ePODnY4eRgh6fHB5wc7PDs4X2ePbzP4c4mKfExvHz60NTnc7y3ZSp5PTrep6W+hs6WRrbvrTKvVTGtkqGWTaFVyogOD6OkuJDgoADuDI+Y0tTGPqA/t5NMQEDgwzCt02BvZ8PlS5+Yen3S01LIy83GztqKipJiaisrqKkoxcPFkfbmBu4M9jHU183oUD9K6RQba8vMz+jQKmVkp6cQFRZMcnwMSXHRJMZEMtDdQWZqEtXlJWgUUsZHBpFNjjHc142dtRUFOZkkxESSEBOJo601Az2dGKY1bKwts72+RkiAL93tLfR2tpGbmUZYaDAqlcpksyHwcSKInx8R39/RpVar6e7u5uLFi1y9cokAf19SkhPx9/PBzdWZ2poqykoL8fFwJSzIn/HhASZGBhkd7GNtaR6FZJKE6Ah0ShnPH53w8GifjOQEFma0PDreN2V1nj444tnD+5wc7vHl688Y6O6gqbaSrz//7LTv53CXg+119jbvcry3hXhshIzkBNZXFjHoVN+VvqaY1arw9/ags7WJ6vIygv390Ov1Jn8iuVz+TsPih463gMCPFWPvXU11JWYiEUGB/kRGhBETHUlqShI+Hq5Eh4dQUpBPaWEBdVXl1FaW4evpRmdrE2PDA8zptfR3d1FSkE96chKJsTG4OzsxNjzEyeEBe1ubHGxv8M9/+DsWDXqmxkb4v//tX/jX//EH/uUf/54Xjx+Ql5XOl68/Y29rnS9ePqcgJxN3ZweS42MozM2itDAPT1cnFJJJBrrbaW9uwMnR3lSy+9BxFHh/COLnI+f76yGM6WilUolOpyMkJIQLFy4QEhxIUKA/MdGR2NvZkJqSRGlJERXlxQz1dVOUl01ogC+yyTFmNErSkuIJDfRjWiVnY3WJeb2W549OSE2IZVol49nDYx4d7/P0wRGPjve5f7jDs0cnfP3FKwb7OqmrLOWbL16arOkPttc53Nlg6+4yD4/2SUuMY/LOEPeWF9CrFeiUMvRqBRHBAdRXV9Db2UZESCCNjY3fbYTWIZFITAsJja6tHzr+AgI/JoznjXFPlpOjPRc/OY+frzdhocEkJsQRFRaMnbUVlaVF5GVlUlZUSENNJa2NdVSXlxAdHkJhbhaujnakJMRTnJ/HncEBnj9+xKJhlrSkRD7/7AVvXr3k528+58tXL/i73/6a3Mw0vnj5nJ99/YZ//Nvfsrm8SHF+Dn/429/y6vkTfvnzn1BXVc74yCDfvHlNd3sL1eUlfHrlIulJcUgn7lBTUYq3l4dpu/uHjqfA+0MQPx85bzfuGT/MRtfVtrY2zMzMsLOzw93dnbDQYCLCQ7G+ZUVRXi5FeblUlBTSVFfNyEAvFSWFpCTEkhwfQ21lGdNqBctzM6zMz7Jk0PP0wTGJMZHcXV7g8ckRD48PONzZ4MXjEx4e7fHo+IAvX71gsKeTnvYWfvLmNQ+P9jjYXjf1/WzfW+FwZ5PEmEh0CgUbS/MYdCq0CgkahZSBns7TGn1vF021VTjaOzAyMmLaAm8UPzKpGKVCOLwEBN4nbzvEG+0mjD149fX1mJmJcHS0JyQkiJDgQNJSk7ltfZP4uChystMp+i77UlFSSE1FKeMjw9jcvoWXpzuTE2OIx++wtjjH9r1VplVynj28T2lBLvKpcb58/RnfvPqMNy+f87tffUtaYhw///oNv/vVt/z2r/+Ko60NinKz+P2vf8mLxw/4xTdvqC4rYrCng8eHe2yvLnG0t01ESCCFuVmkJsYx3N+Dze1btLa2/okA+v7giCCOftgI4ucjx7ilWCaTmXbWGDcWNzU1YWFhgZ2dHT4+PgQF+hMSHMiNT6+Rk5FOaWEB9dUV1FaW0VhbhVYpIyIkkKS4aFYX59AopOjVCtYW51hbnOP+d3t1stNT+OzpIw52Nk2Zn6PdTZ6cHPHi8QPu7++QmhDL3uY9Hh7t8fBoj92NNY73ttjdWONge53x4QFy09PZX19jWiVjWiVjfkZHX1c7/t4edLc1095Uj4ebO1MTk6asllarPc34SGUo5cK0hoDA+8Q4XCCRSEx9hMZFoW5ubpw5Y46dnQ1BQQFER0Xg5+uNi7MjKcnxpKUmkp2eQmlhHmVF+fR2thEXFUlaUiKhIUF0tLcyrVaglE6xODvN5toy2/dWWVuco6won1/85CteP3nEX/3kK37z7c/JyUjly9ef8dc//wn/8LvfcLBxj5L8HH73q2959vA+v/rFTygtyGGot5OnxwdsLM0zp9cSFuSPTiUnKy2Z9OQEPrlgSVRUFDMzM+9kjwXx83EhiJ+PHGOJy9gX87Z5182bNxGJRNja2uLt7U2Avy/+fj54eriRm5lBfnYWJQW5pjHUjpZGAn29CPb3QSGZZOa7XTvLczPcXZrn3vIC2/dWiY+O4MmDYx4c/bHv58nJIc8fnXB/f4eff/2G4rxs5vVaXj17zMOjPe7vb3O0u8nW3WX2t+6xumAgLjKM3bsrLM7qmNEoUEgmmRwdJsDHk/GRQVrqa3B2cqCooJDp6WkUCoVpVYdKoUQh+/DxFxD4MWAUAuPj46yurlJRUXHq63PzBi4uToSFhRAWGozN7VuEhgSRm5NBclIcmalJlBTk0lBTSWxkGBEhwYwM9FNaWEBUZDg6lRytUsaMRsnK/Cz7W+sszOjIzUzj/sEuX332nG++eMWv/+pnbK+vUVKQyz//4e/43a++5XBznZKCXP7wt7/l+aMTvvniFU21ldwZ6OHkYIfDnQ2y01NoqKlEp5IzNTZCQU4mFuYiQkNDWVpaescR/89NzH7ouAv81xHEz48AY1parVYjFouRSqVMTEzw6aefcu7cOaytrXFycsLfz4fb1jcJDQkiJyOdgpxsaipKqa0so6+rnQAfT5rrawjy80avUaKWSzDo1CwZ9KwuGNjfWmdtcY6kuGiePDjm6LtR9tOS1z7PH51wsL3Bz776guS4aNZXFk0TYEe7mxxsr5v+nNEoiYsMY31lgcVZHbNaJVqFFMnEKAkxkeRlpdPb2UZUZDjeXh6o1UpT9sfkKiuIHwGB94rRT8u4dkalUjE+Po6trS3nz5/n+vWrBAcHEhQUwG3rm/j7+ZCUGE9cbCTJSXFkpSVTWphHWJA/oYF+dLe3UVtZwdTYKAE+3gz396CSiZmb1rA8N8O95QW+fPWCztYm5OIJfvPtz/nmi1f85pe/4P7BLoW5Wfxf//o/+Ztf/oKD7Q1KCnL561/8lNcvnnK4s0lBdgYH2+tsrC5ytLtJbmYazfU1aJUyhvq6kU6Ocd7yLMnJyeh0OlO2599zsP7Q8Rf4ryOIn4+ctycWjE3P09PTZGZmYmZmxqVLl079fTw8iIwIw+rGdUJDgshKS6UwN4fi/BxqKkrJy0onPDiA8ZFBYiPD6GprZlqtwKBTM6NRsnV3hbXFOR4c7tHb2UZNRSkvnz3mweEuj+8f8OBwlycnRzy+f8gXnz2jq7WJ0cE+Xj17zLOH9zna3WR/6x6HOxvsrK/y6PiAptoqyovyWF2YZWFGi16tYFolp6qsmOT4GAZ6OsnNzCAiPBSDYQaJZOodc0PBpExA4P1jHAk3Dh5MTk5y5swZLl26xI0b17GxsebGjetYnjuDr48X8XExxMdFkZIcT3pyEiEB/gT7+1FfXUVlaRHtzQ10tjZRV1VOeHAAC9+ZEd5bXuDe8gInh3uMDvVTX13B15+/5OvPX/Ltz75h694qdVXl/I9/+Ft+8c2X/Os//QNtTfXoVHJ+/5u/RqOQkp+VzpevXrC+ssD9/W3yszOoKitmVqdGMjFKdXkJN60+xc3N7T8tcQni54eNIH4+clQqFWq1GolEYhIFw8PDnDlzhitXrvDJJ59w/fp1vLy88PRw48an107T0pkZZKenUV1eQmtjHR4ujlSXlyAXT1BRUkhibBRLczPMaJTMaJQszOjYWF3i6YNj+rs7KCvK58vXn3Gwfere/PTBEU9Ojnj+6ITnj054cnJEXGQYr58/4XBnk/v72yaTw3vL8zx7eExLfQ21FSU8Ot5HLZtCJZ1iRqOkIDuDmIhQBnu7KMzNwcPdFZVSjkwmMZW9TrNAgvgREHjfGDPKxl16IyMjnDt3DgsLC6ysPsXGxho7Oxsc7G2xtbHGzvY2Af7epKWe9vZ4ublSVlRIeXGRqQTW29lGf3cH8XFRtDbWsTA7zYxGyb3lBTbvrvDFy+ckJ8VxcrDLT7/8nF/85Cu+/dk3VJeXcLy/wy9/9g3/+Le/paWhnvGRQX7/m79Gr1GSnZ7Cq2eP2VxbZm/zHrmZad";
+
+            
+        }else{
+        	var img = new Image();
+        	img.src = '{{ asset('bundles/dlaser/images/biotipo.jpg') }}';
+
+        	img.onload = function() {
+    			cntx.drawImage(img,0,0);
+    		};	        		
+        }               					
+
+		function dibujar(x,y){
+
+			cntx.save();
+			cntx.beginPath();
+			
+			cntx.arc(x,y,6,0,Math.PI*2,true);
+			
+			cntx.closePath();
+			cntx.fill();
+		}
+					
+		$("#can").click(function(canvas){						
+			xCoord=canvas.pageX-this.offsetLeft;
+			yCoord=canvas.pageY-this.offsetTop;
+
+			dibujar(xCoord,yCoord);						
+		});     
+
+        $("#limpiar").click(function(){
+        	
+        	var img = new Image();
+        	img.src = '{{ asset('bundles/dlaser/images/biotipo.jpg') }}';
+					
+			img.onload = function() {
+				cntx.drawImage(img,0,0);
+			};
+		});
+          
+        $("#clr > div").click(function(){
+        	cntx.fillStyle=$(this).css("background-color");
+        });
+
+		$("#view").click(function(){
+        	
+			var dataUrl = canvas.toDataURL();
+
+        	window.open(dataUrl, "toDataURL() image", "width=600, height=200");
+		});
+
+		$('#estetica').submit(function() {
+			var dataUrl = canvas.toDataURL();
+
+			$('#newHcEstetica_grafico').val(dataUrl);
+		});
+	});
+</script>
+{% endblock %}
