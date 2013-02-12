@@ -10,12 +10,28 @@
     div p h1{
     	text-align: center;
     }
+    
+     table.paciente {
+    	font-size: 9pt;
+        border-bottom: 2px solid #000;
+        margin-top: 2%;
+    }
 </style>  
 {% endblock %}
 
-{% block space %}
-<h4 align="center">NIT. 900.260.604-8</h4><br />
-<h5 align="center">I.V.A RÉGIMEN COMÚN</h5><br /><br />
+{% block head %}
+	<table class="paciente">
+		<tr>
+			<td colspan="5"><br /><br /></td>
+		</tr>
+		<tr>
+			<td width="130" align="center"><b>{{ paciente.tipoid }} - {{ paciente.identificacion }}</b></td>
+		  	<td width="200" align="center"><b>{{ paciente.prinombre|capitalize }} {{ paciente.segnombre|capitalize }} {{ paciente.priapellido|capitalize }} {{ paciente.segapellido|capitalize }}</b></td>
+		  	<td width="70" align="center"><b>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</b></td>
+		  	<td width="180" align="center"> <b>{{ cliente.nombre }}</b></td>
+		  	<td width="90" align="center"><b>{{ fecha | date('d-m-y') }}</b></td>
+	 	</tr>
+	 </table>
 {% endblock %}
 
 {% block body %}

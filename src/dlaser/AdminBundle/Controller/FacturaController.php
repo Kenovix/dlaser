@@ -191,7 +191,7 @@ class FacturaController extends Controller
     	}
     	$user = $this->get('security.context')->getToken()->getUser();
     	    
-    	if ($user->getPerfil() == 'ROLE_AMIND') {
+    	if ($user->getPerfil() == 'ROLE_ADMIN') {
     		$editForm = $this->createForm(new AdmisionType(), $entity);
     	}
     	else{

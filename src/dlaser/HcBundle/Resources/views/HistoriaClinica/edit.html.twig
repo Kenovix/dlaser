@@ -6,7 +6,7 @@
 
 {% block rastro %}{{ wo_render_breadcrumbs() }}{% endblock %}
 
-{% block titulo %}Historia Clinica de {{ paciente.priNombre | capitalize }} {{ paciente.priApellido | capitalize }}{% endblock %}
+{% block titulo %}Historia Clinica{% endblock %}
 
 {% block msg %}
 	{% if app.session.flash('ok') %}
@@ -33,6 +33,27 @@
 
 
 {% block cuerpo %}
+
+<table>
+		<thead>
+			<tr>
+				<th>Nombres</th>
+				<th>Apellidos</th>
+				<th>Cedula</th>
+				<th>Aseguradora</th>
+				<th>Edad</th>
+			</tr>
+		</thead>
+        <tbody>
+            <tr>                
+                <td>{{ factura.paciente.priNombre | capitalize }} {{ factura.paciente.segNombre | capitalize }}</td>                
+                <td>{{ factura.paciente.priApellido | capitalize }} {{ factura.paciente.segApellido | capitalize }}</td>
+                <td>{{ factura.paciente.identificacion }}</td>
+                <td>{{ factura.cliente.nombre }}</td>
+                <td>{{ date('now') | date('Y-m-d') - factura.paciente.fn | date('Y-m-d') }} Años</td>               
+            </tr>            
+        </tbody>
+    </table>
 
 <form action="{{ path('hc_update', { 'id': entity.id }) }}" id="h_c_edit" method="post" {{ form_enctype(edit_form) }}>
 	<fieldset>
@@ -68,6 +89,11 @@
 			{{ form_label(edit_form.estatura) }}
 			{{ form_errors(edit_form.estatura) }}
 			{{ form_widget(edit_form.estatura) }}
+			
+			{% if entity.peso and entity.estatura %}			
+				<label for="newHC_imc">IMC</label>
+				<input type="integer" id="newHC_imc" name="newHC_imc" value=""/>
+			{% endif %}
     	</div>
     	
     	<a id="ver-signos" title="Ver cronologíco de signos">Ver signos</a>
@@ -1072,5 +1098,23 @@ function delMed(id){
          }
     })
 }
+
+
+
+
+$("#newHC_peso,#newHC_estatura").focusout(function() {
+	var imc = 0;
+	
+	peso = $("#newHC_peso").val();
+	talla = $("#newHC_estatura").val();
+
+	if(peso && talla){
+		imc = (peso/(Math.pow((talla/100),2)));		
+		
+		$("#newHC_imc").val(imc.toFixed(0));
+	}else{
+		$("#newHC_imc").val('');
+	}		
+});
 </script>
 {% endblock %}
