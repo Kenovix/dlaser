@@ -170,16 +170,44 @@
 			{{ form_widget(form.dx_cut) }}
 		</div>
 		
-		<div style="display: none;">
-    		{{ form_label(form.grafico) }}
-			{{ form_errors(form.grafico) }}
-			{{ form_widget(form.grafico) }}
-		</div>
-		
 		<fieldset>
     		<legend>Escala de Fitzpatrick</legend>
     		
-    		{{ form_rest(form) }}
+    		<div>
+	    		{{ form_label(form.e_uno) }}
+				{{ form_errors(form.e_uno) }}
+				{{ form_widget(form.e_uno) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.e_dos) }}
+				{{ form_errors(form.e_dos) }}
+				{{ form_widget(form.e_dos) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.e_tres) }}
+				{{ form_errors(form.e_tres) }}
+				{{ form_widget(form.e_tres) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.e_cuatro) }}
+				{{ form_errors(form.e_cuatro) }}
+				{{ form_widget(form.e_cuatro) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.e_cinco) }}
+				{{ form_errors(form.e_cinco) }}
+				{{ form_widget(form.e_cinco) }}
+			</div>
+			
+			<div>
+	    		{{ form_label(form.e_seis) }}
+				{{ form_errors(form.e_seis) }}
+				{{ form_widget(form.e_seis) }}
+			</div>
     		
     	</fieldset>
     	
@@ -210,6 +238,12 @@
         <div style="background-color:rgb(13,54,0);"></div> 
     </div> 
     
+    <div>
+    	{{ form_label(form.grafico) }}
+		{{ form_errors(form.grafico) }}
+		{{ form_widget(form.grafico) }}
+	</div>
+    
     <a id="limpiar" class="button">
     	<span class="icon icon83"></span>
     	<span class="label">Limpiar</span>
@@ -219,13 +253,20 @@
     	<span class="icon icon84"></span>
     	<span class="label">Ver</span>
     </a>
+    
+    <a id="save" class="button">
+    	<span class="icon icon84"></span>
+    	<span class="label">Guardar gráfico</span>
+    </a>
     	
     </fieldset>
     
     <button class="action blue" type="submit">
         <span class="label">Crear</span>
     </button>   
+    
     <a href="{{ path('hc_edit', {'id': hc.factura.id}) }}" class="button left"><span class="label">Detalle H-Clinica</span></a>
+    
 </form>
 {% endblock %}
 {% block javascripts %}
@@ -285,10 +326,35 @@
         	window.open(dataUrl, "toDataURL() image", "width=600, height=200");
 		});
 
-		$('#estetica').submit(function() {
+		$("#save").click(function(){        	
 			var dataUrl = canvas.toDataURL();
 
-			$('#newHcEstetica_grafico').val(dataUrl);
+			var url = "{{ path('file_upImagen') }}";
+			var id = "{{ hc.id }}";
+
+			$.post(url,{
+                img: dataUrl,
+                id: id
+	         },function(data){
+	             if(data.responseCode==200 ){
+	            	 alert("Grafico almacenado correctamente.");
+	             }
+	             else if(data.responseCode==400){	                     	           	            	
+	             	$('#ajaxMsg').html(data.msg);
+	                $('#ajaxMsg').css("color","red");
+
+	                return false;
+	             }
+	             else{
+	         	    alert("Ha ocurrido un error en el sistema.");
+
+	         	    return false;
+	             }
+	         });
+		});
+
+		$('#estetica').submit(function() {
+			$('estetica').submit();			
 		});
 	});
 </script>

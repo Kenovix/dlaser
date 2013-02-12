@@ -331,6 +331,12 @@ file_showImagens:
     pattern:  /file/{estado}/{estetica}/showImagens
     defaults: { _controller: HcBundle:Files:showImagens }
     
+file_upImagen:
+    pattern:  /file/up/imagen
+    defaults: { _controller: HcBundle:Files:upImagen }
+    requirements:
+        _method:  POST
+    
 #****************** Impresos *********************#
 
 impreso_firma:

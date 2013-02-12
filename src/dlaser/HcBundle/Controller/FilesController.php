@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 use dlaser\HcBundle\Entity\Files;
 
@@ -175,8 +176,47 @@ class FilesController extends Controller{
 			}
 		}else{
 			throw $this->createNotFoundException('La historia de estetica no existe.');
+		}		
+	}
+	
+	/*
+	 * upImagenAction
+	 * 
+	 * Racibe la imagen via ajax POST en base64
+	 */
+	
+	function upImagenAction(){
+		
+		$request = $this->get('request');
+		
+		$estetica=$request->request->get('id');
+		$img=$request->request->get('img');
+		
+		
+		$em = $this->getDoctrine()->getEntityManager();
+		$hcEstetica = $em->getRepository('HcBundle:HcEstetica')->find($estetica);
+	
+		if(!$hcEstetica){		
+			$ruta = $this->container->getParameter('dlaser.directorio.imagenes');
+			
+			if ($img) {
+				
+				$imgData = base64_decode(substr($img,22));
+				
+				$file = $ruta.'grafico_'.$estetica.'.png';
+				
+				if (file_exists($file)) { unlink($file); }
+				$fp = fopen($file, 'w');
+				fwrite($fp, $imgData);
+				fclose($fp);
+				
+				$response=array("responseCode"=>200, "msg"=>"La operación ha sido exitosa.");
+			}
+		}else{
+			$response=array("responseCode"=>400, "msg"=>"Ha ocurrido un error al crear la imagen.");
 		}
 		
-		
+		$return=json_encode($response);
+		return new Response($return,200,array('Content-Type'=>'application/json'));
 	}
 }
