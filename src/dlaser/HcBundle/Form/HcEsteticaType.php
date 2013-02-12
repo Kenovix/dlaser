@@ -41,7 +41,7 @@ class HcEsteticaType extends AbstractType
 		->add('pigmentacion', 'choice', array(
 				'choices' => array(
 						'normal' => 'Normal', 'medicamentosa' => 'Medicamentosa', 'solar' => 'Solar',
-						'melasma' => 'Melasma', 'cosmetica' => 'Cosmetica', 'maquillajes' => 'Maquillajes'
+						'malesma' => 'Malesma', 'cosmetica' => 'Cosmetica', 'maquillajes' => 'Maquillajes'
 						),
 				'multiple'=>true,
 				'expanded' => true,

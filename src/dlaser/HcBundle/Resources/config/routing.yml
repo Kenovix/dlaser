@@ -305,6 +305,10 @@ HcEstetica_edit:
     pattern:  /estetica/{hc}/Edit
     defaults: { _controller: HcBundle:HcEstetica:edit }
     
+HcEstetica_impresa:
+    pattern:  /estetica/{hcEstetica}/formatoImpreso
+    defaults: { _controller: HcBundle:HcEstetica:impreso }
+    
 HcEstetica_update:
     pattern:  /estetica/{estetica}/Update
     defaults: { _controller: HcBundle:HcEstetica:update }

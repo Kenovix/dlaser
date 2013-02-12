@@ -37,14 +37,15 @@ class ExamenController extends Controller
 		
 		$user = $this->get('security.context')->getToken()->getUser();
 		
-		if ($user->getPerfil() != 'ROLE_ADMIN'){
-			throw $this->createNotFoundException('El usuario no tiene permisos, pongase en contacto con el administrador para crear nuevos examenes.');
-		}
-	
-		return $this->render('HcBundle:Examen:new.html.twig', array(
-				'entity' => $entity,
-				'form'   => $form->createView()
-		));
+		if ($user->getPerfil() != 'ROLE_ADMIN'){			
+			$this->get('session')->setFlash('error','El usuario no tiene permisos, pongase en contacto con el administrador para crear nuevos examenes.');
+			return $this->redirect($this->generateUrl('hc_search'));			
+		}else{
+			return $this->render('HcBundle:Examen:new.html.twig', array(
+					'entity' => $entity,
+					'form'   => $form->createView()
+			));
+		}	
 	}
 	
 	public function showAction($id)

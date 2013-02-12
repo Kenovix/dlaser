@@ -268,6 +268,7 @@
         <span class="label">Modificar</span>
     </button>    
     
+    <a href="{{ path('HcEstetica_impresa', {'hcEstetica': entity.id}) }}" class="button left"><span class="label">Imprimir</span></a>
     <a href="{{ path('file_showImagens', {'estado': 'A',  'estetica': entity.id}) }}" class="button left"><span class="label">Mostrar imagenes</span></a>
     <a href="{{ path('hc_edit', {'id': hc.factura.id}) }}" class="button left"><span class="label">Detalle H-Clinica</span></a>
 </form>

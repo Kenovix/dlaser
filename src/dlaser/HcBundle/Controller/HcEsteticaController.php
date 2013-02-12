@@ -190,4 +190,60 @@ class HcEsteticaController extends Controller{
 				return $this->redirect($this->generateUrl('hc_search'));
 		}
 	}
+	
+	public function impresoAction($hcEstetica){
+		
+		$em = $this->getDoctrine()->getEntityManager();
+		$hcEstetica = $em->getRepository('HcBundle:HcEstetica')->find($hcEstetica);
+		$hc = $em->getRepository('HcBundle:Hc')->find($hcEstetica->getHc()->getId());
+		
+		if($hcEstetica)
+		{
+			$serialize = array(
+					'op' => $hcEstetica->getOp(),
+					'pigmentacion' => $hcEstetica->getPigmentacion(),
+					'arrugas' => $hcEstetica->getArrugas(),
+					'flacidez' => $hcEstetica->getFlacidez(),
+					'parpado' => $hcEstetica->getParpado(),
+					'lesiones_cut' => $hcEstetica->getLesionesCut(),
+					'lipodistrofia' => $hcEstetica->getLipodistrofia(),
+					'tatuaje' => $hcEstetica->getTatuaje(),
+					'cicatrizes' => $hcEstetica->getCicatrizes(),
+					'estrias' => $hcEstetica->getEstrias(),
+			);
+		
+			$hcEstetica->unserialize($serialize);
+			
+			
+
+			$cliente = $hc->getFactura()->getCliente();
+			$sede = $hc->getFactura()->getSede();
+			$paciente = $hc->getFactura()->getPaciente();
+			$user = $this->get('security.context')->getToken()->getUser();
+				
+			$html = $this->renderView('HcBundle:Impresos:hcEsteticaImpreso.pdf.twig', array(
+					'entity' => $hcEstetica,
+					'paciente' => $paciente,
+					'cliente' => $cliente,					
+					'hc' => $hc,					
+			));
+			
+			
+			
+			$this->get('io_tcpdf')->dir = $sede->getDireccion();
+			$this->get('io_tcpdf')->ciudad = $sede->getCiudad();
+			$this->get('io_tcpdf')->tel = $sede->getTelefono();
+			$this->get('io_tcpdf')->mov = $sede->getMovil();
+			$this->get('io_tcpdf')->mail = $sede->getEmail();
+			$this->get('io_tcpdf')->sede = $sede->getnombre();
+			$this->get('io_tcpdf')->empresa = $sede->getEmpresa()->getNombre();
+				
+			return $this->get('io_tcpdf')->quick_pdf($html, 'informe.pdf', 'I');
+				
+		}else{
+			$this->get('session')->setFlash('error', 'La historia clinica no existe.');
+			return $this->redirect($this->generateUrl('hc_search'));
+		}
+		
+	}
 }
