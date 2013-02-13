@@ -50,8 +50,10 @@ class HcEsteticaController extends Controller{
 		$request = $this->getRequest();
 		$form   = $this->createForm(new HcEsteticaType(), $HcEstetica);				
 		$form->bindRequest($request);
+		
+		$flag = true;
 	
-		if ($form->isValid()) {
+		if ($flag) {
 			
 			$HcEstetica->serialize();
 			
@@ -154,9 +156,11 @@ class HcEsteticaController extends Controller{
 			$form   = $this->createForm(new HcEsteticaType(), $HcEstetica);			
 			$form->bindRequest($request);
 						
-			$hc = $HcEstetica->getHc();			
+			$hc = $HcEstetica->getHc();		
+
+			$flag = true;
 			
-			if (!$form->isValid())
+			if ($flag)
 			{
 				$HcEstetica->serialize();			
 				$em->persist($HcEstetica);

@@ -284,51 +284,6 @@
 	
 {% endif %}
 
-
-{% if entity.motivo %}
-	
-	{% set i = i+1 %}
-
-	{% if(i is even) %}
-		{% include "HcBundle:includes:header.html.twig" %}
-	{% endif %}
-
-	<table class="paciente">
-		<tr>
-			<td colspan="5"><br /><br /></td>
-		</tr>
-		<tr>
-			<td width="130" align="center"><b>{{ paciente.tipoid }} - {{ paciente.identificacion }}</b></td>
-		  	<td width="200" align="center"><b>{{ paciente.prinombre }} {{ paciente.segnombre }} {{ paciente.priapellido }} {{ paciente.segapellido }}</b></td>
-		  	<td width="70" align="center"><b>{{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</b></td>
-		  	<td width="180" align="center"> <b>{{ cliente.nombre }}</b></td>
-		  	<td width="90" align="center"><b>{{ entity.fecha | date('d-m-y') }}</b></td>
-		</tr>
-	</table>
-	
-	<table>
-		<tr>
-			<td height="270">
-			    
-			    <h1>INTERCONSULTA</h1>
-			    
-			    <br /><br /><br /><br />
-			    
-			    <span>{{ entity.motivo }}</span>
-			
-				<br /><br /><br /><br />
-			
-				
-			</td>
-		</tr>		
-		{% if(i is odd) %}
-			{% include "HcBundle:includes:footer.html.twig" %}
-		{% endif %}		
-	</table>
-	
-{% endif %}
-
-
 {% if entity.control %}
 	{% set i = i+1 %}
 	

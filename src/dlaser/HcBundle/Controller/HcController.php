@@ -172,10 +172,14 @@ class HcController extends Controller{
 		$cxAnt = $em->getRepository('ParametrizarBundle:Factura')->findCxAnt($paciente,$cargo);
 						
 		if(count($cxAnt) > 1){
+			
 			$hc_ant = $em->getRepository('HcBundle:Hc')->findOneBy(array('factura' => $cxAnt[1]['id']));
-			
-			$exaPresentados = $em->getRepository('HcBundle:HcExamen')->findHcExamPresent($hc_ant->getId());		
-			
+
+			if($hc_ant){
+				$exaPresentados = $em->getRepository('HcBundle:HcExamen')->findHcExamPresent($hc_ant->getId());
+			}else{
+				$exaPresentados = null;
+			}
 		}else {
 			$exaPresentados = null;
 		}
@@ -582,8 +586,11 @@ class HcController extends Controller{
 		if(count($cxAnt) > 1){
 			$hc_ant = $em->getRepository('HcBundle:Hc')->findOneBy(array('factura' => $cxAnt[1]['id']));
 			
-			$exa_presentado = $em->getRepository('HcBundle:HcExamen')->findHcExamPresent($hc_ant->getId());			
-			
+			if($hc_ant){
+				$exa_presentado = $em->getRepository('HcBundle:HcExamen')->findHcExamPresent($hc_ant->getId());
+			}else{
+				$exa_presentado = null;
+			}
 		}else {
 			$exa_presentado = null;
 		}

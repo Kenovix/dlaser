@@ -24,9 +24,6 @@
 	{% endif %}
 {% endblock %}
 
-
-
-
 {% block cuerpo %}
 
 <style>
@@ -237,13 +234,7 @@
         <div style="background-color:rgb(255,28,0);"></div>
         <div style="background-color:rgb(13,54,0);"></div> 
     </div> 
-    
-    <div>
-    	{{ form_label(form.grafico) }}
-		{{ form_errors(form.grafico) }}
-		{{ form_widget(form.grafico) }}
-	</div>
-    
+           
     <a id="limpiar" class="button">
     	<span class="icon icon83"></span>
     	<span class="label">Limpiar</span>
@@ -258,6 +249,14 @@
     	<span class="icon icon84"></span>
     	<span class="label">Guardar gráfico</span>
     </a>
+    
+    <br /><br />
+    
+    <div>
+    	{{ form_label(form.grafico) }}
+		{{ form_errors(form.grafico) }}
+		{{ form_widget(form.grafico) }}
+	</div>
     	
     </fieldset>
     
