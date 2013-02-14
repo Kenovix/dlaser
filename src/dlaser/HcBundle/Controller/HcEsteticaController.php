@@ -51,9 +51,9 @@ class HcEsteticaController extends Controller{
 		$form   = $this->createForm(new HcEsteticaType(), $HcEstetica);				
 		$form->bindRequest($request);
 		
-		$flag = true;
+		
 	
-		if ($flag) {
+		if ($form->isValid()) {
 			
 			$HcEstetica->serialize();
 			
@@ -115,6 +115,12 @@ class HcEsteticaController extends Controller{
 			$ruta = $this->container->getParameter('dlaser.directorio.imagenes');
 			$ruta .= 'grafico_'.$hc->getId().'.png';
 			
+			if( file_exists ($ruta)){								
+			}else{
+				$ruta = $this->container->getParameter('dlaser.imagen.grafico');
+				$ruta .= 'biotipo.jpg';
+			}
+			
 			$grafico = 'data:image/png;base64,';
 			
 			$grafico .= base64_encode (file_get_contents($ruta));
@@ -157,10 +163,8 @@ class HcEsteticaController extends Controller{
 			$form->bindRequest($request);
 						
 			$hc = $HcEstetica->getHc();		
-
-			$flag = true;
 			
-			if ($flag)
+			if ($form->isValid())
 			{
 				$HcEstetica->serialize();			
 				$em->persist($HcEstetica);
@@ -170,6 +174,7 @@ class HcEsteticaController extends Controller{
 				return $this->redirect($this->generateUrl('HcEstetica_edit',array('hc' => $hc->getId())));				
 				
 			}else{
+				$this->get('session')->setFlash('error', 'La informacion de historia estetica no es validad.');
 				$breadcrumbs = $this->get("white_october_breadcrumbs");
 				$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
 				$breadcrumbs->addItem("Historia Estetica", $this->get("router")->generate("HcEstetica_new",array('hc'=>$hc->getId())));
@@ -177,9 +182,12 @@ class HcEsteticaController extends Controller{
 				
 				$ruta = $this->container->getParameter('dlaser.directorio.imagenes');
 				$ruta .= 'grafico_'.$hc->getId().'.png';
-					
-				$grafico = 'data:image/png;base64,';
-					
+				if( file_exists ($ruta)){
+				}else{
+					$ruta = $this->container->getParameter('dlaser.imagen.grafico');
+					$ruta .= 'biotipo.jpg';
+				}					
+				$grafico = 'data:image/png;base64,';					
 				$grafico .= base64_encode (file_get_contents($ruta));
 				
 				return $this->render('HcBundle:HcEstetica:edit.html.twig', array(

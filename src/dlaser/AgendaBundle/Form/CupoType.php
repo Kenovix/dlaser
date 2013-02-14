@@ -31,12 +31,12 @@ class CupoType extends AbstractType
                         ->setParameter('id', $id);
                         }
         ))
-        ->add('paciente', 'integer', array('required' => true))
-        ->add('cliente', 'choice', array('choices' => array('' => '--')))
-        ->add('cargo', 'choice', array('choices' => array('' => '--')))
-        ->add('agenda', 'choice', array('choices' => array('' => '--')))
-        ->add('hora', 'choice', array('choices' => array('' => '--')))
-        ->add('nota', 'text', array('required' => false))
+        ->add('paciente', 'integer', array('label' => 'Cedula Paciente:','required' => true, 'attr' => array('placeholder' => 'Ingrese la identificacion del paciente')))
+        ->add('cliente', 'choice', array('label' => 'Cliente:', 'choices' => array('' => '--')))
+        ->add('cargo', 'choice', array('label' => 'Cargo:','choices' => array('' => '--')))
+        ->add('agenda', 'choice', array('label' => 'Agenda asignar:','choices' => array('' => '--')))
+        ->add('hora', 'choice', array('label' => 'Hora agenda:','choices' => array('' => '--')))
+        ->add('nota', 'text', array('label' => 'Observaciones:','required' => false))
         ;
     }
 

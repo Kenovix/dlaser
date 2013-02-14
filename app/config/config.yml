@@ -81,6 +81,7 @@ services:
 parameters:
     dlaser.directorio.imagenes: %kernel.root_dir%/../web/uploads/documents/
     dlaser.directorio.rips: %kernel.root_dir%/../web/rips/
+    dlaser.imagen.grafico: %kernel.root_dir%/../web/bundles/dlaser/images/
     pdo.db_options:
         db_table:    session
         db_id_col:   session_id

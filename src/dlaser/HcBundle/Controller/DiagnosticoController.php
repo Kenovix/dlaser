@@ -214,7 +214,7 @@ class DiagnosticoController extends Controller
 		if($permisos){	
 						
 			$dql = $em->createQuery('SELECT c FROM HcBundle:Cie c
-					WHERE c.id NOT IN (SELECT C FROM HcBundle:Cie C JOIN C.usuario u JOIN u.sede s WHERE u.id = :id ORDER BY c.nombre ASC)');
+					WHERE c.id NOT IN (SELECT C FROM HcBundle:Cie C JOIN C.usuario u JOIN u.sede s WHERE u.id = :id )ORDER BY c.nombre ASC');
 		
 			$dql->setParameter('id', $id);
 			$consulta = $dql->getResult();			

@@ -24,7 +24,7 @@ class HcEsteticaType extends AbstractType
 		
 		->add('nutricion', 'choice', array(
 				'choices' => array('OB' => 'Obesidad', 'KG ' => 'KGS de exceso', 'DE' => 'Desnutricion'),
-				'label' => 'Nutrición'))
+				'label' => 'NutriciÃ³n'))
 		
 		->add('kgs', 'integer', array('label' => 'K.G.S'))
 				
@@ -45,7 +45,7 @@ class HcEsteticaType extends AbstractType
 						),
 				'multiple'=>true,
 				'expanded' => true,
-				'label' => 'Pigmentación'
+				'label' => 'PigmentaciÃ³n'
 		))
 		->add('arrugas', 'choice', array(
 				'choices' => array(
@@ -86,7 +86,7 @@ class HcEsteticaType extends AbstractType
 				),
 				'multiple'=>true,
 				'expanded' => true,
-				'label' => 'Lesiones cutáneas'
+				'label' => 'Lesiones cutÃ¡neas'
 		))		
 		->add('lipodistrofia', 'choice', array(
 				'choices' => array(
