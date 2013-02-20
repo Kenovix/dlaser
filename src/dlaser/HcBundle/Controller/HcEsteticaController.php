@@ -17,6 +17,7 @@ class HcEsteticaController extends Controller{
 		
 		$em = $this->getDoctrine()->getEntityManager();
 		$hc = $em->getRepository('HcBundle:Hc')->find($hc);
+		
 		$estetica = $hc->getHcEstetica();
 		
 		if($hc and !$estetica){
@@ -29,8 +30,11 @@ class HcEsteticaController extends Controller{
 			$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_edit",array('id'=>$hc->getFactura()->getId())));
 			$breadcrumbs->addItem("HCEstetica Nueva");
 			
+			$factura = $hc->getFactura();
+			
 			return $this->render("HcBundle:HcEstetica:new.html.twig", array(
 					'entity' => $HcEstetica,
+					'factura' => $factura,
 					'hc' => $hc,
 					'form'   => $form->createView()
 			));			
@@ -49,9 +53,7 @@ class HcEsteticaController extends Controller{
 		$HcEstetica = new HcEstetica();		
 		$request = $this->getRequest();
 		$form   = $this->createForm(new HcEsteticaType(), $HcEstetica);				
-		$form->bindRequest($request);
-		
-		
+		$form->bindRequest($request);		
 	
 		if ($form->isValid()) {
 			
@@ -59,6 +61,7 @@ class HcEsteticaController extends Controller{
 			
 			$em = $this->getDoctrine()->getEntityManager();
 			$hc = $em->getRepository('HcBundle:Hc')->find($hc);
+			$factura = $hc->getFactura();
 			
 			if($hc){
 				
@@ -73,9 +76,14 @@ class HcEsteticaController extends Controller{
 				return $this->redirect($this->generateUrl('hc_search'));
 			}	
 		}else{
+			$em = $this->getDoctrine()->getEntityManager();
+			$hc = $em->getRepository('HcBundle:Hc')->find($hc);
+			$factura = $hc->getFactura();
+			
 			$this->get('session')->setFlash('error', 'Los campos de historia de estetica no son correctos.');
 			return $this->render("HcBundle:HcEstetica:new.html.twig", array(
 					'entity' => $HcEstetica,
+					'factura' => $factura,
 					'hc' => $hc,
 					'form'   => $form->createView()
 			));				
@@ -120,14 +128,15 @@ class HcEsteticaController extends Controller{
 				$ruta = $this->container->getParameter('dlaser.imagen.grafico');
 				$ruta .= 'biotipo.jpg';
 			}
+			$factura = $hc->getFactura();
 			
-			$grafico = 'data:image/png;base64,';
-			
+			$grafico = 'data:image/png;base64,';			
 			$grafico .= base64_encode (file_get_contents($ruta));
 
 			return $this->render('HcBundle:HcEstetica:edit.html.twig', array(
 					'entity' => $hcEstetica,
 					'hc' => $hc,
+					'factura' => $factura,
 					'grafico' => $grafico,
 					'form'   => $editform->createView()
 			));			

@@ -14,16 +14,16 @@ class HcEsteticaType extends AbstractType
 		->add('edad_aparente', 'integer', array('label' => 'Edad aparente'))
 		
 		->add('piel_color', 'choice', array(
-				'choices' => array('N' => 'Normal', 'P' => 'Palida', 'R' => 'Rojiza')))
+				'choices' => array(''=>'--Seleccione--', 'N' => 'Normal', 'P' => 'Palida', 'R' => 'Rojiza')))
 		->add('piel_cutis', 'choice', array(
-				'choices' => array('S' => 'Seco', 'G' => 'Graso', 'M' => 'Mixto')))
+				'choices' => array(''=>'--Seleccione--','S' => 'Seco', 'G' => 'Graso', 'M' => 'Mixto')))
 		->add('piel_tacto', 'choice', array(
-				'choices' => array('LF' => 'Lisa y Fina', 'GR' => 'Gruesa y Rugosa')))
+				'choices' => array(''=>'--Seleccione--','LF' => 'Lisa y Fina', 'GR' => 'Gruesa y Rugosa')))
 		->add('dentadura', 'choice', array(
-				'choices' => array('B' => 'Buena', 'R' => 'Regular', 'M' => 'Mala', 'P' => 'Protesis')))
+				'choices' => array(''=>'--Seleccione--','B' => 'Buena', 'R' => 'Regular', 'M' => 'Mala', 'P' => 'Protesis')))
 		
 		->add('nutricion', 'choice', array(
-				'choices' => array('OB' => 'Obesidad', 'KG ' => 'KGS de exceso', 'DE' => 'Desnutricion'),
+				'choices' => array(''=>'--Seleccione--','N'=>'Normal','OB' => 'Obesidad', 'KG ' => 'KGS de exceso', 'DE' => 'Desnutricion'),
 				'label' => 'NutriciÃ³n'))
 		
 		->add('kgs', 'integer', array('label' => 'K.G.S'))
@@ -100,7 +100,7 @@ class HcEsteticaType extends AbstractType
 		->add('tatuaje', 'choice', array(
 				'choices' => array(
 						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
-						'brazo' => 'Brazo', 'muslo' => 'Muslo'
+						'brazo' => 'Brazo', 'muslo' => 'Muslo','cutis'=>'Cutis'
 				),
 				'multiple'=>true,
 				'expanded' => true,
@@ -109,7 +109,7 @@ class HcEsteticaType extends AbstractType
 		->add('cicatrizes', 'choice', array(
 				'choices' => array(
 						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
-						'brazo' => 'Brazo', 'muslo' => 'Muslo'
+						'brazo' => 'Brazo', 'muslo' => 'Muslo','cutis'=>'Cutis'
 				),
 				'multiple'=>true,
 				'expanded' => true,
@@ -126,13 +126,16 @@ class HcEsteticaType extends AbstractType
 		))		
 		->add('medicacion', 	'textarea', array('label' => 'Medicacion'))
 		->add('dx_cut', 		'textarea', array('required' => false,'label' => 'Diagnostico cutaneo'))
-		->add('e_uno', 			'text', array('required' => false,'label' => 'Fototipo 1'))
-		->add('e_dos', 			'text', array('required' => false,'label' => 'Fototipo 2'))
-		->add('e_tres', 		'text', array('required' => false,'label' => 'Fototipo 3'))
-		->add('e_cuatro', 		'text', array('required' => false,'label' => 'Fototipo 4'))
-		->add('e_cinco', 		'text', array('required' => false,'label' => 'Fototipo 5'))
-		->add('e_seis', 		'text', array('required' => false,'label' => 'Fototipo 6'))
-		->add('grafico', 		'textarea', array('required' => false, 'label' => 'grafico'))
+		
+		->add('fitzpatrick', 'choice', array(
+				'required' => true,
+				'expanded' => true,
+				'choices' => array('uno' => 'Uno', 'dos' => 'Dos', 'tres' => 'Tres',
+								   'cuatro' => 'Cuatro', 'cinco' => 'Cinco', 'Seis' => 'Seis'),
+				'data' => '1',
+		))
+		->add('infoFitzpatrick', 	'textarea', array('required' => false, 'label' => 'Info Fitzpatrick'))		
+		->add('grafico', 			'textarea', array('required' => false, 'label' => 'grafico'))
 		
 		;		
 	}

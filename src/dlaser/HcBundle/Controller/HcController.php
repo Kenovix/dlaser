@@ -509,7 +509,6 @@ class HcController extends Controller{
 						
 			if(!$form->isValid())
 			{
-
 				$factura = $em->getRepository('ParametrizarBundle:Factura')->find($id);
 				
 				if(!$factura)

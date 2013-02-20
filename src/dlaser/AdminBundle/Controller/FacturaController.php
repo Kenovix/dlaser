@@ -452,10 +452,8 @@ class FacturaController extends Controller
 
     public function arqueoAction()
     {
-    	$em = $this->getDoctrine()->getEntityManager();
-    	
+    	$em = $this->getDoctrine()->getEntityManager();    	
     	$usuario = $this->get('security.context')->getToken()->getUser();
-
     	$usuario = $em->getRepository('UsuarioBundle:Usuario')->find($usuario->getId());
     	$sedes = $usuario->getSede();
     	

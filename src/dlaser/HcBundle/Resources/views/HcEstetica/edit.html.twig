@@ -38,7 +38,29 @@
 	}
 </style>
 
-<form action="{{ path('HcEstetica_update', { 'estetica': entity.id }) }}" method="post" {{ form_enctype(form) }}>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Nombres</th>
+				<th>Apellidos</th>
+				<th>Cedula</th>
+				<th>Aseguradora</th>
+				<th>Edad</th>
+			</tr>
+		</thead>
+        <tbody>
+            <tr>                
+                <td>{{ factura.paciente.priNombre | capitalize }} {{ factura.paciente.segNombre | capitalize }}</td>                
+                <td>{{ factura.paciente.priApellido | capitalize }} {{ factura.paciente.segApellido | capitalize }}</td>
+                <td>{{ factura.paciente.identificacion }}</td>
+                <td>{{ factura.cliente.nombre }}</td>
+                <td>{{ date('now') | date('Y-m-d') - factura.paciente.fn | date('Y-m-d') }} Años</td>               
+            </tr>            
+        </tbody>
+    </table>
+    
+<form action="{{ path('HcEstetica_update', { 'estetica': entity.id }) }}" method="post" {{ form_enctype(form) }} >
     <fieldset>
     	<legend>Datos de la estetica</legend>
     	
@@ -174,41 +196,16 @@
     		<legend>Escala de Fitzpatrick</legend>
     		
     		<div>
-	    		{{ form_label(form.e_uno) }}
-				{{ form_errors(form.e_uno) }}
-				{{ form_widget(form.e_uno) }}
+	    		{{ form_label(form.fitzpatrick) }}
+				{{ form_errors(form.fitzpatrick) }}
+				{{ form_widget(form.fitzpatrick) }}
 			</div>
 			
 			<div>
-	    		{{ form_label(form.e_dos) }}
-				{{ form_errors(form.e_dos) }}
-				{{ form_widget(form.e_dos) }}
-			</div>
-			
-			<div>
-	    		{{ form_label(form.e_tres) }}
-				{{ form_errors(form.e_tres) }}
-				{{ form_widget(form.e_tres) }}
-			</div>
-			
-			<div>
-	    		{{ form_label(form.e_cuatro) }}
-				{{ form_errors(form.e_cuatro) }}
-				{{ form_widget(form.e_cuatro) }}
-			</div>
-			
-			<div>
-	    		{{ form_label(form.e_cinco) }}
-				{{ form_errors(form.e_cinco) }}
-				{{ form_widget(form.e_cinco) }}
-			</div>
-			
-			<div>
-	    		{{ form_label(form.e_seis) }}
-				{{ form_errors(form.e_seis) }}
-				{{ form_widget(form.e_seis) }}
-			</div>
-    		
+	    		{{ form_label(form.infoFitzpatrick) }}
+				{{ form_errors(form.infoFitzpatrick) }}
+				{{ form_widget(form.infoFitzpatrick) }}
+			</div>			    		
     	</fieldset>    	
     	
     	<canvas id="can" width="575" height="548"></canvas>

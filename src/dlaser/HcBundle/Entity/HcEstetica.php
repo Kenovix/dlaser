@@ -120,7 +120,7 @@ class HcEstetica implements \Serializable
      * @var string $nutricion
      *
      * @ORM\Column(name="nutricion", type="string", length=2)
-     * @Assert\Choice(choices = {"OB", "KG", "DE"}, message = "Selecciona una opción valida.")
+     * @Assert\Choice(choices = {"N", "OB", "KG", "DE"}, message = "Selecciona una opción valida.")
      */
     private $nutricion;
 
@@ -128,7 +128,7 @@ class HcEstetica implements \Serializable
      * @var integer $kgs
      *
      * @ORM\Column(name="kgs", type="integer")
-     * @Assert\Min(limit = "001", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
+     * @Assert\Min(limit = "0", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
      * @Assert\Max(limit = "150", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
      */
     private $kgs;
@@ -183,47 +183,20 @@ class HcEstetica implements \Serializable
     private $dx_cut;
 
     /**
-     * @var string $e_uno
+     * @var string $fitzpatrick
      *
-     * @ORM\Column(name="e_uno", type="string", length=160)
+     * @ORM\Column(name="fitzpatrick", type="string", length=8)
+     * @Assert\Choice(choices = {"uno", "dos", "tres", "cuatro", "cinco", "seis"}, message = "Selecciona una opción valida.")
      */
-    private $e_uno;
+    private $fitzpatrick;
 
     /**
-     * @var string $e_dos
+     * @var string $infoFitzpatrick
      *
-     * @ORM\Column(name="e_dos", type="string", length=160)
+     * @ORM\Column(name="info_fitzpatrick", type="text")
      */
-    private $e_dos;
-
-    /**
-     * @var string $e_tres
-     *
-     * @ORM\Column(name="e_tres", type="string", length=160)
-     */
-    private $e_tres;
-
-    /**
-     * @var string $e_cuatro
-     *
-     * @ORM\Column(name="e_cuatro", type="string", length=160)
-     */
-    private $e_cuatro;
-
-    /**
-     * @var string $e_cinco
-     *
-     * @ORM\Column(name="e_cinco", type="string", length=160)
-     */
-    private $e_cinco;
-
-    /**
-     * @var string $e_seis
-     *
-     * @ORM\Column(name="e_seis", type="string", length=160)
-     */
-    private $e_seis;
-
+    private $infoFitzpatrick;
+    
     /**
      * @var text $grafico
      *
@@ -674,123 +647,43 @@ class HcEstetica implements \Serializable
     }
 
     /**
-     * Set e_uno
+     * Set fitzpatrick
      *
-     * @param string $eUno
+     * @param string $fitzpatrick
      */
-    public function setEUno($eUno)
+    public function setFitzpatrick($fitzpatrick)
     {
-        $this->e_uno = $eUno;
+        $this->fitzpatrick = $fitzpatrick;
     }
 
     /**
-     * Get e_uno
+     * Get fitzpatrick
      *
      * @return string 
      */
-    public function getEUno()
+    public function getFitzpatrick()
     {
-        return $this->e_uno;
+        return $this->fitzpatrick;
     }
 
     /**
-     * Set e_dos
+     * Set infoFitzpatrick
      *
-     * @param string $eDos
+     * @param string $infoFitzpatrick
      */
-    public function setEDos($eDos)
+    public function setInfoFitzpatrick($infoFitzpatrick)
     {
-        $this->e_dos = $eDos;
+        $this->infoFitzpatrick = $infoFitzpatrick;
     }
 
     /**
-     * Get e_dos
-     *
-     * @return string 
-     */
-    public function getEDos()
-    {
-        return $this->e_dos;
-    }
-
-    /**
-     * Set e_tres
-     *
-     * @param string $eTres
-     */
-    public function setETres($eTres)
-    {
-        $this->e_tres = $eTres;
-    }
-
-    /**
-     * Get e_tres
+     * Get infoFitzpatrick
      *
      * @return string 
      */
-    public function getETres()
+    public function getInfoFitzpatrick()
     {
-        return $this->e_tres;
-    }
-
-    /**
-     * Set e_cuatro
-     *
-     * @param string $eCuatro
-     */
-    public function setECuatro($eCuatro)
-    {
-        $this->e_cuatro = $eCuatro;
-    }
-
-    /**
-     * Get e_cuatro
-     *
-     * @return string 
-     */
-    public function getECuatro()
-    {
-        return $this->e_cuatro;
-    }
-
-    /**
-     * Set e_cinco
-     *
-     * @param string $eCinco
-     */
-    public function setECinco($eCinco)
-    {
-        $this->e_cinco = $eCinco;
-    }
-
-    /**
-     * Get e_cinco
-     *
-     * @return string 
-     */
-    public function getECinco()
-    {
-        return $this->e_cinco;
-    }
-
-    /**
-     * Set e_seis
-     *
-     * @param string $eSeis
-     */
-    public function setESeis($eSeis)
-    {
-        $this->e_seis = $eSeis;
-    }
-
-    /**
-     * Get e_seis
-     *
-     * @return string 
-     */
-    public function getESeis()
-    {
-        return $this->e_seis;
+        return $this->infoFitzpatrick;
     }
 
     /**

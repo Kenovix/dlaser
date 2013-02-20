@@ -27,7 +27,7 @@ class Contrato
      * 
      * @ORM\Column(name="contacto", type="string", length=80, nullable=true)
      * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\MaxLength(limit=80, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=80, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
      */
     private $contacto;
     
@@ -35,7 +35,7 @@ class Contrato
      * @var string $cargo
      *
      * @ORM\Column(name="cargo", type="string", length=30, nullable=true)
-     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=30, message="El valor ingresado debe tener maximo {{ limit }} caracteres.")
      */
     private $cargo;
     
@@ -69,7 +69,7 @@ class Contrato
      * @var string $estado
      *
      * @ORM\Column(name="estado", type="string", length=1, nullable=true)
-     * @Assert\Choice(choices = {"I", "A"}, message = "Selecciona una opci��n valida.")
+     * @Assert\Choice(choices = {"I", "A"}, message = "Selecciona una opción valida.")
      */
     private $estado;
     
@@ -77,8 +77,8 @@ class Contrato
      * @var integer $porcentaje
      *
      * @ORM\Column(name="porcentaje", type="decimal", scale=2, nullable=true)
-     * @Assert\Min(limit = "-50", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n��mero v��lido")
-     * @Assert\Max(limit = "100", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un n��mero v��lido")
+     * @Assert\Min(limit = "-50", message = "El valor ingresado no puede ser menor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
+     * @Assert\Max(limit = "100", message = "El valor ingresado no puede ser mayor de {{ limit }}", invalidMessage = "El valor ingresado debe ser un número válido")
      */
     private $porcentaje;
     
@@ -86,7 +86,7 @@ class Contrato
      * @var string $observacion
      *
      * @ORM\Column(name="observacion", type="string", length=200, nullable=true)
-     * @Assert\MaxLength(limit=200, message="El valor ingresado debe tener m��ximo {{ limit }} caracteres.")
+     * @Assert\MaxLength(limit=200, message="El valor ingresado debe tener máximo {{ limit }} caracteres.")
      */
     private $observacion;
     
