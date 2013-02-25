@@ -77,66 +77,7 @@
                         	
                 		var ruta = "";
 
-                		if(val.cups == '895001' && val.estado == 'P'){
-                			ruta = Routing.generate('th_new', { 'factura': val.id });
-                    	} 
-                		else if(val.cups == '895001' && val.estado == 'PI'){
-                			ruta = Routing.generate('th_edit', { 'factura': val.id });
-                    	}
-
-                		if(val.cups == '895101'){
-                			ruta = Routing.generate('electro_new', { 'factura': val.id });
-                    	}
-
-                		if(val.cups == '893805'){
-                			ruta = Routing.generate('espiro_new', { 'factura': val.id });
-                    	}
-
-                		if(val.cups == '894102' && val.estado == 'P'){
-                			ruta = Routing.generate('te_new', { 'factura': val.id });
-                		}
-                		else if(val.cups == '894102' && val.estado == 'PI'){
-                			ruta = Routing.generate('te_edit', { 'factura': val.id });
-                		}
-
-                		if(val.cups == '896100' && val.estado == 'P'){
-                			ruta = Routing.generate('mapa_new', { 'factura': val.id });
-                		}
-                		else if(val.cups == '896100' && val.estado == 'PI'){
-                			ruta = Routing.generate('mapa_edit', { 'factura': val.id });
-                		}
-
-                		if(val.cups == '920408' && val.estado == 'P'){
-                			ruta = Routing.generate('dipi_new', { 'factura': val.id });
-                		}
-                		else if(val.cups == '920408' && val.estado == 'PI'){
-                			ruta = Routing.generate('dipi_edit', { 'factura': val.id });
-                		}
-
-                		if(val.cups == '920407' && val.estado == 'P'){
-                			ruta = Routing.generate('perfusion_new', { 'factura': val.id });
-                		}
-                		else if(val.cups == '920407' && val.estado == 'PI'){
-                			ruta = Routing.generate('perfusion_edit', { 'factura': val.id });
-                		}
-
-                		if(val.cups == '881234' && val.estado == 'P'){
-                			ruta = Routing.generate('eco_new', { 'factura': val.id });
-                		}
-                		else if(val.cups == '881234' && val.estado == 'PI'){
-                			ruta = Routing.generate('eco_edit', { 'factura': val.id });
-                		}
-
-                		if(val.cups == '881236' && val.estado == 'P'){
-                			ruta = Routing.generate('ecostres_new', { 'factura': val.id });
-                		}
-                		else if(val.cups == '881236' && val.estado == 'PI'){
-                			ruta = Routing.generate('ecostres_edit', { 'factura': val.id });
-                		}
-
-                		if(val.cups == '890202'){
-                			ruta = Routing.generate('hc_edit', { 'id': val.id });
-                		}
+                		ruta = Routing.generate('hc_edit', { 'id': val.id });
                 		                        
                         tr += '<tr class="'+ val.estado +'">';
                         tr += '<td>'+val.hora+'</td>';

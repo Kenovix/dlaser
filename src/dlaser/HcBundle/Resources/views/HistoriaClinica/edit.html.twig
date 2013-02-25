@@ -94,9 +94,12 @@
 				<label for="newHC_imc">IMC</label>
 				<input type="integer" id="newHC_imc" name="newHC_imc" value=""/>
 			{% endif %}
+			
+			<a id="ver-signos" title="Ver cronologíco de signos">Ver signos</a>
+			
     	</div>
     	
-    	<a id="ver-signos" title="Ver cronologíco de signos">Ver signos</a>
+    	
     	
     	<div id="cron-signos" title="Signos vitales">    	
 			<table>
@@ -189,7 +192,7 @@
     			
     			<div id="ajaxMsgCie"></div>
     			
-    			<select id="cie" name="cie">
+    			<select id="cie" name="cie" style="width: 550px;">
 					<option value="">Seleccione un diagnostico</option>
 					{% for cie in cies %}
 					<option value="{{ cie.id }}" data-url="{{ path('hc_hcCie', {'hc':entity.id, 'cie':cie.id}) }}">
