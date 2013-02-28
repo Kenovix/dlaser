@@ -477,10 +477,8 @@
     	
     {% if factura.estado == 'I' %}
     	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>    
-    {% endif %}
-	<a href="#"  class="button left"><span class="label">Impresos</span></a>
-	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
-	
+    {% endif %}	
+	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>	
 	{% if hcEstetica %}
 		<a href="{{ path('HcEstetica_edit',{'hc':entity.id}) }}" class="button left"><span class="label">Ver Hc-Estetica</span></a>
 	{% else %}

@@ -17,9 +17,9 @@ class pacienteSearchType extends AbstractType
 				'label'=> 'Opcion de busqueda:',
 				'property_path' => false,
 				 'choices' => array(
+				 		'cedula'=> 'Cedula',
 				 		'nombre'=> 'Nombre',
-				 		'apellido'=> 'Apellido',
-				 		'cedula'=> 'Cedula',),
+				 		'apellido'=> 'Apellido',),
 				'multiple'=>false,
 				))
 						;

@@ -242,12 +242,7 @@
 	    	<span class="icon icon84"></span>
 	    	<span class="label">Ver</span>
 	    </a>
-	    
-	    <a id="save" class="button">
-	    	<span class="icon icon84"></span>
-	    	<span class="label">Guardar gráfico</span>
-	    </a>
-	    
+	    	    
 	    <br />
 	    <br />
     
@@ -259,7 +254,7 @@
     	{{ form_rest(form) }}
     </fieldset>
     
-    <button class="action blue" type="submit">
+    <button class="action blue" type="buton" id="save">
         <span class="label">Modificar</span>
     </button>    
     
@@ -273,11 +268,9 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 
-    	var xCoord, yCoord, grafico="";         
-
+    	var xCoord, yCoord, grafico="";
         var canvas=document.getElementById("can");
-        var cntx=canvas.getContext("2d");
-            
+        var cntx=canvas.getContext("2d");            
         cntx.fillStyle="red";
 
     	var img = new Image();
@@ -327,8 +320,7 @@
 		});
 
 		$("#save").click(function(){        	
-			var dataUrl = canvas.toDataURL();
-
+			var dataUrl = canvas.toDataURL();			
 			var url = "{{ path('file_upImagen') }}";
 			var id = "{{ hc.id }}";
 
@@ -338,6 +330,8 @@
 	         },function(data){
 	             if(data.responseCode==200 ){
 	            	 alert("Grafico almacenado correctamente.");
+	            	 $('estetica').submit();// despues de guardar el grafico se ejecuta el formulario.
+	            	 //document.forms[0].submit();            	 
 	             }
 	             else if(data.responseCode==400){	                     	           	            	
 	             	$('#ajaxMsg').html(data.msg);
@@ -350,11 +344,7 @@
 
 	         	    return false;
 	             }
-	         });
-		});
-
-		$('#estetica').submit(function() {
-			$('estetica').submit();			
+	         });			
 		});
 	});
 </script>
