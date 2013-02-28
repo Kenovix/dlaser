@@ -10,8 +10,8 @@ class HcType extends AbstractType
 	{
 		$builder
 		->add('fecha',   			'datetime',array('read_only'=>true))
-		->add('sistole', 			'integer', array('label' => 'Sist.','attr' => array('autofocus'=>'autofocus')))
-		->add('diastole',			'integer', array('label' => 'Dias.'))
+		->add('sistole', 			'integer', array('required' => false, 'label' => 'Sist.','attr' => array('autofocus'=>'autofocus')))
+		->add('diastole',			'integer', array('required' => false, 'label' => 'Dias.'))
 		->add('f_c',	 			'integer',	array('required' => false, 'label'=> 'F/C'))
 		->add('f_r',	 			'integer',	array('required' => false, 'label'=> 'F/R'))
 		->add('peso',	 			'integer',	array( 'label'=> 'Peso *'))

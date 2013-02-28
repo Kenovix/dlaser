@@ -29,6 +29,7 @@ class Builder extends ContainerAware
 				$menu['Agendamiento']->addChild('Agenda', array('uri' => '#'));
 					$menu['Agendamiento']['Agenda']->addChild('Listado', array('route' => 'agenda_list'));
 					$menu['Agendamiento']['Agenda']->addChild('Nueva', array('route' => 'agenda_new'));
+					$menu['Agendamiento']['Agenda']->addChild('Agenda Medica', array('route' => 'agenda_medica_list'));
 				
 				$menu['Agendamiento']->addChild('Citas', array('uri' => '#'));
 					$menu['Agendamiento']['Citas']->addChild('Listado', array('route' => 'cupo_list'));

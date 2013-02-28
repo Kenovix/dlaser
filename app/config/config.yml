@@ -14,7 +14,6 @@ framework:
     templating:      { engines: ['twig'] } #assets_version: SomeVersionScheme
     session:
         default_locale: %locale%
-        lifetime:       7200
         auto_start:     true
         storage_id:     session.storage.pdo
 
