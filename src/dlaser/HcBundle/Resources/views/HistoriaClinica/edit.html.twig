@@ -423,7 +423,7 @@
     			    			
     			{% set label = '' %}
     			{% set flag = 0 %}    			
-    			<select id="medica" name="medica">    				    					
+    			<select id="medica" name="medica" style="width: 550px;">    				    					
     				<option value="">Seleccione un medicamento</option>
     				
     				{% for medicamento in medicamentos %}
@@ -438,6 +438,7 @@
 						{% endif %}
 						
 							<option value="{{ medicamento.id }}">{{ medicamento.principioActivo }} {{ medicamento.presentacion }} {{ medicamento.concentracion }} {{ medicamento.dosisDia }} </option>
+
 					{% endfor %}					
 					</optgroup>  
 				</select>
@@ -453,7 +454,7 @@
 			                <th>Tiempo</th>
 			                <th>Pos</th>
 			                <th>Estado</th>
-			                <th>Opción</th>                
+			                <th>Opcion</th>                
 				        </tr>
 				    </thead>
 				    <tbody>   
@@ -518,9 +519,11 @@
     </button>
     	
     {% if factura.estado == 'I' %}
-    	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>    
-    {% endif %}	
-	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>	
+    	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>
+    {% endif %}
+	
+	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
+	
 	{% if hcEstetica %}
 		<a href="{{ path('HcEstetica_edit',{'hc':entity.id}) }}" class="button left"><span class="label">Ver Hc-Estetica</span></a>
 	{% else %}
