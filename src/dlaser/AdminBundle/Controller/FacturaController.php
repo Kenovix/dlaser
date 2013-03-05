@@ -70,7 +70,7 @@ class FacturaController extends Controller
             if($actividad->getPrecio()){
                 $valor = $actividad->getPrecio();
             }else{
-                $valor = round(($reserva->getCargo()->getValor()+($reserva->getCargo()->getValor()*$contrato->getPorcentaje()/100)));
+                $valor = round(($reserva->getCargo()->getValor()+($reserva->getCargo()->getValor()*$contrato->getPorcentaje())));
             }
 
             $entity->setFecha(new \DateTime('now'));

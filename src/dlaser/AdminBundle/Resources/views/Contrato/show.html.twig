@@ -59,7 +59,7 @@
             </tr>
             <tr>
                 <th>Porcentaje</th>
-                <td>{{ contrato.porcentaje }}</td>
+                <td>{{ contrato.porcentaje * 100}}%</td>
             </tr>
             <tr>
                 <th>Observación</th>
@@ -97,7 +97,7 @@
                     {% if actividad.precio %}
                     <b>${{ actividad.precio | number_format(0, '.', ',')}}</b>
                     {% else %}
-                    ${{ (actividad.cargo.valor + ((actividad.cargo.valor * contrato.porcentaje)/100)) | number_format(0, '.', ',') }}
+                    ${{ (actividad.cargo.valor + (actividad.cargo.valor * contrato.porcentaje)) | number_format(0, '.', ',') }}
                     {% endif %}
                 </td>
                 <td>

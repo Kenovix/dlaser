@@ -191,12 +191,12 @@ class FilesController extends Controller{
 		
 		$estetica=$request->request->get('id');
 		$img=$request->request->get('img');
-		
-		
+				
 		$em = $this->getDoctrine()->getEntityManager();
-		$hcEstetica = $em->getRepository('HcBundle:HcEstetica')->find($estetica);
-	
-		if(!$hcEstetica){		
+		$hcEstetica = $em->getRepository('HcBundle:Hc')->find($estetica);
+		
+				
+		if($hcEstetica){		
 			$ruta = $this->container->getParameter('dlaser.directorio.imagenes');
 			
 			if ($img) {

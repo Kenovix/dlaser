@@ -1,0 +1,59 @@
+/*
+ * Estilo de css para el form del medicamento que se encuentra en la HC y se visualiza por medio del JQUERY
+ */
+
+
+#Medicamentos label{
+	width: 47%;
+	display: block;
+	background: #CCC;
+	border: 1px solid white;	
+	padding: 0px 0px 0px 0px;	
+	color: black;
+	
+	border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-o-border-radius: 5px 5px 5px 5px;
+}
+
+#Medicamentos input {
+	padding: 6px 10px;
+	width: 375px;
+	background: white;
+	border-bottom: 1px double black;
+	border-top: 1px double black;
+	border-left: 1px double black;
+	border-right: 1px double black;
+	
+	border-radius: 8px 8px 8px 8px;
+	-webkit-border-radius: 8px 8px 8px 8px;
+	-moz-border-radius: 8px 8px 8px 8px;
+	-o-border-radius: 8px 8px 8px 8px;
+}
+
+#Medicamentos textarea {
+	padding: 20px 0px;
+	width: 370px;
+	background: white;
+	border-bottom: 1px double black;
+	border-top: 1px double black;
+	border-left: 1px double black;
+	border-right: 1px double black;
+	
+	border-radius: 5px 18px 5px 22px;
+	-webkit-border-radius: 5px 18px 5px 22px;
+	-moz-border-radius: 5px 18px 5px 22px;
+	-o-border-radius: 5px 18px 5px 22px;
+}
+
+/*
+ * estilo del efecto clip y el boton q lo ejecuta esta accion se realiza en la HC para mostrar la informacion de la incapacidad
+ */
+#medicamentoHc { 
+  padding: .5em 1em; 
+  text-decoration: none;   
+}
+#effectClip{
+  background-color: #FFFFFF; 
+}

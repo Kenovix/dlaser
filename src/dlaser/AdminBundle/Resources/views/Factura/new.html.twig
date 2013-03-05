@@ -56,7 +56,8 @@
     	        <span>
     	            ${% if actividad %}
                         {{ actividad }}
-                     {% else %}                         
+                     {% else %}   
+                                           
                      	{{ (cupo.cargo.valor + (cupo.cargo.valor * contrato.porcentaje)) | number_format(0, '.', ',') }}
                      {% endif %}</span>
                      

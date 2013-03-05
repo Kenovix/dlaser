@@ -26,7 +26,7 @@ class ImpresosController extends Controller{
 		$em = $this->getDoctrine()->getEntityManager();
 		$hc = $em->getRepository('HcBundle:Hc')->find($hc);
 		$pagina = null;
-		$option = 'CISL';
+		$option = 'CIHLG';
 		
 		if($hc){
 			

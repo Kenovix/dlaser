@@ -14,40 +14,45 @@ class HcEsteticaType extends AbstractType
 		->add('edad_aparente', 'integer', array('label' => 'Edad aparente'))
 		
 		->add('piel_color', 'choice', array(
+				'label' => 'Piel Color:',
 				'choices' => array(''=>'--Seleccione--', 'N' => 'Normal', 'P' => 'Palida', 'R' => 'Rojiza')))
 		->add('piel_cutis', 'choice', array(
+				'label' => 'Piel Cutis:',
 				'choices' => array(''=>'--Seleccione--','S' => 'Seco', 'G' => 'Graso', 'M' => 'Mixto')))
 		->add('piel_tacto', 'choice', array(
+				'label' => 'Piel Tacto:',
 				'choices' => array(''=>'--Seleccione--','LF' => 'Lisa y Fina', 'GR' => 'Gruesa y Rugosa')))
 		->add('dentadura', 'choice', array(
+				'label' => 'Dentadura:',
 				'choices' => array(''=>'--Seleccione--','B' => 'Buena', 'R' => 'Regular', 'M' => 'Mala', 'P' => 'Protesis')))
 		
 		->add('nutricion', 'choice', array(
 				'choices' => array(''=>'--Seleccione--','N'=>'Normal','OB' => 'Obesidad', 'KG ' => 'KGS de exceso', 'DE' => 'Desnutricion'),
-				'label' => 'NutriciÃ³n'))
+				'label' => 'Nutrición:'))
 		
 		->add('kgs', 'integer', array('label' => 'K.G.S'))
 				
 		->add('op', 'choice', array(
+				'label' => 'Orificios pilocebaceos:',
 				'choices' => array(
 						'aspecto_normal' => 'Aspecto normal', 'orificios_poco_visible ' => 'OrificiosPocoVisible',
 						'acne_conglobata' => 'Acne conglobata', 'comedones' => 'Comedones', 'orificios_manifiestos' => 'OrificiosManifiesto',
 						'pustulas' => 'Pustulas', 'miliun' => 'Miliun', 'foliculitis' => 'Foliculitis', 'secuela_acne' => 'Secuela acne'
 						),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'Orificios pilocebaceos'
+				'expanded' => true,				
 		))
 		->add('pigmentacion', 'choice', array(
+				'label' => 'Pigmentación:',
 				'choices' => array(
 						'normal' => 'Normal', 'medicamentosa' => 'Medicamentosa', 'solar' => 'Solar',
 						'malesma' => 'Malesma', 'cosmetica' => 'Cosmetica', 'maquillajes' => 'Maquillajes'
 						),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'PigmentaciÃ³n'
+				'expanded' => true,				
 		))
 		->add('arrugas', 'choice', array(
+				'label' => 'Arrugas:',
 				'choices' => array(
 						'expresion_normal' => 'Expresion Normal', 'preauriculares ' => 'Preauriculares',
 						'nasogenianos' => 'Nasogenianos', 'pliegues_finos' => 'Pliegues finos', 'pata_gallo' => 'Pata de gallo',
@@ -55,87 +60,87 @@ class HcEsteticaType extends AbstractType
 						'peribucales' => 'Peribucales', 'cuello' => 'Cuello', 'nasales' => 'Nasales', 'pliegues_cicatrizales' => 'Pliegues cicatrizales',
 						),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'Arrugas'
+				'expanded' => true,				
 		))
 		
 		->add('flacidez', 'choice', array(
+				'label' => 'Flacidez:',
 				'choices' => array(
 						'nula' => 'Nula', 'mejilla ' => 'Mejilla', 'papada' => 'Papada',
 						'regular' => 'Regular', 'cuello' => 'Cuello', 'severa' => 'Severa',
 						'parpados' => 'Parpados'
 				),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'Flacidez'
+				'expanded' => true,				
 		))
 		->add('parpado', 'choice', array(
+				'label' => 'Parpado:',
 				'choices' => array(
 						'ptosis' => 'PTosis', 'edematizados ' => 'Edematizados', 'ojeras' => 'Ojeras',
 						'bolsas_superiores' => 'Bolsas superiores', 'xantelasma' => 'Xantelasma', 'bolsas_inferiores' => 'Bolsas inferiores'
 				),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'Parpado'
+				'expanded' => true,				
 		))		
 		->add('lesiones_cut', 'choice', array(
+				'label' => 'Lesiones Cutaneas:',
 				'choices' => array(
 						'querato_seborreica' => 'Queratosis seborreica', 'querato_acantoma ' => 'Queratosis acantoma', 'nevus ' => 'Nevus',
 						'quiste_sebaceo' => 'Quiste sebaceo', 'cicatrices' => 'Cicatrices', 'rosacea' => 'Rosacea',
 						'melanoma' => 'Melanoma', 'epit_basocelular' => 'Epit. Basocelular', 'epit_espinocelular' => 'Epit. Espinocelular'						
 				),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'Lesiones cutÃ¡neas'
+				'expanded' => true,				
 		))		
 		->add('lipodistrofia', 'choice', array(
+				'label' => 'Lipodistrofia:',
 				'choices' => array(
 						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
 						'brazo' => 'Brazo', 'muslo' => 'Muslo'
 				),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'Lipodistrofia'
+				'expanded' => true,				
 		))		
 		->add('tatuaje', 'choice', array(
+				'label' => 'Tatuaje:',
 				'choices' => array(
 						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
 						'brazo' => 'Brazo', 'muslo' => 'Muslo','cutis'=>'Cutis'
 				),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'Tatuajes'
+				'expanded' => true,				
 		))
 		->add('cicatrizes', 'choice', array(
+				'label' => 'Cicatrizes:',
 				'choices' => array(
 						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
 						'brazo' => 'Brazo', 'muslo' => 'Muslo','cutis'=>'Cutis'
 				),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'Cicatrices'
+				'expanded' => true,				
 		))
 		->add('estrias', 'choice', array(
+				'label' => 'Estrias:',
 				'choices' => array(
 						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
 						'brazo' => 'Brazo', 'muslo' => 'Muslo'
 				),
 				'multiple'=>true,
-				'expanded' => true,
-				'label' => 'Estrias'
+				'expanded' => true,				
 		))		
-		->add('medicacion', 	'textarea', array('label' => 'Medicacion'))
-		->add('dx_cut', 		'textarea', array('required' => false,'label' => 'Diagnostico cutaneo'))
+		->add('medicacion', 	'textarea', array('label' => 'Observacion:'))
+		->add('dx_cut', 		'textarea', array('required' => false,'label' => 'Diagnostico cutaneo:'))
 		
 		->add('fitzpatrick', 'choice', array(
+				'label' => 'Fitzpatrick:',
 				'required' => true,
 				'expanded' => true,
 				'choices' => array('uno' => 'Uno', 'dos' => 'Dos', 'tres' => 'Tres',
 								   'cuatro' => 'Cuatro', 'cinco' => 'Cinco', 'Seis' => 'Seis'),
 				'data' => '1',
 		))
-		->add('infoFitzpatrick', 	'textarea', array('required' => false, 'label' => 'Info Fitzpatrick'))		
-		->add('grafico', 			'textarea', array('required' => false, 'label' => 'grafico'))
+		->add('infoFitzpatrick', 	'textarea', array('required' => false, 'label' => 'Info Fitzpatrick:'))		
+		->add('grafico', 			'textarea', array('required' => false, 'label' => 'Grafico:'))
 		
 		;		
 	}

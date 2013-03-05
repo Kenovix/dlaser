@@ -73,6 +73,10 @@
       </tbody>
     </table>
     
+    {% if permisos %}
+	{{ simple_paginator_render('dx_userDx', null) }}
+    {% endif %}
+    
    <script type="text/javascript">
    		 var lista = document.getElementById('asignar');
    		    		

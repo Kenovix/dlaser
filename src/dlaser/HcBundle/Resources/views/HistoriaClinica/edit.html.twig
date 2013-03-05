@@ -27,7 +27,10 @@
 {% block stylesheets %}
 	{{ parent() }}
 	
-	<link href="{{ asset('bundles/dlaser/css/jquery-ui.custom.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('bundles/dlaser/css/overcast/jquery-ui-1.10.1.custom.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('bundles/dlaser/css/medicamentoHc.css') }}" rel="stylesheet" type="text/css" />
+	
+	 
 {% endblock %}
 
 
@@ -433,8 +436,7 @@
 							
 							{% set flag = 1 %}							
 						{% endif %}
-						
-							<option value="{{ medicamento.id }}">{{ medicamento.principioActivo }} {{ medicamento.presentacion }} {{ medicamento.concentracion }} {{ medicamento.dosisDia }} {% if(medicamento.pos == 0) %} - (NO POS){% endif %}</option>
+							<option value="{{ medicamento.id }}">{{ medicamento.principioActivo }} {{ medicamento.presentacion }} {{ medicamento.concentracion }} {{ medicamento.dosisDia }}</option>
 					{% endfor %}					
 					</optgroup>  
 				</select>
@@ -460,18 +462,54 @@
     		</fieldset>
       	</div>
       	
-      	<div id="mx-add" title="Crear medicamento">			
-			<fieldset>		
-				<legend>Datos del medicamento</legend>
-				
-				<div id="msgAddMx"></div>
-				
-	        	{{ form_widget(med_form) }}
-	        	
-			</fieldset>			
+      	<div id="mx-add" title="Crear medicamento">
+      		<div id="Medicamentos">			
+				<fieldset>		
+					<legend>Datos del medicamento</legend>
+					
+					<div id="msgAddMx"></div>
+					
+		        	{{ form_widget(med_form) }}
+		        	
+				</fieldset>	
+			</div>		
 		</div>
-      	    	
-    	{{ form_rest(edit_form) }}
+		
+		<div>
+    		{{ form_label(edit_form.manejo) }}
+			{{ form_errors(edit_form.manejo) }}
+			{{ form_widget(edit_form.manejo) }}
+    	</div>
+    	<div>
+    		{{ form_label(edit_form.control) }}
+			{{ form_errors(edit_form.control) }}
+			{{ form_widget(edit_form.control) }}
+    	</div>
+    	<div>
+    		{{ form_label(edit_form.ctrl_prioritario) }}
+			{{ form_errors(edit_form.ctrl_prioritario) }}
+			{{ form_widget(edit_form.ctrl_prioritario) }}
+    	</div>
+    	<div>
+    		{{ form_label(edit_form.postfecha) }}
+			{{ form_errors(edit_form.postfecha) }}
+			{{ form_widget(edit_form.postfecha) }}
+    	</div>
+    
+      	<a href="#" id="medicamentoHc" class="ui-state-default ui-corner-all">Incapacidad</a><br><br/> 
+      	 <div class="toggler" >
+      		 <div id="effectClip" style="display:none;">
+				<fieldset>
+					<h3 class="ui-widget-header ui-corner-all">Incapacidad</h3>
+					{{ form_rest(edit_form) }}
+				</fieldset>
+	     	 </div>
+    	</div>
+    	
+    
+    
+       	
+    	
     </fieldset>
     
     <button class="action blue" type="submit">
@@ -479,7 +517,7 @@
     </button>
     	
     {% if factura.estado == 'I' %}
-    	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>    
+    	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>
     {% endif %}
 	
 	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
@@ -496,6 +534,7 @@
 {% block javascripts %}
 
 <script src="{{ asset('bundles/dlaser/js/jquery-ui-1.8.23.custom.min.js') }}"></script>
+<script src="{{ asset('bundles/dlaser/js/incapacidadHc.js') }}"></script>
 
 <script type="text/javascript">
 

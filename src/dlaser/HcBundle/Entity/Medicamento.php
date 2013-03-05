@@ -54,8 +54,8 @@ class Medicamento
     /**
      * @var integer $dosisDia
      * 
-     * @ORM\Column(name="dosis_dia", type="string", length=255, nullable=false)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
+     * @ORM\Column(name="dosis_dia", type="string", length=255, nullable=true)
+     * 
      */
     private $dosisDia;
 

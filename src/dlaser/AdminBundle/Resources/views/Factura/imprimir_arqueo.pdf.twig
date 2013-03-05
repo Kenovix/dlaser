@@ -45,13 +45,14 @@
 		</tr>  
 	</thead>
     <tbody>
-    	{% set particulares = {'2': 'PREVISER', '5': 'PARTICULAR 3', '20': 'PARTICULAR 1', '22': 'PARTICULAR 2'} %}
+    	<!-- la suma de los cliente se esta manejando por medio de los id de los clientes q se encuentran creados en la base de datos.-->
+    	{% set particulares = {'4': 'PREVISER', '3': 'PARTICULAR 3', '20': 'PARTICULAR 1', '22': 'PARTICULAR 2'} %}
 		{% set copago = 0 %}
 		{% set particular = 0 %}
 		
 		{% for entities in entity %}
 		
-		{% if entities.cliente in [2, 5, 20, 22] %}
+		{% if entities.cliente in [4, 3] %}
 			{% set particular = particular + entities.valor %}
 		{% endif %}
 		

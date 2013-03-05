@@ -196,8 +196,7 @@ class DiagnosticoController extends Controller
 	
 	public function userDxAction()
 	{
-		$em = $this->getDoctrine()->getEntityManager();
-		
+		$em = $this->getDoctrine()->getEntityManager();		
 		$paginador = $this->get('ideup.simple_paginator');
 		$paginador->setItemsPerPage(15);
 		
@@ -208,8 +207,17 @@ class DiagnosticoController extends Controller
 		if (!$usuario){
 			throw $this->createNotFoundException('El usuario solicitado no existe');
 		}
-			
-		$permisos = $usuario->getCie();// genero problemas para paginar 
+
+		/* se realiza la consulta a los diagnosticos para que genere los diagnosticos que el usuario tiene
+		*  relacionados, tambien se puede consultar de la siguiente forma $permisos = $usuario->getCie(); 
+		*  pero no se puede ordenar ASC por eso se realiza la siguiente consulta.
+		*/
+		$dql = $em->createQuery('SELECT c FROM HcBundle:Cie c JOIN c.usuario u
+					WHERE u.id = :id ORDER BY c.nombre ASC');
+		
+		$dql->setParameter('id', $usuario->getId());		
+		$permisos = $paginador->paginate($dql->getResult())->getResult();		
+		
 			
 		if($permisos){	
 						

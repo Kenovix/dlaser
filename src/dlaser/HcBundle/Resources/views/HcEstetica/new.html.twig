@@ -242,12 +242,6 @@
     	<span class="icon icon84"></span>
     	<span class="label">Ver</span>
     </a>
-    
-    <a id="save" class="button">
-    	<span class="icon icon84"></span>
-    	<span class="label">Guardar gráfico</span>
-    </a>
-    
     <br /><br />
     
     <div>
@@ -259,7 +253,7 @@
     	
     </fieldset>
     
-    <button class="action blue" type="submit">
+    <button class="action blue" type="buton" id="save">
         <span class="label">Crear</span>
     </button>   
     
@@ -336,6 +330,7 @@
 	         },function(data){
 	             if(data.responseCode==200 ){
 	            	 alert("Grafico almacenado correctamente.");
+	            	 $('estetica').submit();	// despues de guardar el grafico se ejecuta el formulario.
 	             }
 	             else if(data.responseCode==400){	                     	           	            	
 	             	$('#ajaxMsg').html(data.msg);
@@ -349,11 +344,7 @@
 	         	    return false;
 	             }
 	         });
-		});
-
-		$('#estetica').submit(function() {
-			$('estetica').submit();			
-		});
+		});		
 	});
 </script>
 {% endblock %}
