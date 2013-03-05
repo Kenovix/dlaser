@@ -144,8 +144,7 @@ class FacturaController extends Controller
     
     		// Verifica si de los examenes solicitados alguno fue hecho en ccv(empresa) y trae conclusión
     		$cxAnt = $em->getRepository('ParametrizarBundle:Factura')->findCheckExm($paciente,$cargo);
-    
-    
+
     		if(count($cxAnt) > 1){
     			// trae la informacion de la hc con respecto al id de la factura de la consulta anterior
     			$hc_ant = $em->getRepository('HcBundle:Hc')->findOneBy(array('factura' => $cxAnt[1]['id']));

@@ -420,7 +420,7 @@
     			    			
     			{% set label = '' %}
     			{% set flag = 0 %}    			
-    			<select id="medica" name="medica">    				    					
+    			<select id="medica" name="medica" style="width: 550px;">    				    					
     				<option value="">Seleccione un medicamento</option>
     				
     				{% for medicamento in medicamentos %}
@@ -434,7 +434,7 @@
 							{% set flag = 1 %}							
 						{% endif %}
 						
-							<option value="{{ medicamento.id }}">{{ medicamento.principioActivo }} {{ medicamento.presentacion }} {{ medicamento.concentracion }} {{ medicamento.dosisDia }} cada {{ medicamento.tiempo }} horas por {{ medicamento.diasTratamiento }} dias {% if(medicamento.pos == 0) %} - (NO POS){% endif %}</option>
+							<option value="{{ medicamento.id }}">{{ medicamento.principioActivo }} {{ medicamento.presentacion }} {{ medicamento.concentracion }} {{ medicamento.dosisDia }} {% if(medicamento.pos == 0) %} - (NO POS){% endif %}</option>
 					{% endfor %}					
 					</optgroup>  
 				</select>
@@ -481,7 +481,7 @@
     {% if factura.estado == 'I' %}
     	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>    
     {% endif %}
-	<a href="#"  class="button left"><span class="label">Impresos</span></a>
+	
 	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
 	
 	{% if hcEstetica %}
