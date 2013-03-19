@@ -70,7 +70,7 @@
                 <td><a href="{{ path('contrato_show', { 'id': contrato.id }) }}">{{ contrato.contacto }}</a></td>
                 <td>{{ contrato.telefono }} - {{ contrato.celular }}</td>
                 <td>{{ contrato.estado }}</td>
-                <td>{{ contrato.porcentaje }}</td>
+                <td>{{ contrato.porcentaje * 100}}%</td>
                 <td>{{ contrato.sede }}</td>
                 <td>{{ contrato.sede.ciudad }}</td>
             </tr>

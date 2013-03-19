@@ -65,8 +65,8 @@ class HcController extends Controller{
 			
 		$hcCie = $hc->getCie();
 		
+		$list_dx = $em->createQuery('SELECT cie FROM HcBundle:Cie cie ORDER BY cie.nombre ASC')->getResult(); // listar todos los cie para q el usuario los registre con su perfil	
 		
-		$list_dx = $em->getRepository("HcBundle:Cie")->findAll();
 		//-------------------------------------END DIAGNOSTICOS-----------------------------------------------------
 	
 		//-------------------------------------EXAMENES---------------------------------------------------------

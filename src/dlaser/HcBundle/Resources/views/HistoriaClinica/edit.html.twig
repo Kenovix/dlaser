@@ -230,7 +230,7 @@
 	    			<select id="list-dx" name="list-dx">
 		      			<option value="">Seleccione un examen</option>
 		       				{% for dxGen in list_dx %} 
-		         				<option value="{{ dxGen.id }}">{{ dxGen.codigo }} - {{ dxGen.nombre }}</option>
+		         				<option value="{{ dxGen.id }}">{{ dxGen.nombre }} - {{ dxGen.codigo }}</option>
 		       				{% endfor %}       
 		      		</select>
 			</fieldset>			

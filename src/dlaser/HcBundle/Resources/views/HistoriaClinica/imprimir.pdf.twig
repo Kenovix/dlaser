@@ -126,10 +126,17 @@
 		
 		<b>PLAN DE MANEJO: </b>{{ entity.manejo }}<br /><br />
 		
-		<b>CONTROL: </b>{{ entity.control }}. 
+		<b>CONTROL: </b>{{ entity.control }}. <br/>
 		{% if entity.ctrlPrioritario  %}
 			<b>Prioritario</b>
 		{% endif %}
+		
+		<br/>
+		{% if entity.inicioInca %}
+			<b>INCAPACIDAD:</b>  
+				Fecha inicio de la incapacidad {{ entity.inicioInca | date('Y-m-d') }}, tiempo que tarada la incapacidad {{ entity.duracionInca }} dias, motivo de la incapacidad {{ entity.notaInca }}				
+			<br />
+		{% endif %}	
 		
 		<br /><br />
 		<br />
