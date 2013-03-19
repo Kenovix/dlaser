@@ -326,8 +326,7 @@
 		$("#save").click(function(){        	
 			var dataUrl = canvas.toDataURL();			
 			var url = "{{ path('file_upImagen') }}";
-			var id = "{{ hc.id }}";
-
+			var id = "{{ hc.id }}";			
 
 			if(bandera == 0){				
  				document.getElementById("newHcEstetica_edad_crono").value = '';
@@ -340,9 +339,10 @@
 	             if(data.responseCode==200 ){
 
 	            	 bandera = 1;	            	 
-	            	 alert("Grafico almacenado correctamente. Vuelva a guardar para guardar la informacion del a estetica");
+	            	 alert("Grafico ALMACENADO correctamente. Presione MODIFICAR para SALVAR la informacion de la estetica");
+	            	 document.getElementById("newHcEstetica_edad_crono").value = {{ entity.edadCrono }};
 	     			 $('estetica').submit();// despues de guardar el grafico se ejecuta el formulario.            	             	 
-	            	 //document.forms[0].submit();            	 
+	            	 //document.forms[0].submit();
 	             }
 	             else if(data.responseCode==400){	                     	           	            	
 	             	$('#ajaxMsg').html(data.msg);
