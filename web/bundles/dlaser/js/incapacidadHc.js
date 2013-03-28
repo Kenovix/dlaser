@@ -14,4 +14,29 @@ $(function() {
 	});
     
 	$( "#effectClip" ).hide();
+	
+	
+	/* escript para el dialog de los impresos*/	
     }); 
+
+$(document).ready(function(){
+  $('#cnst').button();
+  $( "#cnst" ).click(function() {
+	$( "#consentimientos" ).dialog( "open" );
+  });
+  
+  $('#consentimientos').dialog({
+	  autoOpen:false,
+	  resizable: false,
+	  width:800,
+	  height:400,	
+	  modal: true,
+	  
+	  buttons :{
+	    Cancel: function() {
+	      $( this ).dialog( "close" );
+	    }
+	  }
+  });
+  
+});

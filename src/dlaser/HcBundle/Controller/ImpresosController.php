@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ImpresosController extends Controller{
 	
-	function impresionAction($hc){
+	function impresionAction($hc,$option){
 		
 		/*
 		 * CALUSULAS PARA INGRESAS A LA SECCION DE LASER............=> CISL <-
@@ -26,7 +26,7 @@ class ImpresosController extends Controller{
 		$em = $this->getDoctrine()->getEntityManager();
 		$hc = $em->getRepository('HcBundle:Hc')->find($hc);
 		$pagina = null;
-		$option = 'CIHLG';
+		
 		
 		if($hc){
 			
@@ -90,8 +90,9 @@ class ImpresosController extends Controller{
 			$this->get('io_tcpdf')->mail = $sede->getEmail();
 			$this->get('io_tcpdf')->sede = $sede->getnombre();
 			$this->get('io_tcpdf')->empresa = $sede->getEmpresa()->getNombre();
+					
 			
-			return $this->get('io_tcpdf')->quick_pdf($html, 'informe.pdf', 'I');
+			return $this->get('io_tcpdf')->quick_pdf($html,  'I');
 			
 		}else{
 			$this->get('session')->setFlash('error', 'La historia clinica no existe.');				

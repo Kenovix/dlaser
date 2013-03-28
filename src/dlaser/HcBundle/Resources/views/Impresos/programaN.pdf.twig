@@ -26,19 +26,9 @@
 	<div>
 		<table>
 			<tr>
-				<td colspan="2">Nombre: <strong>{{ paciente.priNombre }} {{ paciente.segNombre }} {{ paciente.priApellido }} {{ paciente.segApellido }}</strong></td>			
-			</tr>
-			<tr>
+				<td>Nombre: <strong>{{ paciente.priNombre }} {{ paciente.segNombre }} {{ paciente.priApellido }} {{ paciente.segApellido }}</strong></td>
 				<td>Fecha: {{ fecha|date('d/m/Y') }}</td>
-				<td>Edad: {{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>
-			</tr>
-			<tr>
-				<td>Talla: ______________</td>
-				<td>Edad: {{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>
-			</tr>
-			<tr>
-				<td>IMC: ________________%</td>
-				<td>Grasa corporal: ______</td>
+				<td>Edad: {{ date('now') | date('Y-m-d') - paciente.fn | date('Y-m-d') }} Años</td>			
 			</tr>
 		</table>
 	</div>
@@ -398,7 +388,7 @@
 	
 	<div>
 		<p>
-			Es importante que cualquier duda sea comentada  a la doctora, recuerde que u tratamiento es completamente personalizado, permitiendo así individualizar su caso y lograr el éxito del tratamiento. 
+			Es importante que cualquier duda sea comentada  a la doctor@, recuerde que su tratamiento es completamente personalizado, permitiendo así individualizar su caso y lograr el éxito del tratamiento. 
 		</p>
 	</div>
 </div>
