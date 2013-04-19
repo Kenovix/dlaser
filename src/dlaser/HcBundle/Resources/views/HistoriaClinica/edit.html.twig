@@ -27,9 +27,8 @@
 {% block stylesheets %}
 	{{ parent() }}
 	
-	<link href="{{ asset('bundles/dlaser/css/overcast/jquery-ui-1.10.1.custom.css') }}" rel="stylesheet" type="text/css" />
-	<link href="{{ asset('bundles/dlaser/css/medicamentoHc.css') }}" rel="stylesheet" type="text/css" />
-	
+	<link href="{{ asset('bundles/dlaser/css/jquery-ui.custom.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ asset('bundles/dlaser/css/medicamentoHc.css') }}" rel="stylesheet" type="text/css" />	
 	 
 {% endblock %}
 
@@ -164,11 +163,12 @@
     	<div>
     		<fieldset>
     			<legend>Diagnosticos actuales</legend>
+    			
+    			<div id="ajaxMsgCie"></div>
 		    	     
-	   			<table>
+	   			<table id="CieSolicitado">
 	    	 		<thead>
 	            		<tr>
-	                		<th>Id</th>
 	                		<th>nombre</th>
 	                		<th>codigo</th>
 	                		<th>Opcion</th>                
@@ -180,22 +180,14 @@
 			                <td>{{ permiso.nombre}}</td>
 			                <td>{{ permiso.codigo}}</td>
 			                <td>                			               
-			    			<a onClick='delCie({{ permiso.id}}); return false;' href='#' class="button left"><span class="label"><span class='icon icon186'></span></span></a>
+			    				<a onClick='delCie({{ permiso.id}}); return false;' href='#' class="button left"><span class="label"><span class='icon icon186'></span></span></a>
 			    			</td>
 			            </tr>
 	        		{% endfor %} 
 	      			</tbody>
 	    		</table>
-	    	</fieldset>
-    	</div>
-
-    	<div>
-    		<fieldset>
-    			<legend>Diagnosticos nuevos</legend>
-    			
-    			<div id="ajaxMsgCie"></div>
-    			
-    			<select id="cie" name="cie" style="width: 550px;">
+	    		
+	    		<select id="cie" name="cie" style="width: 550px;">
 					<option value="">Seleccione un diagnostico</option>
 					{% for cie in cies %}
 					<option value="{{ cie.id }}" data-url="{{ path('hc_hcCie', {'hc':entity.id, 'cie':cie.id}) }}">
@@ -205,20 +197,8 @@
 				</select>
 				
 				<a id="add-dx" title="Agregar un diagnostico">Agregar</a>
-				      
-				<table id="CieSolicitado">
-					<thead>
-	            		<tr>
-	                		<th>nombre</th>
-	                		<th>codigo</th>
-	                		<th>Opcion</th>                
-	            		</tr>
-	        		</thead>
-				    <tbody>   
-				    
-				    </tbody>
-				</table>    			
-    		</fieldset>
+				
+	    	</fieldset>
     	</div>
     	
     	<div id="dx-add" title="Agregar diagnostico">    	
@@ -240,50 +220,6 @@
     		{{ form_label(edit_form.dx_presunto) }}
 			{{ form_errors(edit_form.dx_presunto) }}
 			{{ form_widget(edit_form.dx_presunto) }}
-    	</div>
-    	
-    	<div>
-    		<fieldset>
-    			<legend>Examenes presentados</legend>
-    		
-	    		<table>
-					<thead>
-				    	<tr>
-			                <th>Fecha realizado</th>
-			                <th>Nombre</th>
-			                <th>Resultado</td>
-			                <th>Opción</th>             
-				        </tr>
-				    </thead>
-				    <tbody>
-				    	{% for examen in exaPresentados %}            
-					    	<tr id="{{ examen.id }}">
-					            <td>{{ examen.fecha_r }}</td>
-					            <td>{{ examen.nombre}}</td>
-					            <td>{{ examen.resultado}}</td>
-					            <td>                
-					            	<a id="in-resul" title="{{ examen.id }}">Modificar</a>
-					    		</td>
-					        </tr>
-					    {% endfor %}
-					    
-					    {% for examen in exaPrePrimerVez %}            
-					    	<tr id="{{ examen.id }}">
-					            <td>{{ examen.fecha_r }}</td>
-					            <td>{{ examen.nombre}}</td>
-					            <td>{{ examen.resultado}}</td>
-					            <td>                
-					            	<a id="in-resul" title="{{ examen.id }}">Modificar</a>
-					    		</td>
-					        </tr>
-					    {% endfor %}
-					    
-				    </tbody>
-				</table>
-				
-				<a id="btnNewExamen" href="{{ path('hcExamen_new', {'factura': factura.id}) }}" target="popup" title="Nuevo examen" onClick="popup(this.href,750,600); return false;"><span>Nuevo Examen</span></a>
-				
-			</fieldset>
     	</div>
     	
     	<div id="examen-edit" title="Resultado">			
@@ -375,16 +311,15 @@
     	<div>
     		<fieldset>
     			<legend>Medicamentos prescriptos</legend>
+    			
+    			<div id="ajaxMsgMe"></div>
     							      
-				<table>
+				<table id="MeSolicitado">
 					<thead>
 				    	<tr>
 			                <th>Principio activo</th>
 			                <th>Concentración</th>
-			                <th>Dosis día</th>
-			                <th>Tiempo</th>
-			                <th>Pos</th>
-			                <th>Estado</th>
+			                <th>Posología</th>
 			                <th>Opción</th>                
 				        </tr>
 				    </thead>
@@ -394,9 +329,6 @@
 			                <td>{{ permiso.principioActivo}}</td>
 			                <td>{{ permiso.concentracion}}</td>
 			                <td>{{ permiso.dosisDia}}</td>
-			                <td>{{ permiso.tiempo}}</td>
-			                <td>{{ permiso.pos}}</td>
-			                <td>{{ permiso.estado}}</td>
 			                <td>
 			                {% if permiso.estado == 'P' %}
 			                 <a href="{{ path('hc_updateHcMedi', {'id': permiso.id}) }}"  class="button left"><span class="label">Registrar</span></a>
@@ -411,17 +343,9 @@
 			            </tr>
 					{% endfor %}
 				    </tbody>
-				</table>    			
-    		</fieldset>
-      	</div>
-      	
-      	<div>
-    		<fieldset>
-    			<legend>Nueva prescripción</legend>
-    			
-    			<div id="ajaxMsgMe"></div>
-    			    			
-    			{% set label = '' %}
+				</table>
+				
+				{% set label = '' %}
     			{% set flag = 0 %}    			
     			<select id="medica" name="medica" style="width: 550px;">    				    					
     				<option value="">Seleccione un medicamento</option>
@@ -444,23 +368,7 @@
 				</select>
 				
 				<a id="add-mx" title="Agregar un medicamento">Agregar</a>
-				      
-				<table id="MeSolicitado">
-					<thead>
-				    	<tr>				        	
-			                <th>Principio activo</th>
-			                <th>Concentración</th>
-			                <th>Dosis día</th>
-			                <th>Tiempo</th>
-			                <th>Pos</th>
-			                <th>Estado</th>
-			                <th>Opcion</th>                
-				        </tr>
-				    </thead>
-				    <tbody>   
-					
-				    </tbody>
-				</table>    			
+							
     		</fieldset>
       	</div>
       	
@@ -508,10 +416,6 @@
 	     	 </div>
     	</div>
     	
-    
-    
-       	
-    	
     </fieldset>
     
     <button class="action blue" type="submit">
@@ -522,12 +426,10 @@
     	<a href="{{ path('hc_imprime', {'factura': factura.id }) }}" target="blank" class="button left"><span class="label">Imprimir</span></a>
     {% endif %}
 	
-	<a href="{{ path('ctc_list',{'id':factura.id}) }}"  rel="#overlays" class="button left"><span class="label">Ver CTCs</span></a>
-	
 	{% if hcEstetica %}
-		<a href="{{ path('HcEstetica_edit',{'hc':entity.id}) }}" class="button left"><span class="label">Ver Hc-Estetica</span></a>
+		<a href="{{ path('HcEstetica_edit',{'hc':entity.id}) }}" class="button left"><span class="label">Editar estetica</span></a>
 	{% else %}
-		<a href="{{ path('HcEstetica_new',{'hc':entity.id}) }}" class="button left"><span class="label">Nueva Hc-Estetica</span></a>
+		<a href="{{ path('HcEstetica_new',{'hc':entity.id}) }}" class="button left"><span class="label">Nueva estetica</span></a>
 	{% endif %}
 	
 </form>
@@ -536,6 +438,7 @@
 {% block javascripts %}
 
 <script src="{{ asset('bundles/dlaser/js/jquery-ui-1.8.23.custom.min.js') }}"></script>
+<script src="{{ asset('bundles/dlaser/js/jquery-ui-timepicker-addon.js') }}"></script>
 <script src="{{ asset('bundles/dlaser/js/incapacidadHc.js') }}"></script>
 
 <script type="text/javascript">
@@ -564,6 +467,11 @@
             $( "#cron-signos" ).dialog( "open" );
             return false;
         });
+    });
+
+    $('#newHC_control').datetimepicker({
+    	dateFormat: "yy-mm-dd",
+    	timeFormat: "HH:mm:ss"
     });
 
 	$(function() {
@@ -925,10 +833,7 @@ $("#medica").change(function(){
 						tr += "<tr id='me"+data.medica.id+"'>";
 						tr += "<td>"+data.medica.pactivo+"</td>";
 						tr += "<td>"+data.medica.cncntracn+"</td>";
-						tr += "<td>"+data.medica.ddia+"</td>";
-						tr += "<td>"+data.medica.tiempo+"</td>";
-						tr += "<td>"+data.medica.pos+"</td>";	
-						tr += "<td>"+data.medica.estado+"</td>";											
+						tr += "<td>"+data.medica.ddia+"</td>";	
 						tr += "<td><a class='button' onClick='delMed("+data.medica.id+"); return false;' href='#' title='Eliminar'><span class='icon icon186'></span></a></td>";
 						tr += "</tr>";
 

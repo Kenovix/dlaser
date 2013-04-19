@@ -45,7 +45,7 @@
                 <td><a href="{{ path('cargo_show', {'id':entity.id}) }}">{{ entity.cups }}</a></td>
                 <td>{{ entity.nombre }}</td>
                 <td>{{ entity.indicacion }}</td>
-                <td>{{ entity.valor }}</td>
+                <td>${{ entity.valor | number_format(0, ',', '.')}}</td>
             </tr>
          {% else %}
          	<tr>
@@ -55,9 +55,10 @@
         </tbody>
     </table>
     
-    <a href="{{ path('cargo_new') }}" class="button left"><span class="label">Nuevo cargo</span></a>
-    
     {% if entities %}
 		{{ simple_paginator_render('cargo_list', null) }}
     {% endif %}
+    
+    <a href="{{ path('cargo_new') }}" class="button left"><span class="label">Nuevo cargo</span></a>    
+    
 {% endblock %}

@@ -15,7 +15,7 @@ use dlaser\AgendaBundle\Form\AgendaMedicaType;
 class AgendaController extends Controller
 {
     public function listAction()
-    {        
+    {
         $em = $this->getDoctrine()->getEntityManager();    
         $agenda = $em->getRepository('AgendaBundle:Agenda')->findAll();
         
@@ -36,7 +36,7 @@ class AgendaController extends Controller
                 'agendas'  => $agenda
         ));        
     }
-        
+
     public function newAction()
     {
         $entity = new Agenda();
@@ -55,8 +55,8 @@ class AgendaController extends Controller
                 'form'   => $form->createView()
         ));
     }
-    
-    
+
+
     public function saveAction()
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -71,7 +71,7 @@ class AgendaController extends Controller
             $em->persist($entity);
             $em->flush();
                        
-            $ncupos = ((($entity->getFechaFin()->getTimestamp() - $entity->getFechaInicio()->getTimestamp()) / 60) / $entity->getIntervalo());
+            /*$ncupos = ((($entity->getFechaFin()->getTimestamp() - $entity->getFechaInicio()->getTimestamp()) / 60) / $entity->getIntervalo());
             
             $turno = $entity->getFechaInicio();
             
@@ -84,7 +84,7 @@ class AgendaController extends Controller
                 $em->persist($cupo);
                 $em->flush();
                 $turno->add(new \DateInterval('PT'.$entity->getIntervalo().'M'));                
-            }            
+            }*/
     
             $this->get('session')->setFlash('ok', 'La agenda ha sido creada éxitosamente.');    
             return $this->redirect($this->generateUrl('agenda_show', array("id" => $entity->getId())));    

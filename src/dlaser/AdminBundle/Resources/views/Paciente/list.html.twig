@@ -73,9 +73,11 @@
         </tbody>
     </table>
     
-    <a href="{{ path('paciente_new') }}" class="button left"><span class="label">Nuevo paciente</span></a>
-    
     {% if entities %}
 		{{ simple_paginator_render('paciente_list',null,{routeParams:{'char':char}}) }}
     {% endif %}
+    
+    <a href="{{ path('paciente_new') }}" class="button left"><span class="label">Nuevo paciente</span></a>
+    
+    
 {% endblock %}

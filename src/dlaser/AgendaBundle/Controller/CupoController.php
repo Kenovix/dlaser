@@ -55,22 +55,32 @@ class CupoController extends Controller
 
     public function saveAction()
     {
-        $em = $this->getDoctrine()->getEntityManager();
+        $cupo = new Cupo();
                 
-        $form = $this->createForm(new CupoType());
+        $form = $this->createForm(new CupoType(), $cupo);
         $request = $this->getRequest();
         $entity = $request->get($form->getName());
+        
+        $em = $this->getDoctrine()->getEntityManager();
 
-        $cupo = $em->getRepository('AgendaBundle:Cupo')->find($entity['hora']);
+        $agenda = $em->getRepository('AgendaBundle:Agenda')->find($entity['agenda']);
+
         $paciente = $em->getRepository('ParametrizarBundle:Paciente')->findOneBy(array('identificacion' => $entity['paciente']));
         $cargo = $em->getRepository('ParametrizarBundle:Cargo')->find($entity['cargo']);
         
         $user = $this->get('security.context')->getToken()->getUser();
+        
+        $hora = $agenda->getFechaInicio()->format('Y-m-d');
+        $hora .= ' '.$entity['hora'];
+        
+        $hora = new \DateTime($hora);
             
+        $cupo->setHora($hora);
         $cupo->setRegistra($user->getId());
         $cupo->setPaciente($paciente);
         $cupo->setCargo($cargo);
         $cupo->setEstado('A');
+        $cupo->setAgenda($agenda);
         $cupo->setNota($entity['nota']);
         $cupo->setCliente($entity['cliente']);
             
@@ -253,19 +263,54 @@ class CupoController extends Controller
                 $response=array("responseCode"=>400, "msg"=>"El paciente ingresado ya cuenta con una reserva para esta actividad");
             }else{
                 
-                $cupo = $em->getRepository('AgendaBundle:Cupo')->findBy(array('agenda' => $agenda, 'estado' => 'L'));
-                
-                if($cupo){
-                
-                    $response=array("responseCode"=>200);
-                
-                    foreach($cupo as $value)
-                    {
-                        $response['cupo'][$value->getId()] = $value->getHora()->format('H:i');
-                    }
-                }else{
-                    $response=array("responseCode"=>400, "msg"=>"No hay cupos disponibles en esta agenda.");
-                }
+            	$duracion_agenda = $em->getRepository('AgendaBundle:Agenda')->find($agenda);
+
+            	$ncupos = ((($duracion_agenda->getFechaFin()->getTimestamp() - $duracion_agenda->getFechaInicio()->getTimestamp()) / 60) / $duracion_agenda->getIntervalo());
+            	
+            	$turno = $duracion_agenda->getFechaInicio();
+            	
+            	$query = $em->createQuery(' SELECT 
+            									c.hora
+							                FROM 
+							            		AgendaBundle:Cupo c
+							            	JOIN
+							            		c.agenda a
+							                WHERE 
+							            		c.estado = :estado AND
+							            		a.id = :id');
+            	
+            	$query->setParameter('estado', 'A');
+            	$query->setParameter('id', $duracion_agenda->getId());
+            	            	            	
+            	$cupos_asignados = $query->getArrayResult();
+            	
+            	if ($cupos_asignados){
+            		
+            		$response=array("responseCode"=>200);
+            		
+	            	foreach ($cupos_asignados as $key => $value){
+	            		$reservados[] = $value['hora'];
+	            	}
+	            	
+	            	for($i = 0; $i < $ncupos; $i++ ){
+	            		if(!in_array($turno->format('Y-m-d H:i:s'), $reservados)){
+	            			$response['cupo'][$turno->format('H:i:00')] = $turno->format('H:i');
+	            		}	            	
+	            		$turno->add(new \DateInterval('PT'.$duracion_agenda->getIntervalo().'M'));
+	            	}
+            	}else{
+            		
+            		$response=array("responseCode"=>200);
+            		
+            		for($i = 0; $i < $ncupos; $i++ ){            			
+            			$response['cupo'][$i] = $turno->format('H:i');            			
+            			$turno->add(new \DateInterval('PT'.$duracion_agenda->getIntervalo().'M'));
+            		}
+            	}
+            	
+            	if($response['cupo'] == 0){
+            		$response=array("responseCode"=>400, "msg"=>"No hay cupos disponibles en esta agenda.");
+            	}
             }
             
             $return=json_encode($response);
