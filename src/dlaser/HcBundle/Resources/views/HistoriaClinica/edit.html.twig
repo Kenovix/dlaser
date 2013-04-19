@@ -416,6 +416,61 @@
 	     	 </div>
     	</div>
     	
+
+    	
+    	<div id="consentimientos" title="Generar consentimientos" style="display:none">
+      		<div id="Impresos">			
+				<fieldset>		
+					<legend>Datos de los Consentimientos</legend>
+															
+		        	<table>
+		        		<thead>
+		        			<tr>
+		        				<th>Nombre</th>
+		        				<th>Opcion</th>
+		        			</tr>		        			
+		        		</thead>
+		        		<tbody>
+		        			<tr>
+		        				<td>CALUSULAS PARA INGRESAS A LA SECCION DE LASER</td>
+		        				<td><a href="{{ path('impreso_firma',{'hc':entity.id, 'option': 'CISL'}) }}" target="blank"   class="button left"><span class="label">Generar</span></a></td>
+		        			</tr>
+		        			<tr>
+		        				<td>CONSENTIMIENTO INFORMADO HILOS DE LEVANTAMIENTO GLUTEO</td>
+		        				<td><a href="{{ path('impreso_firma',{'hc':entity.id, 'option': 'CIHLG'}) }}" target="blank"  class="button left"><span class="label">Generar</span></a></td>
+		        			</tr>
+		        			<tr>
+		        				<td>CONSENTIMIENTO INFORMADO LASER</td>
+		        				<td><a href="{{ path('impreso_firma',{'hc':entity.id, 'option': 'CIL'}) }}" target="blank"  class="button left"><span class="label">Generar</span></a></td>
+		        			</tr>
+		        			<tr>
+		        				<td>CONSENTIMIENTO INFORMADO LASERLIPOLISIS</td>
+		        				<td><a href="{{ path('impreso_firma',{'hc':entity.id, 'option': 'CILL'}) }}" target="blank"  class="button left"><span class="label">Generar</span></a></td>
+		        			</tr>
+		        			<tr>
+		        				<td>FINALIZACION TRATAMIENTO LASER</td>
+		        				<td><a href="{{ path('impreso_firma',{'hc':entity.id, 'option': 'FTL'}) }}" target="blank"  class="button left"><span class="label">Generar</span></a></td>
+		        			</tr>
+		        			<tr>
+		        				<td>PAGARE</td>
+		        				<td><a href="{{ path('impreso_firma',{'hc':entity.id, 'option': 'P'}) }}" target="blank" class="button left"><span class="label">Generar</span></a></td>
+		        			</tr>
+		        			<tr>
+		        				<td>PROGRAMA DE NUTRICION</td>
+		        				<td><a href="{{ path('impreso_firma',{'hc':entity.id, 'option': 'PN'}) }}"  target="blank" class="button left"><span class="label">Generar</span></a></td>
+		        			</tr>
+		        			<tr>
+		        				<td>RECOMENDACIONES NUEVO</td>
+		        				<td><a href="{{ path('impreso_firma',{'hc':entity.id, 'option': 'RN'}) }}" target="blank"  class="button left"><span class="label">Generar</span></a></td>
+		        			</tr>
+		        		<tbody>
+		        	</table>		        	
+				</fieldset>	
+			</div>		
+		</div>
+    	
+    
+
     </fieldset>
     
     <button class="action blue" type="submit">
@@ -431,6 +486,7 @@
 	{% else %}
 		<a href="{{ path('HcEstetica_new',{'hc':entity.id}) }}" class="button left"><span class="label">Nueva estetica</span></a>
 	{% endif %}
+	<div id="cnst">Consentimientos</div>
 	
 </form>
 {% endblock %}
