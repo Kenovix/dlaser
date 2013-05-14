@@ -390,7 +390,7 @@
             		}
             		$('option', select).remove();
 
-            		options[options.length] = new Option('Seleccione agenda', '');
+            		options[options.length] = new Option('Seleccione cupo', '');
 
             		$.each(data.cupo, function(val, text) {
             		    options[options.length] = new Option(text, val);
@@ -408,7 +408,7 @@
                 }
             });
             
-        });              
+        });        
     });
 </script>    
 {% endblock %}

@@ -139,8 +139,8 @@ class HcEsteticaType extends AbstractType
 								   'cuatro' => 'Cuatro', 'cinco' => 'Cinco', 'Seis' => 'Seis'),
 				'data' => '1',
 		))
-		->add('infoFitzpatrick', 	'textarea', array('required' => false, 'label' => 'Info Fitzpatrick:'))		
-		->add('grafico', 			'textarea', array('required' => false, 'label' => 'Grafico:'))
+		->add('infoFitzpatrick', 	'textarea', array('required' => false, 'label' => 'Nota:'))		
+		->add('grafico', 			'textarea', array('required' => false, 'label' => 'Gráfico:'))
 		
 		;		
 	}

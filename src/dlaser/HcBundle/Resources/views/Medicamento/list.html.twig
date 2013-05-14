@@ -74,10 +74,10 @@
         </tbody>
     </table>
     
-    <a href="{{ path('medicamento_new') }}" class="button left"><span class="label">Nuevo medicamento</span></a>
-    
     {% if medicamentos %}
 		{{ simple_paginator_render('medicamento_list', null) }}
     {% endif %}
+    
+    <a href="{{ path('medicamento_new') }}" class="button left"><span class="label">Nuevo medicamento</span></a>
     
 {% endblock %}

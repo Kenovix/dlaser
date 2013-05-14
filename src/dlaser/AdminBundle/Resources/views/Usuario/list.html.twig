@@ -46,10 +46,18 @@
         {% for entity in entities %}
             <tr>
                 <td>{{ loop.index }}</td>
-                <td>{{ entity.nombre }}</td>
+                <td><a href="{{ path('usuario_show', {'id':entity.id}) }}">{{ entity.nombre }}</a></td>
                 <td>{{ entity.apellido }}</td>
-                <td><a href="{{ path('usuario_show', {'id':entity.id}) }}">{{ entity.cc }}</a></td>
-                <td>{{ entity.perfil }}</td>
+                <td>{{ entity.cc }}</td>
+                <td>
+                	{% if entity.perfil == 'ROLE_ADMIN'  %}
+                		<b>Administrador</b>
+                	{% elseif entity.perfil == 'ROLE_MEDICO' %}
+                		Médico
+                	{% elseif entity.perfil == 'ROLE_AUX' %}
+                		Auxiliar
+                	{% endif %}
+                </td>
                 <td>{{ entity.telefono }}</td>
                 <td>{{ entity.direccion }}</td>
                 <td>{{ entity.tp }}</td>

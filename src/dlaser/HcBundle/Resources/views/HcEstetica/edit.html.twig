@@ -24,8 +24,12 @@
 	{% endif %}
 {% endblock %}
 
-
-
+{% block stylesheets %}
+	{{ parent() }}
+	
+	<link href="{{ asset('bundles/dlaser/css/jquery-ui.custom.css') }}" rel="stylesheet" type="text/css" />	
+	 
+{% endblock %}
 
 {% block cuerpo %}
 
@@ -60,7 +64,7 @@
         </tbody>
     </table>
     
-<form  method="post" {{ form_enctype(form) }} action="{{ path('HcEstetica_update', { 'estetica': entity.id }) }}" >
+<form  method="post" {{ form_enctype(form) }} id="estetica" action="{{ path('HcEstetica_update', { 'estetica': entity.id }) }}" >
     <fieldset>
     	<legend>Datos de la estetica</legend>
     	
@@ -119,62 +123,63 @@
 		</div>    	
     	
     	<div id="check_item">
+    		<h3>Orificios pilosevaceos</h3>
     		<div>
-	    		{{ form_label(form.op) }}
+	    		
 				{{ form_errors(form.op) }}
 				{{ form_widget(form.op) }}
 			</div>
 			
+			<h3>Pigmentación</h3>
 			<div>
-	    		{{ form_label(form.pigmentacion) }}
 				{{ form_errors(form.pigmentacion) }}
 				{{ form_widget(form.pigmentacion) }}
 			</div>
 			
+			<h3>Arrugas</h3>
 			<div>
-	    		{{ form_label(form.arrugas) }}
 				{{ form_errors(form.arrugas) }}
 				{{ form_widget(form.arrugas) }}
 			</div>
 			
+			<h3>Flacidez</h3>
 			<div>
-	    		{{ form_label(form.flacidez) }}
 				{{ form_errors(form.flacidez) }}
 				{{ form_widget(form.flacidez) }}
 			</div>
 			
+			<h3>Parpado</h3>
 			<div>
-	    		{{ form_label(form.parpado) }}
 				{{ form_errors(form.parpado) }}
 				{{ form_widget(form.parpado) }}
 			</div>
 			
+			<h3>Lesiones cutaneas</h3>
 			<div>
-	    		{{ form_label(form.lesiones_cut) }}
 				{{ form_errors(form.lesiones_cut) }}
 				{{ form_widget(form.lesiones_cut) }}
 			</div>
 			
+			<h3>Lipodistrofia</h3>
 			<div>
-	    		{{ form_label(form.lipodistrofia) }}
 				{{ form_errors(form.lipodistrofia) }}
 				{{ form_widget(form.lipodistrofia) }}
 			</div>
 			
+			<h3>Tatuaje</h3>
 			<div>
-	    		{{ form_label(form.tatuaje) }}
 				{{ form_errors(form.tatuaje) }}
 				{{ form_widget(form.tatuaje) }}
 			</div>
 			
+			<h3>Cicatrizes</h3>
 			<div>
-	    		{{ form_label(form.cicatrizes) }}
 				{{ form_errors(form.cicatrizes) }}
 				{{ form_widget(form.cicatrizes) }}
 			</div>
 			
+			<h3>Estrias</h3>
 			<div>
-	    		{{ form_label(form.estrias) }}
 				{{ form_errors(form.estrias) }}
 				{{ form_widget(form.estrias) }}
 			</div>
@@ -252,23 +257,25 @@
 			{{ form_widget(form.grafico) }}
 		</div>	    
     	{{ form_rest(form) }}
+    	
     </fieldset>
-    
-    <button class="action blue" type="buton" id="save">
-        <span class="label">Modificar</span>
-    </button>    
-    
-    <a href="{{ path('HcEstetica_impresa', {'hcEstetica': entity.id}) }}" class="button left"><span class="label">Imprimir</span></a>
-    <a href="{{ path('file_showImagens', {'estado': 'A',  'estetica': entity.id}) }}" class="button left"><span class="label">Mostrar imagenes</span></a>
-    <a href="{{ path('hc_edit', {'id': hc.factura.id}) }}" class="button left"><span class="label">Detalle H-Clinica</span></a>
 </form>
+
+<button class="action blue" type="buton" id="save">
+	<span class="label">Modificar</span>
+</button>    
+    
+<a href="{{ path('HcEstetica_impresa', {'hcEstetica': entity.id}) }}" class="button left"><span class="label">Imprimir</span></a>
+<a href="{{ path('file_showImagens', {'estado': 'A',  'estetica': entity.id}) }}" class="button left"><span class="label">Imagenes del paciente</span></a>
+<a href="{{ path('hc_edit', {'id': hc.factura.id}) }}" class="button left"><span class="label">Volver a la Historia clinica</span></a>
 
 {% endblock %}
 
 {% block javascripts %}
-<script type="text/javascript">
 
-	var bandera = 0;
+<script src="{{ asset('bundles/dlaser/js/jquery-ui-1.8.23.custom.min.js') }}"></script>
+
+<script type="text/javascript">
 	
 	$(document).ready(function(){
 
@@ -324,25 +331,17 @@
 		});
 
 		$("#save").click(function(){        	
+
 			var dataUrl = canvas.toDataURL();			
 			var url = "{{ path('file_upImagen') }}";
-			var id = "{{ hc.id }}";			
-
-			if(bandera == 0){				
- 				document.getElementById("newHcEstetica_edad_crono").value = '';
- 				}
+			var id = "{{ hc.id }}";
 			
 			$.post(url,{
                 img: dataUrl,
                 id: id
 	         },function(data){
 	             if(data.responseCode==200 ){
-
-	            	 bandera = 1;	            	 
-	            	 alert("Grafico ALMACENADO correctamente. Presione MODIFICAR para SALVAR la informacion de la estetica");
-	            	 document.getElementById("newHcEstetica_edad_crono").value = {{ entity.edadCrono }};
-	     			 $('estetica').submit();// despues de guardar el grafico se ejecuta el formulario.            	             	 
-	            	 //document.forms[0].submit();
+	            	 $('#estetica').submit();
 	             }
 	             else if(data.responseCode==400){	                     	           	            	
 	             	$('#ajaxMsg').html(data.msg);
@@ -357,6 +356,14 @@
 	             }
 	         });			
 		});
+
+		 
+		 $(function() {
+		 	$( "#check_item" ).accordion({
+		 		collapsible: true
+		 	});
+		 });
+		 
 	});
 </script>
 {% endblock %}

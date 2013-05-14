@@ -24,6 +24,13 @@
 	{% endif %}
 {% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	
+	<link href="{{ asset('bundles/dlaser/css/jquery-ui.custom.css') }}" rel="stylesheet" type="text/css" />	
+	 
+{% endblock %}
+
 {% block cuerpo %}
 
 <style>
@@ -116,62 +123,63 @@
 		</div>    	
     	
     	<div id="check_item">
+    		<h3>Orificios pilosevaceos</h3>
     		<div>
-	    		{{ form_label(form.op) }}
+	    		
 				{{ form_errors(form.op) }}
 				{{ form_widget(form.op) }}
 			</div>
 			
+			<h3>Pigmentación</h3>
 			<div>
-	    		{{ form_label(form.pigmentacion) }}
 				{{ form_errors(form.pigmentacion) }}
 				{{ form_widget(form.pigmentacion) }}
 			</div>
 			
+			<h3>Arrugas</h3>
 			<div>
-	    		{{ form_label(form.arrugas) }}
 				{{ form_errors(form.arrugas) }}
 				{{ form_widget(form.arrugas) }}
 			</div>
 			
+			<h3>Flacidez</h3>
 			<div>
-	    		{{ form_label(form.flacidez) }}
 				{{ form_errors(form.flacidez) }}
 				{{ form_widget(form.flacidez) }}
 			</div>
 			
+			<h3>Parpado</h3>
 			<div>
-	    		{{ form_label(form.parpado) }}
 				{{ form_errors(form.parpado) }}
 				{{ form_widget(form.parpado) }}
 			</div>
 			
+			<h3>Lesiones cutaneas</h3>
 			<div>
-	    		{{ form_label(form.lesiones_cut) }}
 				{{ form_errors(form.lesiones_cut) }}
 				{{ form_widget(form.lesiones_cut) }}
 			</div>
 			
+			<h3>Lipodistrofia</h3>
 			<div>
-	    		{{ form_label(form.lipodistrofia) }}
 				{{ form_errors(form.lipodistrofia) }}
 				{{ form_widget(form.lipodistrofia) }}
 			</div>
 			
+			<h3>Tatuaje</h3>
 			<div>
-	    		{{ form_label(form.tatuaje) }}
 				{{ form_errors(form.tatuaje) }}
 				{{ form_widget(form.tatuaje) }}
 			</div>
 			
+			<h3>Cicatrizes</h3>
 			<div>
-	    		{{ form_label(form.cicatrizes) }}
 				{{ form_errors(form.cicatrizes) }}
 				{{ form_widget(form.cicatrizes) }}
 			</div>
 			
+			<h3>Estrias</h3>
 			<div>
-	    		{{ form_label(form.estrias) }}
 				{{ form_errors(form.estrias) }}
 				{{ form_widget(form.estrias) }}
 			</div>
@@ -251,17 +259,21 @@
 	</div>
 	{{ form_rest(form) }}
     	
-    </fieldset>
-    
-    <button class="action blue" type="buton" id="save">
-        <span class="label">Crear</span>
-    </button>   
-    
-    <a href="{{ path('hc_edit', {'id': hc.factura.id}) }}" class="button left"><span class="label">Detalle H-Clinica</span></a>
+    </fieldset>   
     
 </form>
+
+	<button class="action blue" type="buton" id="save">
+		<span class="label">Crear</span>
+	</button>
+    
+	<a href="{{ path('hc_edit', {'id': hc.factura.id}) }}" class="button left"><span class="label">Detalle H-Clinica</span></a>
+
 {% endblock %}
 {% block javascripts %}
+
+<script src="{{ asset('bundles/dlaser/js/jquery-ui-1.8.23.custom.min.js') }}"></script>
+
 <script type="text/javascript">
 	$(document).ready(function(){
         
@@ -277,7 +289,7 @@
 						
 		img.onload = function() {
 			cntx.drawImage(img,0,0);
-		};					
+		};
 
 		function dibujar(x,y){
 
@@ -290,7 +302,7 @@
 			cntx.fill();
 		}
 					
-		$("#can").click(function(canvas){						
+		$("#can").click(function(canvas){
 			xCoord=canvas.pageX-this.offsetLeft;
 			yCoord=canvas.pageY-this.offsetTop;
 
@@ -318,9 +330,9 @@
         	window.open(dataUrl, "toDataURL() image", "width=600, height=200");
 		});
 
-		$("#save").click(function(){        	
+		$("#save").click(function(){
+			
 			var dataUrl = canvas.toDataURL();
-
 			var url = "{{ path('file_upImagen') }}";
 			var id = "{{ hc.id }}";
 
@@ -329,8 +341,7 @@
                 id: id
 	         },function(data){
 	             if(data.responseCode==200 ){
-	            	 alert("Grafico almacenado correctamente.");
-	            	 $('estetica').submit();	// despues de guardar el grafico se ejecuta el formulario.
+	            	 $('#estetica').submit();	// despues de guardar el grafico se ejecuta el formulario.
 	             }
 	             else if(data.responseCode==400){	                     	           	            	
 	             	$('#ajaxMsg').html(data.msg);
@@ -344,7 +355,13 @@
 	         	    return false;
 	             }
 	         });
-		});		
+		});
+
+		 $(function() {
+		 	$( "#check_item" ).accordion({
+		 		collapsible: true
+		 	});
+		 });	
 	});
 </script>
 {% endblock %}
