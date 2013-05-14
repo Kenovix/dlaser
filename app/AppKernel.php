@@ -19,7 +19,7 @@ class AppKernel extends Kernel
 		new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
         	new Io\TcpdfBundle\IoTcpdfBundle(),
         	new Ideup\SimplePaginatorBundle\IdeupSimplePaginatorBundle(),
-        	new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+        	new FOS\JsRoutingBundle\FOSJsRoutingBundle(),        	
         	new Stfalcon\Bundle\TinymceBundle\StfalconTinymceBundle(),
         	new Knp\Bundle\MenuBundle\KnpMenuBundle(),
         	new WhiteOctober\BreadcrumbsBundle\WhiteOctoberBreadcrumbsBundle(),

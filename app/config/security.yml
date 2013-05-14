@@ -47,4 +47,4 @@ security:
         - { path: ^/HistoriaClinica/imprimir/.*, roles: ROLE_AUX }
         - { path: ^/HistoriaClinica/.*/edit$, roles: ROLE_MEDICO }
         - { path: ^/HistoriaClinica/.*/update$, roles: ROLE_MEDICO }
-        - { path: ^/HistoriaClinica/dx/.*, roles: ROLE_MEDICO }
+        - { path: ^/HistoriaClinica/dx/.*, roles: ROLE_MEDICO }        
