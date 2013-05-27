@@ -1,5 +1,12 @@
 {% extends "AdminBundle::admin_layout.html.twig" %}
 
+
+{% block stylesheets %}
+	{{ parent() }}	
+	<link href="{{ asset('bundles/dlaser/css/overcast/jquery-ui-1.10.1.custom.css') }}" rel="stylesheet" type="text/css" />	 
+{% endblock %}
+
+
 {% block cuerpo %}
 
 <div id="login_form">
@@ -24,9 +31,12 @@
 	
 	        <label class='submit_btn'>
 	        	<input name="commit" tabindex="3" type="submit" value="Sign in" />
-	        </label>
+	        </label><br/>
+	        
+	       <!-- <a href="#" class="#" id="contrasena">¿No puedes acceder a tu cuenta?</a> --> 
 	    </div>
-	</form>
-
+	</form>    
 </div>
+
+
 {% endblock %}

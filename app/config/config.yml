@@ -51,10 +51,11 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: %mailer_transport%
-    host:      %mailer_host%
-    username:  %mailer_user%
-    password:  %mailer_password%
+    transport:  %mailer_transport%    
+    host:       %mailer_host%
+    username:   %mailer_user%
+    password:   %mailer_password%        
+    
 
 jms_security_extra:
     secure_controllers:  true
@@ -114,4 +115,5 @@ white_october_breadcrumbs:
     listClass:          ''
     itemClass:          
     locale:             
-    translation_domain: 
+    translation_domain:
+

@@ -3,8 +3,10 @@ namespace dlaser\AdminBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 use dlaser\UsuarioBundle\Entity\Usuario;
 use dlaser\ParametrizarBundle\Entity\Sede;
 use dlaser\AdminBundle\Form\UsuarioType;
@@ -108,8 +110,7 @@ class UsuarioController extends Controller
 					));
 				}
 			}
-		}
-				
+		}				
 		return $this->render('AdminBundle:Usuario:new.html.twig', array(
 				'entity' => $entity,
 				'form'   => $form->createView()

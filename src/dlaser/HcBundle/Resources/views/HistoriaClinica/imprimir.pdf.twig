@@ -118,7 +118,9 @@
 		{% if perHcMe %}
 			<b>RECETARIO:</b>  
 				{% for permiso in  perHcMe%}            
+
 		        	{{ permiso.principioActivo}} {{ permiso.presentacion}} {{ permiso.concentracion}}  {{ permiso.dosisDia }}.<br />
+
 		        {% endfor %} 				
 			<br />
 		{% endif %}		
@@ -275,7 +277,7 @@
 			    
 			    <ul>
 			    	{% for permiso in  perHcMe%}            
-			        	<li>{{ permiso.principioActivo}} {{ permiso.presentacion}} {{ permiso.concentracion}} tomar {{ permiso.dosisDia }} cada {{ permiso.tiempo }} horas por {{ permiso.diasTratamiento }} dias # {{ ((24 / permiso.tiempo) * (permiso.dosisDia * permiso.diasTratamiento)) }}</li>
+			        	<li>{{ permiso.principioActivo}} {{ permiso.presentacion}} {{ permiso.dosisDia }} </li>
 			        {% endfor %}				
 				</ul>
 			

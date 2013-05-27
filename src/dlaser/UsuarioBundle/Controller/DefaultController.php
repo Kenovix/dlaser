@@ -3,6 +3,12 @@
 namespace dlaser\UsuarioBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use dlaser\UsuarioBundle\Entity\Usuario;
 
 class DefaultController extends Controller
 {
@@ -16,8 +22,6 @@ class DefaultController extends Controller
     	}
     	else{
     		return $this->redirect($this->generateUrl('cupo_new'));
-    	}
-    	 
-    	
+    	}    	
     }
 }
