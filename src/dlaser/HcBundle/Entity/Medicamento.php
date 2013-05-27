@@ -62,16 +62,14 @@ class Medicamento
     /**
      * @var integer $tiempo
      * 
-     * @ORM\Column(name="tiempo", type="integer", nullable=false)
+     * @ORM\Column(name="tiempo", type="integer", nullable=true)
      */
     private $tiempo;
     
     /**
      * @var integer $diasTratamiento
      * 
-     * @ORM\Column(name="dias_tratamiento", type="integer", nullable=false)
-     * @Assert\NotBlank(message="El valor ingresado no puede estar vacio.")
-     * @Assert\Max(limit = "999", message = "Los dias_Tratamiento ingresado no puede ser mayor de {{ limit }}",invalidMessage = "El valor ingresado debe ser un número válido")
+     * @ORM\Column(name="dias_tratamiento", type="integer", nullable=true)
      */    
     private $diasTratamiento;
     
