@@ -73,67 +73,85 @@
 			{{ form_errors(form.fecha) }}
 			{{ form_widget(form.fecha) }}
 		</div>
-    	
-    	<div>
-    		{{ form_label(form.edad_crono) }}
-			{{ form_errors(form.edad_crono) }}
-			{{ form_widget(form.edad_crono) }}
+		
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.edad_crono) }}
+				{{ form_errors(form.edad_crono) }}
+				{{ form_widget(form.edad_crono) }}
+			</div>
 		</div>
 		
-		<div>
-    		{{ form_label(form.edad_aparente) }}
-			{{ form_errors(form.edad_aparente) }}
-			{{ form_widget(form.edad_aparente) }}
+    	<div class="grid_7">		
+			<div>
+	    		{{ form_label(form.edad_aparente) }}
+				{{ form_errors(form.edad_aparente) }}
+				{{ form_widget(form.edad_aparente) }}
+			</div>
 		</div>
 		
-		<div>
-    		{{ form_label(form.piel_color) }}
-			{{ form_errors(form.piel_color) }}
-			{{ form_widget(form.piel_color) }}
+		<div class="clear"></div>
+		
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.piel_color) }}
+				{{ form_errors(form.piel_color) }}
+				{{ form_widget(form.piel_color) }}
+			</div>
 		</div>
 		
-		<div>
-    		{{ form_label(form.piel_cutis) }}
-			{{ form_errors(form.piel_cutis) }}
-			{{ form_widget(form.piel_cutis) }}
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.piel_cutis) }}
+				{{ form_errors(form.piel_cutis) }}
+				{{ form_widget(form.piel_cutis) }}
+			</div>
 		</div>
 		
-		<div>
-    		{{ form_label(form.piel_tacto) }}
-			{{ form_errors(form.piel_tacto) }}
-			{{ form_widget(form.piel_tacto) }}
+		<div class="clear"></div>
+		
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.piel_tacto) }}
+				{{ form_errors(form.piel_tacto) }}
+				{{ form_widget(form.piel_tacto) }}
+			</div>
 		</div>
 		
-		<div>
-    		{{ form_label(form.dentadura) }}
-			{{ form_errors(form.dentadura) }}
-			{{ form_widget(form.dentadura) }}
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.dentadura) }}
+				{{ form_errors(form.dentadura) }}
+				{{ form_widget(form.dentadura) }}
+			</div>
 		</div>
 		
-		<div>
-    		{{ form_label(form.nutricion) }}
-			{{ form_errors(form.nutricion) }}
-			{{ form_widget(form.nutricion) }}
+		<div class="clear"></div>
+		
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.nutricion) }}
+				{{ form_errors(form.nutricion) }}
+				{{ form_widget(form.nutricion) }}
+			</div>
 		</div>
 		
-		<div>
-    		{{ form_label(form.kgs) }}
-			{{ form_errors(form.kgs) }}
-			{{ form_widget(form.kgs) }}
-		</div>    	
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.kgs) }}
+				{{ form_errors(form.kgs) }}
+				{{ form_widget(form.kgs) }}
+			</div>
+		</div>
+		
+		<div class="clear"></div>
     	
     	<div id="check_item">
-    		<h3>Orificios pilosevaceos</h3>
-    		<div>
-	    		
-				{{ form_errors(form.op) }}
-				{{ form_widget(form.op) }}
-			</div>
-			
-			<h3>Pigmentación</h3>
+    		
+    		<h3>Parpados</h3>
 			<div>
-				{{ form_errors(form.pigmentacion) }}
-				{{ form_widget(form.pigmentacion) }}
+				{{ form_errors(form.parpado) }}
+				{{ form_widget(form.parpado) }}
 			</div>
 			
 			<h3>Arrugas</h3>
@@ -142,22 +160,16 @@
 				{{ form_widget(form.arrugas) }}
 			</div>
 			
+			<h3>Lesiones cut&aacute;neas</h3>
+			<div>
+				{{ form_errors(form.lesiones_cut) }}
+				{{ form_widget(form.lesiones_cut) }}
+			</div>
+			
 			<h3>Flacidez</h3>
 			<div>
 				{{ form_errors(form.flacidez) }}
 				{{ form_widget(form.flacidez) }}
-			</div>
-			
-			<h3>Parpado</h3>
-			<div>
-				{{ form_errors(form.parpado) }}
-				{{ form_widget(form.parpado) }}
-			</div>
-			
-			<h3>Lesiones cutaneas</h3>
-			<div>
-				{{ form_errors(form.lesiones_cut) }}
-				{{ form_widget(form.lesiones_cut) }}
 			</div>
 			
 			<h3>Lipodistrofia</h3>
@@ -166,7 +178,7 @@
 				{{ form_widget(form.lipodistrofia) }}
 			</div>
 			
-			<h3>Tatuaje</h3>
+			<h3>Tatuajes</h3>
 			<div>
 				{{ form_errors(form.tatuaje) }}
 				{{ form_widget(form.tatuaje) }}
@@ -183,6 +195,18 @@
 				{{ form_errors(form.estrias) }}
 				{{ form_widget(form.estrias) }}
 			</div>
+    		
+    		<h3>Orificios pilosevaceos</h3>
+    		<div>	    		
+				{{ form_errors(form.op) }}
+				{{ form_widget(form.op) }}
+			</div>
+			
+			<h3>Pigmentaci&oacute;n</h3>
+			<div>
+				{{ form_errors(form.pigmentacion) }}
+				{{ form_widget(form.pigmentacion) }}
+			</div>	
     	</div>
     	
     	<div>
@@ -211,56 +235,91 @@
 				{{ form_errors(form.infoFitzpatrick) }}
 				{{ form_widget(form.infoFitzpatrick) }}
 			</div>	
-    		
-    	</fieldset>
-    	
-    	
-    	
-    	<canvas id="can" width="575" height="548" ></canvas>
-    	
-    	<div id="clr"> 
-        <div style="background-color:black;"></div>
-        <div style="background-color:red;"></div>
-        <div style="background-color:green;"></div>
-        <div style="background-color:orange;"></div>
-        <div style="background-color:#FFFF00;"></div>
-        <div style="background-color:#F43059;"></div>
-        <div style="background-color:#ff00ff;"></div>
-        <div style="background-color:#9ecc3b;"></div>
-        <div style="background-color:#fbd;"></div>
-        <div style="background-color:#fff460;"></div>
-        <div style="background-color:#F43059;"></div>
-        <div style="background-color:#82B82C;"></div>
-        <div style="background-color:#0099FF;"></div>
-        <div style="background-color:#ff00ff;"></div>
-        <div style="background-color:rgb(128,0,255);"></div>
-        <div style="background-color:rgb(255,128,0);"></div>
-        <div style="background-color:rgb(153,254,0);"></div>
-        <div style="background-color:rgb(18,0,255);"></div>
-        <div style="background-color:rgb(255,28,0);"></div>
-        <div style="background-color:rgb(13,54,0);"></div> 
-    </div> 
-           
-    <a id="limpiar" class="button">
-    	<span class="icon icon83"></span>
-    	<span class="label">Limpiar</span>
-    </a>
-    
-    <a id="view" class="button">
-    	<span class="icon icon84"></span>
-    	<span class="label">Ver</span>
-    </a>
-    <br /><br />
-    
-    <div>
-    	{{ form_label(form.grafico) }}
-		{{ form_errors(form.grafico) }}
-		{{ form_widget(form.grafico) }}
-	</div>
-	{{ form_rest(form) }}
-    	
-    </fieldset>   
-    
+                </fieldset>
+    	        <fieldset>
+                    <legend>Mediciones</legend>    
+                    
+                <div class="grid_7">
+    		{{ form_label(form.peso) }}
+			{{ form_errors(form.peso) }}
+			{{ form_widget(form.peso) }}
+		</div>
+		
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.estatura) }}
+				{{ form_errors(form.estatura) }}
+				{{ form_widget(form.estatura) }}
+			</div>
+		</div>
+                
+                <div class="grid_7">
+    		{{ form_label(form.pesogcorporal) }}
+			{{ form_errors(form.pesogcorporal) }}
+			{{ form_widget(form.pesogcorporal) }}
+		</div>
+		
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.porcentajegv) }}
+				{{ form_errors(form.porcentajegv) }}
+				{{ form_widget(form.porcentajegv) }}
+			</div>
+		</div>
+                
+                
+                <div class="grid_7">
+    		{{ form_label(form.pm) }}
+			{{ form_errors(form.pm) }}
+			{{ form_widget(form.pm) }}
+		</div>
+		
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.imc) }}
+				{{ form_errors(form.imc) }}
+				{{ form_widget(form.imc) }}
+			</div>
+		</div>
+                
+                
+                 <div class="grid_7">
+    		{{ form_label(form.abs) }}
+			{{ form_errors(form.abs) }}
+			{{ form_widget(form.abs) }}
+		</div>
+		
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.cintura) }}
+				{{ form_errors(form.cintura) }}
+				{{ form_widget(form.cintura) }}
+			</div>
+		</div>
+                
+                <div class="grid_7">
+    		{{ form_label(form.ombligo) }}
+			{{ form_errors(form.ombligo) }}
+			{{ form_widget(form.ombligo) }}
+		</div>
+		
+		<div class="grid_7">
+			<div>
+	    		{{ form_label(form.abi) }}
+				{{ form_errors(form.abi) }}
+				{{ form_widget(form.abi) }}
+			</div>
+		</div>
+                
+                <div class="grid_7">
+			<div>
+	    		{{ form_label(form.piernas) }}
+				{{ form_errors(form.piernas) }}
+				{{ form_widget(form.piernas) }}
+			</div>
+		</div>
+              </fieldset>        
+                	
 </form>
 
 	<button class="action blue" type="buton" id="save">
@@ -271,97 +330,34 @@
 
 {% endblock %}
 {% block javascripts %}
-
 <script src="{{ asset('bundles/dlaser/js/jquery-ui-1.8.23.custom.min.js') }}"></script>
 
+
 <script type="text/javascript">
+    
 	$(document).ready(function(){
         
-    	var xCoord,yCoord="";         
-
-        var canvas=document.getElementById("can");
-        var cntx=canvas.getContext("2d");
-            
-        cntx.fillStyle="red";
-            
-        var img = new Image();
-		img.src = '{{ asset('bundles/dlaser/images/biotipo.jpg') }}';
-						
-		img.onload = function() {
-			cntx.drawImage(img,0,0);
-		};
-
-		function dibujar(x,y){
-
-			cntx.save();
-			cntx.beginPath();
-			
-			cntx.arc(x,y,6,0,Math.PI*2,true);
-			
-			cntx.closePath();
-			cntx.fill();
-		}
-					
-		$("#can").click(function(canvas){
-			xCoord=canvas.pageX-this.offsetLeft;
-			yCoord=canvas.pageY-this.offsetTop;
-
-			dibujar(xCoord,yCoord);						
-		});     
-
-        $("#limpiar").click(function(){
-        	
-        	var img = new Image();
-        	img.src = '{{ asset('bundles/dlaser/images/biotipo.jpg') }}';
-					
-			img.onload = function() {
-				cntx.drawImage(img,0,0);
-			};
-		});
-          
-        $("#clr > div").click(function(){
-        	cntx.fillStyle=$(this).css("background-color");
-        });
-
-		$("#view").click(function(){
-        	
-			var dataUrl = canvas.toDataURL();
-			
-        	window.open(dataUrl, "toDataURL() image", "width=600, height=200");
-		});
-
-		$("#save").click(function(){
-			
-			var dataUrl = canvas.toDataURL();
-			var url = "{{ path('file_upImagen') }}";
-			var id = "{{ hc.id }}";
-
-			$.post(url,{
-                img: dataUrl,
-                id: id
-	         },function(data){
-	             if(data.responseCode==200 ){
-	            	 $('#estetica').submit();	// despues de guardar el grafico se ejecuta el formulario.
-	             }
-	             else if(data.responseCode==400){	                     	           	            	
-	             	$('#ajaxMsg').html(data.msg);
-	                $('#ajaxMsg').css("color","red");
-
-	                return false;
-	             }
-	             else{
-	         	    alert("Ha ocurrido un error en el sistema.");
-
-	         	    return false;
-	             }
-	         });
-		});
-
+    
 		 $(function() {
 		 	$( "#check_item" ).accordion({
 		 		collapsible: true
 		 	});
 		 });	
 	});
+        
+        $("#newHcEstetica_peso,#newHcEstetica_estatura").focusout(function() {
+			var imc = 0;
+
+			peso = $("#newHcEstetica_peso").val();
+			talla = $("#newHcEstetica_estatura").val();
+
+			if(peso && talla){
+				imc = (peso/(Math.pow((talla/100),2)));
+
+				$("#newHcEstetica_imc").val(imc.toFixed(0));
+			}else{
+				$("#newHcEstetica_imc").val('');
+			}
+		});
 </script>
 {% endblock %}

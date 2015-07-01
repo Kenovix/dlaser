@@ -61,10 +61,12 @@ class FilesController extends Controller{
 				$this->get('session')->setFlash('ok', 'La información ha sido guardada éxitosamente.');				
 				return $this->redirect($this->generateUrl('file_edit',array('file'=>$file->getId())));
 			}else{
-			return $this->render('HcBundle:Files:new.html.twig', array(
+			
+				return $this->render('HcBundle:Files:new.html.twig', array(
 					'estetica' => $hcEstetica,
+					'hc' => $hc,
 					'form'   => $form->createView()
-				));			
+				));		
 			}			
 		}else{
 			$this->get('session')->setFlash('error', 'La historia de estetica no existe.');

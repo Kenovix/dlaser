@@ -40,8 +40,6 @@ class Files
      */     
     private $file;
 
-    
-
     /**
      * @var integer $hcEstetica
      *
@@ -56,7 +54,6 @@ class Files
      * @ORM\Column(name="nota", type="text", nullable=true)
      */
     public $nota;
-
 
     /**
      * Get id

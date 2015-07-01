@@ -197,12 +197,85 @@ class HcEstetica implements \Serializable
      */
     private $infoFitzpatrick;
     
-    /**
-     * @var text $grafico
+     /**
+     * @var integer $peso
      *
-     * @ORM\Column(name="grafico", type="text")
+     * @ORM\Column(name="peso", type="integer", nullable=true)
      */
-    private $grafico;
+    private $peso;
+
+    /**
+     * @var integer $estatura
+     *
+     * @ORM\Column(name="estatura", type="integer", nullable=true)
+     */
+    private $estatura;
+    
+     /**
+     * @var integer $pesogcorporal
+     *
+     * @ORM\Column(name="pesogcorporal", type="integer", nullable=true)
+     */
+    private $pesogcorporal;
+
+    /**
+     * @var integer $porcentajegv
+     *
+     * @ORM\Column(name="porcentajegv", type="integer", nullable=true)
+     */
+    private $porcentajegv;
+    
+    /**
+     * @var integer $pm
+     *
+     * @ORM\Column(name="pm", type="integer", nullable=true)
+     */
+    private $pm;
+
+    /**
+     * @var integer $imc
+     *
+     * @ORM\Column(name="imc", type="integer", nullable=true)
+     */
+    private $imc;
+    
+    
+    /**
+     * @var integer $abs
+     *
+     * @ORM\Column(name="abs", type="integer", nullable=true)
+     */
+    private $abs;
+
+    /**
+     * @var integer $cintura
+     *
+     * @ORM\Column(name="cintura", type="integer", nullable=true)
+     */
+    private $cintura;
+    
+    
+    /**
+     * @var integer $ombligo
+     *
+     * @ORM\Column(name="ombligo", type="integer", nullable=true)
+     */
+    private $ombligo;
+
+    /**
+     * @var integer $abi
+     *
+     * @ORM\Column(name="abi", type="integer", nullable=true)
+     */
+    private $abi;
+    
+    /**
+     * @var integer $piernas
+     *
+     * @ORM\Column(name="piernas", type="integer", nullable=true)
+     */
+    private $piernas;
+    
 
     /**
      * @var Hc
@@ -687,25 +760,234 @@ class HcEstetica implements \Serializable
     }
 
     /**
-     * Set grafico
+     * Set peso
      *
-     * @param text $grafico
+     * @param text $peso
      */
-    public function setGrafico($grafico)
+    public function setPeso($peso)
     {
-        $this->grafico = $grafico;
+        $this->peso = $peso;
     }
 
     /**
-     * Get grafico
+     * Get peso
      *
      * @return text 
      */
-    public function getGrafico()
+    public function getPeso()
     {
-        return $this->grafico;
+        return $this->peso;
     }
 
+    
+     /**
+     * Set estatura
+     *
+     * @param text $estatura
+     */
+    public function setEstatura($estatura)
+    {
+        $this->estatura = $estatura;
+    }
+
+    /**
+     * Get estatura
+     *
+     * @return text 
+     */
+    public function getEstatura()
+    {
+        return $this->estatura;
+    }
+    
+    
+    /**
+     * Set pesogcorporal
+     *
+     * @param text $estatura
+     */
+    public function setPesogcorporal($pesogcorporal)
+    {
+        $this->pesogcorporal = $pesogcorporal;
+    }
+
+    /**
+     * Get pesogcorporal
+     *
+     * @return text 
+     */
+    public function getPesogcorporal()
+    {
+        return $this->pesogcorporal;
+    } 
+    
+    
+    /**
+     * Set porcentajegv
+     *
+     * @param text $porcentajegv
+     */
+    public function setPorcentajegv($porcentajegv)
+    {
+        $this->porcentajegv = $porcentajegv;
+    }
+
+    /**
+     * Get porcentajegv
+     *
+     * @return text 
+     */
+    public function getPorcentajegv()
+    {
+        return $this->porcentajegv;
+    } 
+    
+    
+    /**
+     * Set pm
+     *
+     * @param text $pm
+     */
+    public function setPm($pm)
+    {
+        $this->pm = $pm;
+    }
+
+    /**
+     * Get pm
+     *
+     * @return text 
+     */
+    public function getPm()
+    {
+        return $this->pm;
+    }
+    
+    
+     /**
+     * Set imc
+     *
+     * @param text $imc
+     */
+    public function setImc($imc)
+    {
+        $this->imc = $imc;
+    }
+
+    /**
+     * Get imc
+     *
+     * @return text 
+     */
+    public function getImc()
+    {
+        return $this->imc;
+    }
+    
+    /**
+     * Set abs
+     *
+     * @param text $abs
+     */
+    public function setAbs($abs)
+    {
+        $this->abs = $abs;
+    }
+
+    /**
+     * Get abs
+     *
+     * @return text 
+     */
+    public function getAbs()
+    {
+        return $this->abs;
+    }
+    
+    
+    /**
+     * Set cintura
+     *
+     * @param text $cintura
+     */
+    public function setCintura($cintura)
+    {
+        $this->cintura = $cintura;
+    }
+
+    /**
+     * Get cintura
+     *
+     * @return text 
+     */
+    public function getCintura()
+    {
+        return $this->cintura;
+    }
+    
+    
+    /**
+     * Set ombligo
+     *
+     * @param text $ombligo
+     */
+    public function setOmbligo($ombligo)
+    {
+        $this->ombligo = $ombligo;
+    }
+
+    /**
+     * Get ombligo
+     *
+     * @return text 
+     */
+    public function getOmbligo()
+    {
+        return $this->ombligo;
+    }
+    
+    /**
+     * Set abi
+     *
+     * @param text $abi
+     */
+    public function setAbi($abi)
+    {
+        $this->abi = $abi;
+    }
+
+    /**
+     * Get abi
+     *
+     * @return text 
+     */
+    public function getAbi()
+    {
+        return $this->abi;
+    }
+    
+    
+    /**
+     * Set piernas
+     *
+     * @param text $piernas
+     */
+    public function setPiernas($piernas)
+    {
+        $this->piernas = $piernas;
+    }
+
+    /**
+     * Get piernas
+     *
+     * @return text 
+     */
+    public function getPiernas()
+    {
+        return $this->piernas;
+    }
+    
+    
      /**
      * Set hc
      *
@@ -725,12 +1007,6 @@ class HcEstetica implements \Serializable
     {
         return $this->hc;
     }
-    
-    /**
-     * Set files
-     *
-     * @param dlaser\HcBundle\Entity\Files $files
-     */
     
     
     public function serialize()

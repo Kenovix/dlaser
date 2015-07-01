@@ -24,9 +24,6 @@
 	{% endif %}
 {% endblock %}
 
-
-
-
 {% block cuerpo %}
 
 <form action="{{ path('file_upload',{'estetica': estetica.id}) }}" method="post" {{ form_enctype(form) }}>

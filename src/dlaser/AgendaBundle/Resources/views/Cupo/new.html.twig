@@ -381,6 +381,8 @@
             },function(data){
                 if(data.responseCode==200 ){
 
+                	$('#ajaxMsg').html('');
+
             		var select = $('#Cupo_hora');
             		if(select.prop) {
             		  var options = select.prop('options');
@@ -390,16 +392,27 @@
             		}
             		$('option', select).remove();
 
-            		options[options.length] = new Option('Seleccione cupo', '');
+            		options[options.length] = new Option('Seleccione hora', '');
 
             		$.each(data.cupo, function(val, text) {
-            		    options[options.length] = new Option(text, val);
+            		    options[options.length] = new Option(text, data.fecha+' '+text+':00');
             		});
             		
             		select.val('');
             		                    
                 }
                 else if(data.responseCode==400){
+
+                	var select = $('#Cupo_hora');
+            		if(select.prop) {
+            		  var options = select.prop('options');
+            		}
+            		else {
+            		  var options = select.attr('options');
+            		}
+            		$('option', select).remove();
+                    
+                	$('#ajaxMsg').html('');
                 	$('#ajaxMsg').html(data.msg);
                     $('#ajaxMsg').css("color","red");
                 }
@@ -408,7 +421,7 @@
                 }
             });
             
-        });        
+        });    
     });
 </script>    
 {% endblock %}

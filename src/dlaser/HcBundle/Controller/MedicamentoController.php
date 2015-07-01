@@ -211,11 +211,8 @@ class MedicamentoController extends Controller
 		$invima = $request->request->get('invima');
 		$justificacion = $request->request->get('justificacion');
 		$efecto = $request->request->get('efecto');
-		
-		//die(var_dump(trim($pos)));
 	
-		if(trim($principio) && trim($concentracion) && trim($presentacion) && trim($dosis)
-				&& trim($tiempo) && trim($dias) ){
+		if(trim($principio) && trim($concentracion) && trim($presentacion) && trim($dosis)){
 				
 			$em = $this->getDoctrine()->getEntityManager();
 				

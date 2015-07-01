@@ -11,7 +11,16 @@
 {% block msg %}
 	{% if app.session.flash('ok') %}
 	    <div class="success mensajes">
-	        <span>{{ app.session.flash('ok') }}</span>
+	        <span>
+	        	{{ app.session.flash('ok') }}
+	        	
+	        	{% if hcEstetica %}
+					<a href="{{ path('HcEstetica_edit',{'hc':entity.id}) }}">Valoraci&oacute;n estetica</a>
+				{% else %}
+					<a href="{{ path('HcEstetica_new',{'hc':entity.id}) }}">Valoraci&oacute;n estetica</a>
+				{% endif %}
+	        	
+	        </span>
 	    </div>
 	{% elseif app.session.flash('info') %}
 		<div class="info">
@@ -487,9 +496,13 @@
 	{% else %}
 		<a href="{{ path('HcEstetica_new',{'hc':entity.id}) }}" class="button left"><span class="label">Nueva estetica</span></a>
 	{% endif %}
-	<div id="cnst">Consentimientos</div>
+
+	
 	
 </form>
+
+		<button id="cnst" class="button left"><span class="label">Consentimientos</span></button>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -788,7 +801,7 @@
 	                		  var options = select.attr('options');
 	                		}
 
-	                		options[options.length] = new Option(data.principio+' '+data.presentacion+' '+data.concentracion+' '+data.dosis+' cada '+data.tiempo+' horas por '+data.dias+' dias', data.id);
+	                		options[options.length] = new Option(data.principio+' '+data.presentacion+' '+data.concentracion+' '+data.dosis, data.id);
 
 	                		$("#msgAddMx").empty();
 	                		$('#msgAddMx').html(data.msg);
@@ -1104,9 +1117,6 @@ function delMed(id){
          }
     })
 }
-
-
-
 
 $("#newHC_peso,#newHC_estatura").focusout(function() {
 	var imc = 0;

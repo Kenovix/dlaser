@@ -66,9 +66,9 @@ class HcEsteticaType extends AbstractType
 		->add('flacidez', 'choice', array(
 				'label' => 'Flacidez:',
 				'choices' => array(
-						'nula' => 'Nula', 'mejilla ' => 'Mejilla', 'papada' => 'Papada',
-						'regular' => 'Regular', 'cuello' => 'Cuello', 'severa' => 'Severa',
-						'parpados' => 'Parpados'
+						'leve' => 'Leve', 'moderada' => 'Moderada', 'severa' => 'Severa',
+						'cara' => 'Cara', 'cuello' => 'Cuello', 'torax' => 'Torax', 'senos' => 'Senos',	'brazos' => 'Brazos', 
+						'abdomen' => 'Abdomen', 'genital' => 'Genital', 'gluteos' => 'Gluteos', 'muslos' => 'Muslos' 
 				),
 				'multiple'=>true,
 				'expanded' => true,				
@@ -76,8 +76,8 @@ class HcEsteticaType extends AbstractType
 		->add('parpado', 'choice', array(
 				'label' => 'Parpado:',
 				'choices' => array(
-						'ptosis' => 'PTosis', 'edematizados ' => 'Edematizados', 'ojeras' => 'Ojeras',
-						'bolsas_superiores' => 'Bolsas superiores', 'xantelasma' => 'Xantelasma', 'bolsas_inferiores' => 'Bolsas inferiores'
+						'ptosis' => 'PTosis', 'edematizados ' => 'Edematizados', 'ojeras' => 'Ojeras', 'bolsas_superiores' => 'Bolsas superiores', 
+						'xantelasma' => 'Xantelasma', 'bolsas_inferiores' => 'Bolsas inferiores', 'queratosis' => 'Queratosis'
 				),
 				'multiple'=>true,
 				'expanded' => true,				
@@ -85,9 +85,9 @@ class HcEsteticaType extends AbstractType
 		->add('lesiones_cut', 'choice', array(
 				'label' => 'Lesiones Cutaneas:',
 				'choices' => array(
-						'querato_seborreica' => 'Queratosis seborreica', 'querato_acantoma ' => 'Queratosis acantoma', 'nevus ' => 'Nevus',
-						'quiste_sebaceo' => 'Quiste sebaceo', 'cicatrices' => 'Cicatrices', 'rosacea' => 'Rosacea',
-						'melanoma' => 'Melanoma', 'epit_basocelular' => 'Epit. Basocelular', 'epit_espinocelular' => 'Epit. Espinocelular'						
+						'querato_seborreica' => 'Qt. seborreica', 'querato_acantoma ' => 'Qt. acantoma', 'nevus ' => 'Nevus', 'quiste_sebaceo' => 'Quiste sebaceo', 
+						'cicatrices' => 'Cicatrices', 'rosacea' => 'Rosacea', 'melanoma' => 'Melanoma', 'epit_basocelular' => 'Epit. Basocelular', 'epit_espinocelular' => 'Epit. Espinocelular', 
+						'discronia' => 'Discronia', 'papiloma' => 'Papiloma', 'fibromas' => 'Fibromas', 'acrocordones' => 'Acrocordones'						
 				),
 				'multiple'=>true,
 				'expanded' => true,				
@@ -95,8 +95,9 @@ class HcEsteticaType extends AbstractType
 		->add('lipodistrofia', 'choice', array(
 				'label' => 'Lipodistrofia:',
 				'choices' => array(
-						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
-						'brazo' => 'Brazo', 'muslo' => 'Muslo'
+						'leve' => 'Leve', 'moderada' => 'Moderada', 'severa' => 'Severa',
+						'cara' => 'Cara', 'cuello' => 'Cuello', 'torax' => 'Torax', 'senos' => 'Senos',	'brazos' => 'Brazos', 
+						'abdomen' => 'Abdomen', 'genital' => 'Genital', 'gluteos' => 'Gluteos', 'muslos' => 'Muslos'
 				),
 				'multiple'=>true,
 				'expanded' => true,				
@@ -104,8 +105,10 @@ class HcEsteticaType extends AbstractType
 		->add('tatuaje', 'choice', array(
 				'label' => 'Tatuaje:',
 				'choices' => array(
-						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
-						'brazo' => 'Brazo', 'muslo' => 'Muslo','cutis'=>'Cutis'
+						'leve' => 'Leve', 'moderada' => 'Moderada', 'severa' => 'Severa',
+						'cara' => 'Cara', 'cuello' => 'Cuello', 'torax' => 'Torax', 'senos' => 'Senos',	'brazos' => 'Brazos', 
+						'abdomen' => 'Abdomen', 'genital' => 'Genital', 'gluteos' => 'Gluteos', 'muslos' => 'Muslos',
+						'piernas' => 'Piernas', 'pies' => 'Pies'
 				),
 				'multiple'=>true,
 				'expanded' => true,				
@@ -113,8 +116,10 @@ class HcEsteticaType extends AbstractType
 		->add('cicatrizes', 'choice', array(
 				'label' => 'Cicatrizes:',
 				'choices' => array(
-						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
-						'brazo' => 'Brazo', 'muslo' => 'Muslo','cutis'=>'Cutis'
+						'normal' => 'Normal', 'hipertroficas' => 'Hipertroficas', 'queloide' => 'Queloide', 'hipotrofica' => 'Hipotrofica',
+						'hipopigmentadas' => 'Hipopigmentadas', 'hiperpigmentadas' => 'Hiperpigmentadas',
+						'cara' => 'Cara', 'oreja' => 'Oreja', 'cuello' => 'Cuello', 'torax' => 'Torax', 'senos' => 'Senos',	'brazos' => 'Brazos',
+						'abdomen' => 'Abdomen', 'genital' => 'Genital', 'gluteos' => 'Gluteos', 'muslos' => 'Muslos'
 				),
 				'multiple'=>true,
 				'expanded' => true,				
@@ -122,8 +127,8 @@ class HcEsteticaType extends AbstractType
 		->add('estrias', 'choice', array(
 				'label' => 'Estrias:',
 				'choices' => array(
-						'abdomen' => 'Abdomen', 'espalda ' => 'Espalda', 'pierna ' => 'Pierna',
-						'brazo' => 'Brazo', 'muslo' => 'Muslo'
+						'rojas' => 'Rojas', 'grises' => 'Grises', 'blancas' => 'Blancas', 'hipotroficas' => 'Hipotroficas',
+						'elevadas' => 'Elevadas', 'planas' => 'Planas'
 				),
 				'multiple'=>true,
 				'expanded' => true,				
@@ -139,8 +144,20 @@ class HcEsteticaType extends AbstractType
 								   'cuatro' => 'Cuatro', 'cinco' => 'Cinco', 'Seis' => 'Seis'),
 				'data' => '1',
 		))
-		->add('infoFitzpatrick', 	'textarea', array('required' => false, 'label' => 'Nota:'))		
-		->add('grafico', 			'textarea', array('required' => false, 'label' => 'Gráfico:'))
+		->add('infoFitzpatrick', 	'textarea', array('required' => false, 'label' => 'Nota:'))
+                ->add('peso', 'integer', array('label' => 'Peso'))        
+                ->add('estatura', 'integer', array('label' => 'Talla'))
+                ->add('pesogcorporal', 'integer', array('label' => 'PGC'))        
+                ->add('porcentajegv', 'integer', array('label' => 'PGV'))        
+                ->add('pm', 'integer', array('label' => 'Porcentaje musculo'))        
+                ->add('imc', 'integer', array('label' => 'IMC','read_only'=>true))
+                ->add('abs', 'integer', array('label' => 'ABS'))
+                ->add('cintura', 'integer', array('label' => 'Cintura'))
+                ->add('ombligo', 'integer', array('label' => 'Ombligo'))
+                ->add('abi', 'integer', array('label' => 'ABI'))  
+                ->add('piernas', 'integer', array('label' => 'Piernas'))
+                        
+                        
 		
 		;		
 	}

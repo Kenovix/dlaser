@@ -20,7 +20,6 @@ $(function() {
     }); 
 
 $(document).ready(function(){
-  $('#cnst').button();
   $( "#cnst" ).click(function() {
 	$( "#consentimientos" ).dialog( "open" );
   });

@@ -167,7 +167,7 @@ class HcController extends Controller{
 			$em->persist($factura);
 			$em->flush();
 				
-			$this->get('session')->setFlash('info', 'La historia clinica ha sido modificada éxitosamente.');			
+			$this->get('session')->setFlash('ok', 'La historia clinica ha sido modificada éxitosamente.');			
 			return $this->redirect($this->generateUrl('hc_edit', array('id' => $factura->getId())));
 		}
 		

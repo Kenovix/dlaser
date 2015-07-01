@@ -21,16 +21,21 @@ class HcEsteticaController extends Controller{
 		$estetica = $hc->getHcEstetica();
 		
 		if($hc and !$estetica){
+			
+			$factura = $hc->getFactura();
+			
 			$HcEstetica = new HcEstetica();
 			$HcEstetica->setFecha(new \DateTime('now'));
-			$form   = $this->createForm(new HcEsteticaType(), $HcEstetica);				
+			$HcEstetica->setEdadCrono($factura->getPaciente()->getEdad());
+			
+			$form = $this->createForm(new HcEsteticaType(), $HcEstetica);				
 			
 			$breadcrumbs = $this->get("white_october_breadcrumbs");
 			$breadcrumbs->addItem("Inicio", $this->get("router")->generate("hc_list"));
 			$breadcrumbs->addItem("Historia Clinica", $this->get("router")->generate("hc_edit",array('id'=>$hc->getFactura()->getId())));
 			$breadcrumbs->addItem("HCEstetica Nueva");
 			
-			$factura = $hc->getFactura();
+                       
 			
 			return $this->render("HcBundle:HcEstetica:new.html.twig", array(
 					'entity' => $HcEstetica,
@@ -40,7 +45,7 @@ class HcEsteticaController extends Controller{
 			));			
 		}else{
 			$this->get('session')->setFlash('error', 'La historia clinica no existe o la hc-estetica ya se encuentra creada.'.
-					'Porfavor consulte el usuario con su respectiva identificasion.');
+					'Porfavor consulte el usuario con su respectiva identificacion.');
 			
 			return $this->redirect($this->generateUrl('hc_search'));
 		}
@@ -50,20 +55,24 @@ class HcEsteticaController extends Controller{
 	
 	public function saveAction($hc)
 	{
-		$HcEstetica = new HcEstetica();		
+
+		
+                $HcEstetica = new HcEstetica();		
 		$request = $this->getRequest();
 		$form   = $this->createForm(new HcEsteticaType(), $HcEstetica);				
 		$form->bindRequest($request);		
-	
+
 		if ($form->isValid()) {
 			
 			$HcEstetica->serialize();
-			
-			$em = $this->getDoctrine()->getEntityManager();
-			$hc = $em->getRepository('HcBundle:Hc')->find($hc);
-			$factura = $hc->getFactura();
-			
-			if($hc){
+                            			die(var_dump($HcEstetica));
+
+                        $em = $this->getDoctrine()->getEntityManager();
+                        $hc = $em->getRepository('HcBundle:Hc')->find($hc);
+										 
+                         $factura = $hc->getFactura();
+                        if($hc){
+
 				
 				$HcEstetica->setHc($hc);				
 				$em->persist($HcEstetica);

@@ -5,7 +5,7 @@ body {
 }
 
 #logo{
-	background:url(../images/_logo.png);
+	background:url(../images/logo.png);
 	-moz-background-size:50% 100%;
 	background-size: 50% 100%;
 	background-repeat: no-repeat;
@@ -15,7 +15,7 @@ body {
 }
 
 #banner_cliente{
-	background:url(../images/_banner.png);
+	background:url(../images/banner.png);
 	-moz-background-size:100% 65%;
 	background-size: 87% 60%;
 	background-repeat: no-repeat;
@@ -466,7 +466,7 @@ ul.paginador li.actual {
 #wo-breadcrumbs
 {
     font: 11px Arial, Helvetica, sans-serif;
-    background-image:url('./images/bc_bg.png'); 
+    background-image:url('../img/bc_bg.png'); 
     background-repeat:repeat-x;
     height:30px;
     line-height:30px;
@@ -490,7 +490,7 @@ ul.paginador li.actual {
 {
     height:30px;
     display:block;
-    background-image:url('./images/bc_separator.png'); 
+    background-image:url('../img/bc_separator.png'); 
     background-repeat:no-repeat; 
     background-position:right;
     padding-right: 15px;

@@ -27,3 +27,4 @@ app/config/parameters.yml
 /.metadata/
 /.buildpath
 
+/nbproject/private/
